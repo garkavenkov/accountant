@@ -60,7 +60,7 @@
                                 </div>
                             </li>
                         </ul>
-                        @endauth
+                     @endauth
                 </div>
             </div>
         </nav>
