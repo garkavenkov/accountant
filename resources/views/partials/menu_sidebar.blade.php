@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="/" class="brand-link">
         <img    src="dist/img/AdminLTELogo.png" 
                 alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                 style="opacity: .8">
@@ -25,7 +25,7 @@
             <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
+                        <i class="nav-icon fas fa-archive"></i>
                         <p>
                             Справочники
                             <i class="fas fa-angle-left right"></i>
@@ -34,25 +34,25 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="branches" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="far fa-building nav-icon"></i>
                                 <p>Подразделения</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="departments" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="fas fa-cubes nav-icon"></i>
                                 <p>Отделы</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="appointments" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                            <a href="positions" class="nav-link">
+                                <i class="fas fa-hard-hat nav-icon"></i>
                                 <p>Должности</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="employees" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="fas fa-users nav-icon"></i>
                                 <p>Сотрудники</p>
                             </a>
                         </li>
