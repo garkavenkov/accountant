@@ -41,4 +41,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('employees', function() {
         return view('employees');
     });
+
+    Route::get('suppliers', function() {
+        return view('suppliers');
+    });
 });

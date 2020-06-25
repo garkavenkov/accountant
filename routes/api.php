@@ -25,7 +25,8 @@ Route::group(['middleware' => 'auth:api'], function() {
         'branches'          =>  'API\BranchController',
         'departments'       =>  'API\DepartmentController',
         'positions'         =>  'API\PositionController',
-        'employees'         =>  'API\EmployeeController'
+        'employees'         =>  'API\EmployeeController',
+        'suppliers'         =>  'API\SupplierController'
     ]);
 
 });

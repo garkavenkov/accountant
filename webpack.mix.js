@@ -16,4 +16,5 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/modules/departments/departments.js', 'public/js/modules')
     .js('resources/js/modules/positions/positions.js', 'public/js/modules')
     .js('resources/js/modules/employees/employees.js', 'public/js/modules')
+    .js('resources/js/modules/suppliers/suppliers.js', 'public/js/modules')
     .sass('resources/sass/app.scss', 'public/css');

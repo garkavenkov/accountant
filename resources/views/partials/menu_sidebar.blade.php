@@ -56,6 +56,12 @@
                                 <p>Сотрудники</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="suppliers" class="nav-link">                                
+                                <i class="fas fa-truck nav-icon"></i>
+                                <p>Поставщики</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <!-- <li class="nav-item has-treeview menu-open">

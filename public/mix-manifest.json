@@ -4,5 +4,6 @@
     "/js/modules/branches.js": "/js/modules/branches.js",
     "/js/modules/departments.js": "/js/modules/departments.js",
     "/js/modules/employees.js": "/js/modules/employees.js",
-    "/js/modules/positions.js": "/js/modules/positions.js"
+    "/js/modules/positions.js": "/js/modules/positions.js",
+    "/js/modules/suppliers.js": "/js/modules/suppliers.js"
 }
