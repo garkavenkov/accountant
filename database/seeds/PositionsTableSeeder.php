@@ -11,6 +11,8 @@ class PositionsTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('positions')->truncate();
+        
         DB::table('positions')->insert([
             [
                 'name'          =>  'Директор',
@@ -21,12 +23,20 @@ class PositionsTableSeeder extends Seeder
                 'description'   =>  'Главный бухгалтер предприятия'
             ],
             [
+                'name'          =>  'Товаровед',
+                'description'   =>  'Товаровед предприятия'
+            ],
+            [
                 'name'          =>  'Продавец',
-                'description'   =>  'ПРодавец на отделе'
+                'description'   =>  'Продавец на отделе'
             ],
             [
                 'name'          =>  'Грузчик',
                 'description'   =>  'Грузчик'
+            ],
+            [
+                'name'          =>  'Повар',
+                'description'   =>  'Повар'
             ]
         ]);
     }

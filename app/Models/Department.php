@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Shift;
+use App\Models\DepartmentType;
 use App\Traits\Models\PathTrait;
+use Illuminate\Database\Eloquent\Model;
 
 class Department extends Model
 {
@@ -19,5 +21,20 @@ class Department extends Model
     public function employees()
     {
         return $this->hasMany(Employee::class);
+    }
+
+    public function scopeGoods($query)
+    {
+        return $query->whereRaw('flag & 1 = 1');
+    }
+
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(DepartmentType::class, 'department_type_id', 'id');
     }
 }

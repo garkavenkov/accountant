@@ -27,4 +27,14 @@ class SupplierTest extends TestCase
 
         $this->assertCount(5, $response->data);
     }
+
+    public function test_api_should_return_a_dictionary_for_select()
+    {
+        $suppliers = $this->model->instance('Supplier')->create(5);
+        
+        $response = $this->get($this->url . '?select=id,name', $this->httpHeaders)->getData();
+        // $response = $this->get($this->url, $this->httpHeaders)->getData();
+        // dd($response->data[0]);
+        $this->assertObjectNotHasAttribute('full_name', $response->data[0]);
+    }
 }

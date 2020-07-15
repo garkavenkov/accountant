@@ -124,6 +124,9 @@
                 data-toggle="dropdown" 
                 aria-haspopup="true" 
                 aria-expanded="false" v-pre>
+                    <!-- <img    src="img/avatar.png"
+                            alt="Avatar" class="brand-image img-circle elevation-3"
+                            style="opacity: .8"> -->
                     {{ Auth::user()->name }} 
                     <span class="caret"></span>
             </a>

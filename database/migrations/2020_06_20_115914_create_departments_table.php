@@ -18,6 +18,8 @@ class CreateDepartmentsTable extends Migration
             $table->smallInteger('branch_id')->unsigned();
             $table->string('name', 30);
             $table->string('description');
+            $table->smallInteger('department_type_id');
+            $table->smallInteger('flag');
             $table->date('opened')->nullable();
             $table->date('closed')->nullable();
             $table->timestamps();

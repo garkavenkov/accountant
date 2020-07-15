@@ -17,7 +17,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::get();
+        $departments = Department::with('type')->get();
 
         return new DepartmentResourceCollection($departments);
         // return response()->json($departments);

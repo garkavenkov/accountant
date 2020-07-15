@@ -22,6 +22,7 @@ class DepartmentResourceCollection extends ResourceCollection
                 'branch'        =>  $item->branch->name,
                 'name'          =>  $item->name,
                 'description'   =>  $item->description,
+                'type'          =>  $item->type->name,
                 'opened'        =>  Carbon::parse($item->closed)->formatLocalized('%d.%m.%Y'),
                 'closed'        =>  $item->closed ? Carbon::parse($item->closed)->formatLocalized('%d.%m.%Y') : null,
             ];

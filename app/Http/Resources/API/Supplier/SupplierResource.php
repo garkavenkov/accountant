@@ -14,11 +14,16 @@ class SupplierResource extends JsonResource
      */
     public function toArray($request)
     {
+        // dd($request->input());
         return [
             'id'            =>  (int)   $this->id,
             'name'          =>  $this->name,
-            'full_name'     =>  $this->full_name,
-            'description'   =>  $this->description
+            // 'full_name'     =>  $this->when($this->full_name, $this->full_name),
+            // 'description'   =>  $this->whem($this->description, $this->description)
+            $this->mergeWhen(!$request->input(), [
+                'full_name'     =>  $this->full_name,
+                'description'   =>  $this->description
+            ]),
         ];
     }
 }

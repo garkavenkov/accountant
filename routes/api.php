@@ -26,7 +26,15 @@ Route::group(['middleware' => 'auth:api'], function() {
         'departments'       =>  'API\DepartmentController',
         'positions'         =>  'API\PositionController',
         'employees'         =>  'API\EmployeeController',
-        'suppliers'         =>  'API\SupplierController'
+        'suppliers'         =>  'API\SupplierController',
+        'income-documents'  =>  'API\IncomeDocumentController',
+        'shifts'            =>  'API\ShiftController',
+        'department-types'  =>  'API\DepartmentTypeController',
+        'document-items'    =>  'API\DocumentItemController',
+        'measures'          =>  'API\MeasureController',
     ]);
+
+    Route::get('select-dictionary/{model}', 'API\SelectDictionaryController');
+    Route::get('shift-employees-on-date/{department_id}/{date}', 'API\ShiftEmployeeController@list');
 
 });

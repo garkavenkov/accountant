@@ -15,7 +15,7 @@ class BranchesTableSeeder extends Seeder
 
         $faker = Faker::create();
 
-        DB::table('branches')->delete();
+        DB::table('branches')->truncate();
 
         DB::table('branches')->insert([
             [

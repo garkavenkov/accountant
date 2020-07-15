@@ -45,4 +45,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('suppliers', function() {
         return view('suppliers');
     });
+
+    Route::get('income-documents', function() {
+        return view('income_documents');
+    });
+
+    Route::get('shifts', function() {
+        return view('shifts');
+    });
+
 });

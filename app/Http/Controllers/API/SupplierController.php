@@ -10,16 +10,17 @@ use App\Http\Resources\API\Supplier\SupplierResourceCollection;
 
 class SupplierController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $suppliers = Supplier::paginate(15);
-
-        return new SupplierResourceCollection($suppliers);
+    {        
+        $data = Supplier::paginate(15);
+                
+        return new SupplierResourceCollection($data);
     }
 
     /**

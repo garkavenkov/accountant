@@ -20,7 +20,7 @@
 
                             <ul class="list-group list-group-unbordered mb-3">
                               <li class="list-group-item">
-                                <strong><i class="fas fa-map-marker-alt mr-1"></i>Описание</strong>
+                                <strong><i class="fas fa-info mr-1"></i>Описание</strong>                                
                                 <a class="float-right">{{department.description}}</a>
                               </li>
                               <li class="list-group-item">
