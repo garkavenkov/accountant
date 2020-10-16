@@ -32,6 +32,9 @@ Route::group(['middleware' => 'auth:api'], function() {
         'department-types'  =>  'API\DepartmentTypeController',
         'document-items'    =>  'API\DocumentItemController',
         'measures'          =>  'API\MeasureController',
+        'cash-operations'   =>  'API\CashOperationController',
+        'sales-revenues'    =>  'API\SalesRevenueController',
+        'cashes'            =>  'API\CashController',
     ]);
 
     Route::get('select-dictionary/{model}', 'API\SelectDictionaryController');

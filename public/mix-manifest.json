@@ -6,6 +6,7 @@
     "/js/modules/employees.js": "/js/modules/employees.js",
     "/js/modules/income_documents.js": "/js/modules/income_documents.js",
     "/js/modules/positions.js": "/js/modules/positions.js",
+    "/js/modules/sales_revenues.js": "/js/modules/sales_revenues.js",
     "/js/modules/shifts.js": "/js/modules/shifts.js",
     "/js/modules/suppliers.js": "/js/modules/suppliers.js"
 }

@@ -8,12 +8,7 @@ use Tests\ModelHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BranchTest extends TestCase
-{
-   
-    use RefreshDatabase;
-
-    private $url;    
-
+{   
     public function setUp(): void
     {
         parent::setUp();
@@ -46,5 +41,14 @@ class BranchTest extends TestCase
         $empl = $this->model->instance('Employee')->override(['department_id' => $department])->create(5);
         
         $this->assertCount(5, $branch->employees);
+    }
+
+    public function test_branch_may_have_a_cash()
+    {
+        $branch = $this->model->instance('Branch')->create();
+
+        $cash = $this->model->instance('Cash')->override($branch)->create();
+
+        $this->assertEquals($branch->cash->name, $cash->name);
     }
 }

@@ -504,40 +504,7 @@ export default {
                 el.value = ""
                 this.filter.date_end = null;
             }
-        },
-        useFilter() {
-             if (this.useFilter) {
-                 // Use filter date if set
-                if (this.filter.dateBegin) {
-                    document.getElementById('date').setAttribute("min", this.filter.dateBegin)
-                    if (this.filter.dateEnd) {
-                        document.getElementById('date').setAttribute("max", this.filter.dateEnd)                        
-                    } else {
-                        document.getElementById('date').setAttribute("max", this.filter.dateBegin)
-                        // document.getElementById('date').setAttribute("min", this.filter.dateBegin)
-                        this.document.date = this.filter.dateBegin
-
-                    }                    
-                }
-                // Use supplier if set
-                if (this.filter.supplierId) {
-                    this.document.supplierId = this.filter.supplierId
-                }
-                // Use department if set
-                if (this.filter.departmentId) {
-                    this.document.departmentId = this.filter.departmentId
-                }
-            } else {
-                document.getElementById('date').value = new Date().toISOString().slice(0,10);
-                this.document.date = new Date().toISOString().slice(0,10);
-                this.document.supplierId = 0;
-                this.document.departmentId = 0;
-                this.document.employeeId = 0;
-                this.document.purchaseSum = 0;
-                this.document.retailSum = 0;
-                // this.supplierIsLocked = false;
-            }    
-        }
+        },    
     },
     components: {
         Grid

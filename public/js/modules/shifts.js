@@ -262,6 +262,7 @@ __webpack_require__.r(__webpack_exports__);
       return Object.keys(this.pagination).length > 0 ? true : false;
     },
     dataTableLength: function dataTableLength() {
+      this.currentPage = 1;
       return this.pagination.hasOwnProperty('total') ? this.pagination.total : this.dataTable.length;
     },
     pagesCount: function pagesCount() {
@@ -305,7 +306,7 @@ __webpack_require__.r(__webpack_exports__);
         if (this.perPage === "all" || this.dataTableLength == 0) {
           end = this.dataTableLength;
         } else {
-          end = this.paginateFrom * this.perPage;
+          end = this.currentPage * this.perPage;
         }
 
         return end > this.dataTableLength ? this.dataTableLength : end;

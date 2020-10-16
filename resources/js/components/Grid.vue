@@ -168,6 +168,7 @@ export default {
             return Object.keys(this.pagination).length > 0 ? true : false;
         },
         dataTableLength() {
+            this.currentPage = 1;
             return this.pagination.hasOwnProperty('total') ? this.pagination.total : this.dataTable.length;
         },
         pagesCount() {
@@ -210,7 +211,7 @@ export default {
                 if (this.perPage === "all" || this.dataTableLength == 0) {
                     end = this.dataTableLength;
                 } else {
-                    end = this.paginateFrom * this.perPage;
+                    end = this.currentPage * this.perPage;
                 }
                 return end > this.dataTableLength ? this.dataTableLength : end;
             }

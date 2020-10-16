@@ -28,6 +28,11 @@ class Department extends Model
         return $query->whereRaw('flag & 1 = 1');
     }
 
+    public function scopeSales($query)
+    {
+        return $query->whereRaw('flag & 2 = 2');
+    }
+
     public function shifts()
     {
         return $this->hasMany(Shift::class);

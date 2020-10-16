@@ -10,6 +10,8 @@ class IncomeDocument extends Model
 {
     use PathTrait;
     
+    private $api_path="/api/income-documents";    
+    
     protected $table = 'documents';
 
     protected $fillable = [
@@ -21,7 +23,7 @@ class IncomeDocument extends Model
         'sum1',
         'sum2',
         'user_id'
-    ];
+    ];    
 
     protected static function boot()
     {
@@ -39,8 +41,6 @@ class IncomeDocument extends Model
             $model->user_id = \Auth::id();
         });
     }
-
-    private $api_path="/api/income-documents";    
 
     public function supplier()
     {

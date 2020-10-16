@@ -54,4 +54,8 @@ Route::group(['middleware' => ['auth']], function () {
         return view('shifts');
     });
 
+    Route::get('sales-revenues', function() {
+        return view('sales_revenues');
+    });
+
 });

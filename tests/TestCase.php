@@ -15,12 +15,11 @@ abstract class TestCase extends BaseTestCase
 
     protected $model;
     protected $httpHeaders;
+    protected $url;    
 
     public function setUp(): void
     {
         parent::setUp();
-
-        // $this->disableExceptionHandling();
 
         $this->model = new ModelHelper('App\Models');
 
@@ -31,29 +30,6 @@ abstract class TestCase extends BaseTestCase
         // $this->httpHeaders = HttpHelper::bearerToken($user);
         $this->httpHeaders =  ['Authorization' => 'Bearer ' . $user->api_token];
     }
-
-    /*
-    protected function disableExceptionHandling()
-    {
-        $this->oldExceptionHandler = $this->app->make(ExceptionHandler::class);
-
-        $this->app->instance(ExceptionHandler::class, new class extends Handler {
-            public function __construct() {} 
-            public function report(\Exception $e) {}
-            public function render($request, \Exception $e) {
-                throw $e;
-            }
-        });
-    }
-    */
-
-    /*
-    protected function withExceptionHandling()
-    {
-        $this->app->instance(ExceptionHandler::class, $this->oldExceptionHandler);
-
-        return $this;
-    } 
-    */
+  
 
 }

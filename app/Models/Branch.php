@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Cash;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Traits\Models\PathTrait;
@@ -20,5 +21,10 @@ class Branch extends Model
 
     public function employees(){
         return $this->hasManyThrough(Employee::class, Department::class);
+    }
+
+    public function cash()
+    {
+        return $this->hasOne(Cash::class);
     }
 }

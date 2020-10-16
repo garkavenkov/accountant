@@ -3,12 +3,15 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use App\Traits\Filters\WhereTrait;
 
 class DocumentService 
 {
+    use WhereTrait;
+    
     protected $whereClauses = [
         'date'      =>  'between',
-        'debit_id'  =>  'in',
+        'debet_id'  =>  'in',
         'credit_id' =>  'in',
         'sum1'      =>  'between',
         'sum2'      =>  'between'
@@ -17,15 +20,27 @@ class DocumentService
     public function get($model, $parameters = [])
     {
         if (!array_key_exists('date', $parameters)) {
-            $parameters['date'] = Carbon::now()->toDateString();            
+            $parameters['date'] = Carbon::now()->toDateString();
             // $parameters['date'] = "2020-06-25,2020-07-02";
         }        
         
         $where = $this->getWhereClause($parameters);
         $relationships = $this->getRelationships($parameters);
+        // $scopes = $this->getScopes($parameters);        
         $per_page = $this->perPage($parameters);
+
         // $data = $model::with($relationships)->whereRaw($where)->get();
+        
+        // if ($scopes) {
+        //     foreach ($scopes as $scope) {
+        //         $data = $model::$scope;
+        //     }
+        // }
+
         $data = $model::with($relationships)->whereRaw($where);
+        // $data = $model::get();
+        // dd($model::all());
+        
         if ($per_page > 0) {
             $data = $data->paginate($per_page)->appends(request()->query());
         } else {
@@ -35,15 +50,14 @@ class DocumentService
         return $data;
         
     }
-
+    /*
     protected function getWhereClause($parameters)
     {
         $whereClause = "";
 
         foreach ($this->whereClauses as $prop => $method) {
 
-            if (in_array($prop, array_keys($parameters))) {
-                // $clauses[$prop] = $parameters[$prop];
+            if (in_array($prop, array_keys($parameters))) {               
                 $keys = explode(',', $parameters[$prop]);
                 if (count($keys) > 1) {
                     if ($method === 'between') {
@@ -59,10 +73,10 @@ class DocumentService
                 }
                 
             }
-        }
-        // dd($whereClause);
+        }        
         return $whereClause;
     }
+    */
 
     protected function getRelationships($parameters)
     {
@@ -72,6 +86,15 @@ class DocumentService
         }
         return $relationships;
     }
+
+    // protected function getScopes($parameters)
+    // {
+    //     $scopes = [];
+    //     if (array_key_exists('scope', $parameters)) {
+    //         $scopes = explode(',', $parameters['scope']);
+    //     }
+    //     return $scopes;
+    // }
 
     protected function perPage($parameters)
     {

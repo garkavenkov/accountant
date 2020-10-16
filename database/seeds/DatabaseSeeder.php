@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MeasuresTableSeeder::class);
         $this->call(IncomeDocumentsSeeder::class);
         $this->call(IncomeDocumentItemsSeeder::class);
+        $this->call(CashSeeder::class);
+        $this->call(SalesRevenueSeeder::class);
     }
 }

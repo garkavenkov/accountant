@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { reject } from 'lodash';
 
 const url = '/api/income-documents';
 const documentItemsUrl = '/api/document-items';
