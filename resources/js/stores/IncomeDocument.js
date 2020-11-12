@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const url = '/api/income-documents';
+import actions from './core/actions';
+import mutations from './core/mutations';
+
+// const url = '/api/income-documents';
 const documentItemsUrl = '/api/document-items';
 
 export const IncomeDocuments = {
@@ -10,13 +13,14 @@ export const IncomeDocuments = {
         document: {
             items: []
         },
+        url: '/api/income-documents',
         suppliers: [],
         departments: [],
         filter: {
             dateBegin       :   null,
             dateEnd         :   null,
-            supplierId      :   0,
-            departmentId    :   0,
+            debetId         :   0,
+            creditId        :   0,
             sum1Begin       :   0,
             sum1End         :   0,
             isFiltered      :   false,
@@ -31,120 +35,10 @@ export const IncomeDocuments = {
         departments:    state   =>  state.departments
     },
     mutations: {
-        filterDocuments: (state, payload) => {
-            state.filter.queryStr = '';
-
-            if (state.filter.dateBegin) {
-                state.filter.queryStr = state.filter.queryStr + `date=${payload.dateBegin}`;
-                state.filter.isFiltered = true;
-            }
-
-            if (state.filter.dateEnd) {
-                state.filter.queryStr = state.filter.queryStr + `,${payload.dateEnd}`;
-                state.filter.isFiltered = true;
-            }
-
-            if (state.filter.supplierId > 0) {
-                state.filter.queryStr = state.filter.queryStr + `&debit_id=${payload.supplierId}`;
-                state.filter.isFiltered = true;
-            }            
-
-            if (state.filter.departmentId > 0) {
-                state.filter.queryStr = state.filter.queryStr + `&credit_id=${payload.departmentId}`;
-                state.filter.isFiltered = true;
-            }
-        }
+        ...mutations,       
     },
     actions: {
-        fetchData: ({state}) => {   
-            //  use Promise ???
-            let page_url = state.filter.isFiltered ? (url + '?' + state.filter.queryStr) : url;
-            axios
-                .get(page_url,
-                    {
-                        'headers': {
-                            'Authorization': 'Bearer ' + window.api_token,
-                            'Accept': 'application/json',
-                        } 
-                    }
-                )
-                .then(res => {
-                    state.documents = res.data.data;
-                    // this.makePagination(res.data.links, res.data.meta);
-                })
-                .catch(err => console.log(err));
-                
-        },
-        fetchDocument: ({state}, id) => {
-            let page_url = `${url}/${id}`;
-            axios
-                .get(page_url,
-                    {
-                        'headers': {
-                            'Authorization': 'Bearer ' + window.api_token,
-                            'Accept': 'application/json',
-                        }            
-                    }
-                )        
-                .then(res => {
-                    state.document = res.data.data;
-                })
-                .catch(err => console.log(err));
-        },
-        saveDocument: ({dispatch}, payload) => {
-            return new Promise((resolve, reject) => {
-                axios.post(url, payload,  
-                    {
-                        'headers': {
-                            'Authorization': 'Bearer ' + window.api_token,
-                            'Accept': 'application/json',
-                        } 
-                    }
-                )
-                .then(res => {
-                    if (res.status == 201) {
-                        dispatch('fetchData');
-                        resolve(res);
-                    }
-                })
-                .catch(err => reject(err));
-            })            
-        },
-        deleteDocument: ({dispatch}, id) => {
-            return new Promise((resolve, reject) => {
-                axios
-                    .delete(`${url}/${id}`,
-                        {
-                            'headers': {
-                                'Authorization': 'Bearer ' + window.api_token,
-                                'Accept': 'application/json',
-                            } 
-                        }
-                    )
-                    .then(res => {
-                        dispatch('fetchData');
-                        resolve(res)
-                    })
-                    .catch(err => reject(err))
-                });
-        },
-        updateDocument: ({dispatch, state}, payload) => {
-            return new Promise((resolve, reject) => {
-                axios.patch(`${url}/${state.document.id}`,  payload,
-                            {
-                                'headers': {
-                                    'Authorization': 'Bearer ' + window.api_token,
-                                    'Accept': 'application/json',
-                                } 
-                            }
-                        )
-                        .then(res => {
-                            dispatch('fetchDocument', state.document.id);
-                            resolve(res);
-                        })
-                        .catch(err => reject(err));
-            });
-        },
+        ...actions,
         fetchDocumentItem: ({state}, id) => {
             return new Promise((resolve, reject) => {
                 let page_url = `${documentItemsUrl}/${id}`;
@@ -158,12 +52,7 @@ export const IncomeDocuments = {
                         }
                     )        
                     .then(res => {
-                        // console.log(res);
-                        // console.log(res.data);
-                        // console.log(res.data.data);
                         resolve(res.data.data);
-                        
-                        // state.document = res.data.data;
                     })
                     .catch(err => reject(err));
             })            
@@ -221,10 +110,6 @@ export const IncomeDocuments = {
                     })
                     .catch(err => reject(err))
                 });
-        },
-        applyFilter: ({commit, dispatch}, payload) => {
-            commit('filterDocuments', payload);
-            dispatch('fetchData');
         },
         getSuppliersDictionary: ({dispatch, state}) => {
             dispatch('getDictionary',  'supplier')

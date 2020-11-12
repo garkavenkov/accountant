@@ -18,12 +18,13 @@ class CreateDocumentsTable extends Migration
             $table->date('date');
             // $table->smallInteger('document_type_id');
             $table->smallInteger('number');
-            $table->smallInteger('debit_id');
-            $table->smallInteger('debit_person_id')->default(0);
+            $table->smallInteger('debet_id');
+            $table->smallInteger('debet_person_id')->default(0);
             $table->smallInteger('credit_id')->default(0);
             $table->smallInteger('credit_person_id')->default(0);
             $table->decimal('sum1', 10, 2);
             $table->decimal('sum2', 10, 2);
+            $table->tinyInteger('status')->default(0);
             $table->smallInteger('user_id');
             $table->timestamps();
         });

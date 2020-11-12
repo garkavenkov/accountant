@@ -29,7 +29,7 @@ class IncomeDocumentController extends Controller
     public function index()
     {
         $parameters = request()->input();
-        $parameters['with']         = 'employee,supplier,department';
+        $parameters['with']         = 'employee,supplier,department,payments';
         
         if (request()->input('per_page')) {
             $per_page = request()->input('per_page');
@@ -73,7 +73,7 @@ class IncomeDocumentController extends Controller
         
         $document = IncomeDocument::create([
             'date'              =>  $validated['date'],
-            'debit_id'          =>  $validated['debit_id'],
+            'debet_id'          =>  $validated['debet_id'],
             'credit_id'         =>  $validated['credit_id'],
             'credit_person_id'  =>  $validated['credit_person_id'],
             'sum1'              =>  $validated['sum1'],
@@ -130,8 +130,20 @@ class IncomeDocumentController extends Controller
      */
     public function destroy($id)
     {
-        IncomeDocument::findOrFail($id)->delete();
-        
-        return response()->json(['message' => 'Document has been successfully deleted!'], 200);
+        try {
+
+            $document = IncomeDocument::findOrFail($id);
+
+            if ($document->payments()->count() > 0) {
+                throw new \Exception('Document is already paid. Delete payment for first.');
+            }
+            
+            $document->delete();
+
+            return response()->json(['message' => 'Document has been successfully deleted!'], 200);
+
+        } catch(\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
     }
 }

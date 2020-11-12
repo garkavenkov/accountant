@@ -22,6 +22,7 @@ require('./bootstrap');
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 // import Vue from 'vue';
+// Vue.component('breadcrumbs', require('./components/Breadcrumbs.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -30,5 +31,13 @@ require('./bootstrap');
 // const app = new Vue({
 //     el: '#app',
 //     data: {     
+//         breadcrumbs: [
+//             {
+//                 path: '/', name: '/'
+//             },
+//             {
+//                 path: '/cash_documents', name: 'Кассовые документы'
+//             }
+//         ]
 //     }
 // });

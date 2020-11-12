@@ -211,6 +211,11 @@ __webpack_require__.r(__webpack_exports__);
         return [10, 20, 50, 'all'];
       }
     },
+    filteredField: {
+      type: String,
+      required: false,
+      "default": null
+    },
     pagination: {
       type: Object,
       required: false,
@@ -320,11 +325,14 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         if (this.searchData) {
           return this.dataTable.filter(function (data) {
-            return data.department.toLowerCase().includes(_this.searchData.toLowerCase()) || data.supplier.toLowerCase().includes(_this.searchData.toLowerCase());
+            // console.log(`Search field - ${this.searchData.toLowerCase()}`);
+            // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
+            return data[_this.filteredField].toLowerCase().includes(_this.searchData.toLowerCase()); // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
+            //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
           });
         }
 
-        return this.dataTable.slice(this.paginateFrom - 1, this.paginateTo);
+        return this.dataTable.slice(this.paginateFrom - 1, this.paginateTo); // ??? Will it work after search
       }
     }
   },
@@ -1746,7 +1754,7 @@ var render = function() {
                 [
                   _c("label", { attrs: { for: "filter_data" } }, [
                     _vm._v(
-                      "\n                        Filter \n                        "
+                      "\n                        Search \n                        "
                     ),
                     _c("input", {
                       directives: [

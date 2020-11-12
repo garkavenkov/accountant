@@ -24,6 +24,7 @@ class SalesRevenueResource extends JsonResource
             'department'        =>  $this->department->name,
             'cash_id'           =>  (int) $this->credit_id,
             'cash'              =>  $this->cash->name,
+            'purpose'           =>  $this->purpose,
             'amount'            =>  (float) $this->credit,
             'status'            =>  $this->status
         ];

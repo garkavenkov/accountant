@@ -3,8 +3,9 @@
 <div>        
     <router-link to="/">Back</router-link>
 
+
     <div class="row">
-        <div class="col-10 offset-md-1">
+        <div class="col-10 offset-1">
             <div class="invoice p-3 mb-3">                
                 <div class="row">
                     <div class="col-md-6">
@@ -59,13 +60,7 @@
                     </div>                            
                 </div>
                 <div class="row">
-                    <!-- <button class="btn btn-primary"
-                            data-toggle="modal" 
-                            data-target="#modal-document-item"
-                            data-backdrop="static" 
-                            data-keyboard="true">
-                        <i class="fas fa-plus"></i>
-                    </button>                         -->
+                    
                     <button class="btn btn-primary"
                             @click="newDocumentItemForm">
                         <i class="fas fa-plus"></i>
@@ -80,11 +75,8 @@
                                     <th rowspan="2">Наименование</th>
                                     <th rowspan="2" class="text-center">Ед. изм.</th>
                                     <th rowspan="2" class="text-center">Количество</th>
-                                    <th colspan="2" class="text-center">Стоимость</th>
-                                    <!-- <th class="text-center">Стоимость закупки</th>
-                                    <th class="text-center">Розничная стоимость</th>                                         -->
-                                    <th colspan="2" class="text-center">Сумма</th>                                        
-                                    <!-- <th class="text-center">Розничная сумма</th> -->
+                                    <th colspan="2" class="text-center">Стоимость</th>                    
+                                    <th colspan="2" class="text-center">Сумма</th>                                                                            
                                     <th rawspan="2" class="text-center">Торговая наценка</th>
                                     <th colspan="2"></th>
                                 </tr>
@@ -124,15 +116,13 @@
                                 <tr>
                                     <td colspan="6">Итого</td>
                                     <td class="text-right">{{totalPurchaseSum | formatNumber(2)}}</td>
-                                    <td class="text-right">{{totalRetailSum | formatNumber(2)}}</td>
-                                    <!-- <td class="text-right">{{totalPurchaseSum}}</td>
-                                    <td class="text-right">{{totalRetailSum}}</td> -->
+                                    <td class="text-right">{{totalRetailSum | formatNumber(2)}}</td>                                                                        
                                     <td class="text-right"></td>
                                     <td></td>
                                 </tr>
                             </tfoot>
                         </table>
-                    </div><!-- /.col -->
+                    </div>
                 </div>
                 <div class="row">                        
                     <div class="col-6">
@@ -169,18 +159,18 @@
                 </div>                    
                 <div class="row no-print">
                     <div class="col-12">
-                        <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                        <button type="button" class="btn btn-danger float-right" @click="deleteDoc(document.id)">
+                        <button type="button" class="btn btn-danger float-right" @click="deleteDoc(document.id)" v-if="document.status == 0">
                             <i class="far fa-credit-card"></i> 
                             Delete
                         </button>
-                        <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-                            <i class="fas fa-download"></i> Generate PDF
-                        </button>
+                        <!-- <button type="button" class="btn btn-danger float-right" @click="deleteDoc(document.id)">
+                            <i class="far fa-credit-card"></i> 
+                            Delete
+                        </button> -->
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
     </div>      
 
     <document-item-form :item="item"
@@ -260,7 +250,19 @@ export default {
                         icon:'success',
                     });                    
                     this.$router.go(-1);
-                });
+                })
+                .catch(err => {
+                    if (err.response) console.log(err);
+                    // Swal.fire({
+                    //     toast: true,
+                    //     position: 'top-end',
+                    //     showConfirmButton: false,
+                    //     timer: 3000,
+                    //     // title:'Good job!',
+                    //     text: err,
+                    //     icon:'error',
+                    // });                    
+                })
         },
         closeModal() {
             this.clearForm();

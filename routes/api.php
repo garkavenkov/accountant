@@ -34,10 +34,17 @@ Route::group(['middleware' => 'auth:api'], function() {
         'measures'          =>  'API\MeasureController',
         'cash-operations'   =>  'API\CashOperationController',
         'sales-revenues'    =>  'API\SalesRevenueController',
-        'cashes'            =>  'API\CashController',
+        'cash-documents'    =>  'API\CashDocumentController',
+        'payments'          =>  'API\PaymentController',
+        'cashes'            =>  'API\CashController',        
     ]);
 
     Route::get('select-dictionary/{model}', 'API\SelectDictionaryController');
     Route::get('shift-employees-on-date/{department_id}/{date}', 'API\ShiftEmployeeController@list');
+
+    Route::get('approve-cash-document/{id}',    'API\CashDocumentController@approve');
+    Route::get('storno-cash-document/{id}',     'API\CashDocumentController@storno');
+
+    Route::get('unpaid-documents/{supplier_id}',    'API\SupplierController@unpaidDocuments');
 
 });

@@ -18,7 +18,7 @@ $factory->define(IncomeDocument::class, function (Faker $faker) {
 
     return [
         'date'                  =>  Carbon::now(),       
-        'debit_id'              =>  factory(Supplier::class),        
+        'debet_id'              =>  factory(Supplier::class),        
         'credit_id'             =>  $employee->department->id,
         'credit_person_id'      =>  $employee->id,
         'sum1'                  =>  $sum,

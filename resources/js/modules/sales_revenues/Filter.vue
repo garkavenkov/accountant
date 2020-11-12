@@ -40,7 +40,7 @@
                                 <select class="form-control select2" 
                                         style="width: 100%;"
                                         @change="getDepartmentsDictionary(filter.cashId)"
-                                        v-model="filter.cashId">
+                                        v-model="filter.creditId">
                                     <option selected="selected" value="0">
                                         Все кассы
                                     </option>
@@ -59,7 +59,7 @@
                                 <label>Отдел</label>
                                 <select class="form-control select2" 
                                         style="width: 100%;"
-                                        v-model="filter.departmentId">
+                                        v-model="filter.debetId">
                                     <option selected="selected"
                                             value="0">
                                         Все отделы
@@ -133,11 +133,7 @@ export default {
             this.filter.queryStr        =   '';
             document.getElementById('dateBegin').value = new Date().toISOString().slice(0,10);
             document.getElementById('dateEnd').value = "";
-        },
-        // getCashesDictionary() {
-        //     this.getDictionary('cash')
-        //         .then(res => this.cashes = res);
-        // }
+        },      
         getDepartmentsDictionary(cashId) {
             let dictionary = 'department';
             if (cashId != 0) {

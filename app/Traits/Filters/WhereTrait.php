@@ -37,7 +37,7 @@ trait WhereTrait
                 
             }
         }
-        // dd($whereClause);
+        //  dd($whereClause);
         return $whereClause;
     }
 

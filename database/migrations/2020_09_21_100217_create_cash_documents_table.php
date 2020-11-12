@@ -14,7 +14,7 @@ class CreateCashDocumentsTable extends Migration
     public function up()
     {
         Schema::create('cash_documents', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->smallInteger('operation_id')->unsigned();
             $table->date('date');
             $table->smallInteger('number');
@@ -22,6 +22,7 @@ class CreateCashDocumentsTable extends Migration
             $table->integer('credit_id');
             $table->decimal('debet', 10, 2)->default(0);
             $table->decimal('credit', 10, 2)->default(0);
+            $table->string('purpose');
             $table->tinyInteger('status')->default(0);
             $table->integer('user_id');
             $table->timestamps();

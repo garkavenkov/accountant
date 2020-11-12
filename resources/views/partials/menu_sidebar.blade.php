@@ -41,6 +41,18 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="cash-documents" class="nav-link">                                
+                                <i class="fas fa-coins"></i>
+                                <p>Кассовые документы</p>
+                            </a>
+                        </li>                       
+                        <li class="nav-item">
+                            <a href="payments" class="nav-link">                                
+                                <i class="fas fa-coins"></i>
+                                <p>Расчет с поставщиками</p>
+                            </a>
+                        </li>                       
+                        <li class="nav-item">
                             <a href="sales-revenues" class="nav-link">                                
                                 <i class="fas fa-coins"></i>
                                 <p>Торговая выручка</p>

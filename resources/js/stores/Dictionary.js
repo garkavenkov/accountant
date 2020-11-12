@@ -4,9 +4,11 @@ export const Dictionary = {
     namespaced: true,
     state: {
         cashes: [],
+        suppliers: []
     },
     getters: {
         cashes:         state =>    state.cashes,
+        suppliers:      state =>    state.suppliers,
     },
     mutations: {
 
@@ -30,6 +32,10 @@ export const Dictionary = {
         getCashesDictionary: ({dispatch, state}) => {
             dispatch('getDictionary',  'cash')
                 .then(res => state.cashes = res);
+        },
+        getSuppliersDictionary: ({dispatch, state}) => {
+            dispatch('getDictionary',  'supplier')
+                .then(res => state.suppliers = res);
         },
     }
 

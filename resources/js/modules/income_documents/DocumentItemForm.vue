@@ -123,7 +123,7 @@ import FormValidator from '../../mixins/FormValidator';
 
 export default {
     name: 'DocumentItemForm',
-    props: ['title', 'item', 'measures', 'submitText', 'errors'],
+    props: ['title', 'item', 'measures', 'submitText'],
     mixins: [FormValidator],
     data() {
         return {

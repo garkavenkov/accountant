@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use App\Models\Cash;
 use App\Models\Department;
 use Faker\Factory as Faker;
+use App\Models\CashDocument;
 use App\Models\SalesRevenue;
 use App\Models\CashOperation;
 use Illuminate\Database\Seeder;
@@ -19,7 +20,7 @@ class SalesRevenueSeeder extends Seeder
     {
         $faker = Faker::create('ru_RU');  
 
-        SalesRevenue::truncate();
+        CashDocument::salesrevenues()->delete();
 
         $departments =  Department::sales()->get();
         
@@ -31,16 +32,19 @@ class SalesRevenueSeeder extends Seeder
 
             $department =   $faker->randomElement($departments);
             
-            $date = $faker->dateTimeBetween($startDate = '-2 months', $endDate = '+1 month', $timezome='Europe/Moscow');
+            $date = $faker->dateTimeBetween($startDate = '-2 months', $endDate = '+1 month', $timezome='Europe/Moscow')->format("Y-m-d");
             
             $sum = $faker->numberBetween($min=1000, $max=10000);
             
+            $purpose = 'Сдача торговой выручки';
+
             DB::table('cash_documents')->insert([
                 'operation_id'          =>  $operation_id,
                 'date'                  =>  $date,
                 'number'                =>  $i+1,
                 'debet_id'              =>  $department->id,
                 'credit_id'             =>  $department->branch->cash->id,                
+                'purpose'               =>  $purpose,
                 'credit'                =>  $sum,
                 'user_id'               =>  1
             ]);

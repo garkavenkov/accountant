@@ -10,21 +10,24 @@ class DocumentService
     use WhereTrait;
     
     protected $whereClauses = [
-        'date'      =>  'between',
-        'debet_id'  =>  'in',
-        'credit_id' =>  'in',
-        'sum1'      =>  'between',
-        'sum2'      =>  'between'
+        'date'          =>  'between',
+        'operation_id'  =>  'in',
+        'debet_id'      =>  'in',
+        'credit_id'     =>  'in',
+        'sum1'          =>  'between',
+        'sum2'          =>  'between'
     ];
 
     public function get($model, $parameters = [])
     {
         if (!array_key_exists('date', $parameters)) {
+            // dd(Carbon::now('UTC')->toDateString());
             $parameters['date'] = Carbon::now()->toDateString();
             // $parameters['date'] = "2020-06-25,2020-07-02";
         }        
         
         $where = $this->getWhereClause($parameters);
+        // dd($where);
         $relationships = $this->getRelationships($parameters);
         // $scopes = $this->getScopes($parameters);        
         $per_page = $this->perPage($parameters);
@@ -44,7 +47,7 @@ class DocumentService
         if ($per_page > 0) {
             $data = $data->paginate($per_page)->appends(request()->query());
         } else {
-            $data = $data->get();
+            $data = $data->orderBy('date', 'asc')->get();
         }
         
         return $data;

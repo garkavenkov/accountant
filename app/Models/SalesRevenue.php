@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\CashOperation;
 use App\Traits\Models\PathTrait;
-use App\Scopes\SalesRevenueScope;
+use App\Scopes\CashOperation\SalesRevenueScope;
 use Illuminate\Database\Eloquent\Model;
 // use Illuminate\Database\Eloquent\Builder;
 

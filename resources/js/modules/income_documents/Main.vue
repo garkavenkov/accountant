@@ -4,6 +4,7 @@
     
     <grid   :dataTable="documents"
             :pagination="pagination"
+            filteredField="supplier"
             @fetchData="fetchData"> 
 
         <template v-slot:title>
@@ -60,10 +61,13 @@
                 <td class="text-right">{{data.sum2 | formatNumber(2)}}</td>                    
                 <td class="text-right">{{data.gain | formatNumber(2)}}</td>
                 <td class="text-center">
-                    <abbr title="Oплата произведена 29.06.2020">
-                        <i class="fas fa-donate"></i>
-                    </abbr>
-                    <i class="fas fa-file-invoice-dollar"></i>
+                    <document-paid v-if="data.isPaid" :payments="data.payments"></document-paid>
+                    <!-- <template v-if="data.isPaid">
+                        <abbr :title="Oплата произведена ${data.supplier}">
+                            <i class="fas fa-donate"></i>
+                        </abbr>
+                    </template> -->                   
+                    <!-- <i class="fas fa-file-invoice-dollar"></i> -->
                 </td>         
             </tr>     
         </template>
@@ -136,7 +140,7 @@
                                 <label>Отдел</label>
                                 <select class="form-control select2" 
                                         style="width: 100%;" 
-                                         v-bind:class="{'is-invalid' : hasError('credit_id')}"
+                                        v-bind:class="{'is-invalid' : hasError('credit_id')}"
                                         v-model="newDocument.departmentId">
                                     <option selected="selected" disabled value="0">
                                         Выбирите подразделение
@@ -264,7 +268,7 @@
                                 <label>Отдел</label>                                
                                 <select class="form-control select2" 
                                         style="width: 100%;"
-                                        v-model="filter.departmentId">
+                                        v-model="filter.creditId">
                                     <option selected="selected" value="0">
                                         Все отделы
                                     </option>
@@ -283,7 +287,7 @@
                                 <label>Поставщик</label>
                                 <select class="form-control select2" 
                                         style="width: 100%;"
-                                        v-model="filter.supplierId">
+                                        v-model="filter.debetId">
                                     <option selected="selected"
                                             value="0">
                                         Все поставщики
@@ -336,8 +340,10 @@
 </template>
 
 <script>
-import FormValidator from '../../mixins/FormValidator';
-import Grid from '../../components/Grid';
+import FormValidator    from '../../mixins/FormValidator';
+import Grid             from '../../components/Grid';
+import DocumentPaid     from '../../components/DocumentPaid';
+
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
@@ -366,8 +372,8 @@ export default {
             this.pagination = {...links, ...meta}
         },        
         getEmployeesInChargeOfDepartment() {
-            if (this.document.date && this.document.departmentId != 0) {
-                let url = `/api/shift-employees-on-date/${this.document.departmentId}/${this.document.date}`;
+            if (this.newDocument.date && this.newDocument.departmentId != 0) {
+                let url = `/api/shift-employees-on-date/${this.newDocument.departmentId}/${this.newDocument.date}`;
                  axios.get(url, 
                         {
                             'headers': {
@@ -381,10 +387,10 @@ export default {
    
                         if (employees.length == 0) {
                             this.departmentShift = "<strong><a href='/shifts'>Сотрудники не назначены</a></strong>";
-                            this.document.employeeId = 0;                            
+                            this.newDocument.employeeId = 0;                            
                         } else if (employees.length == 1) {
                             this.departmentShift = '';                            
-                            this.document.employeeId = employees[0].id;
+                            this.newDocument.employeeId = employees[0].id;
                         } else {
                             this.departmentShift = '';
                             this.employees = employees;
@@ -398,19 +404,19 @@ export default {
             this.clearForm();
         },
         clearForm() {
-            this.document.date = null;
-            this.document.supplierId = 0;
-            this.document.departmentId = 0;
-            this.document.employeeId = 0;            
-            this.document.purchaseSum = 0;
-            this.document.retailSum = 0;
+            this.newDocument.date = null;
+            this.newDocument.supplierId = 0;
+            this.newDocument.departmentId = 0;
+            this.newDocument.employeeId = 0;            
+            this.newDocument.purchaseSum = 0;
+            this.newDocument.retailSum = 0;
             this.employees = [];
             this.errors = [];
         },
         saveDoc() {
             let doc = {
                     date                : this.newDocument.date,
-                    debit_id            : this.newDocument.supplierId,
+                    debet_id            : this.newDocument.supplierId,
                     credit_id           : this.newDocument.departmentId,
                     credit_person_id    : this.newDocument.employeeId,
                     sum1                : parseFloat(this.newDocument.purchaseSum.replace(",", ".")),
@@ -457,7 +463,7 @@ export default {
         },        
     },
     created() {
-        // this.fetchData();
+        this.fetchData();
         this.getSuppliersDictionary();
         this.getDepartmentsDictionary();
     },
@@ -465,35 +471,35 @@ export default {
     
     },
     watch: {
-        'document.date'(newValue, oldValue) {            
+        'newDocument.date'(newValue, oldValue) {            
             this.getEmployeesInChargeOfDepartment();
             if (this.hasError('date')) {
                 delete this.errors.date;
             }
             
         },
-        'document.departmentId'(newValue, oldValue) {
+        'newDocument.departmentId'(newValue, oldValue) {
             this.getEmployeesInChargeOfDepartment();
             if (this.hasError('credit_id')) {
                 delete this.errors.credit_id;
             }
         },
-        'document.supplierId'(newValue, oldValue) {            
+        'newDocument.supplierId'(newValue, oldValue) {            
             if (this.hasError('debit_id')) {
                 delete this.errors.debit_id;
             }
         },
-        'document.employeeId'(newValue, oldValue) {
+        'newDocument.employeeId'(newValue, oldValue) {
             if (this.hasError('credit_person_id')) {
                 delete this.errors.credit_person_id;
             }
         },
-        'document.purchaseSum'(newValue, oldValue) {
+        'newDocument.purchaseSum'(newValue, oldValue) {
             if (this.hasError('sum1')) {
                 delete this.errors.sum1;
             }
         },
-        'document.retailSum'(newValue, oldValue) {
+        'newDocument.retailSum'(newValue, oldValue) {
             if (this.hasError('sum2')) {
                 delete this.errors.sum2;
             }
@@ -507,7 +513,8 @@ export default {
         },    
     },
     components: {
-        Grid
+        Grid,
+        DocumentPaid
     }
 }    
 </script>

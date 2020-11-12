@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Scopes;
+namespace App\Scopes\CashOperation;
 
 use App\Models\CashOperation;
 use Illuminate\Database\Eloquent\Model;

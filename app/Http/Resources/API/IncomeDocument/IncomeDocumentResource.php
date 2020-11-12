@@ -4,6 +4,7 @@ namespace App\Http\Resources\API\IncomeDocument;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\API\IncomeDocument\PaymentResource;
 use App\Http\Resources\API\DocumentItem\DocumentItemResource;
 
 class IncomeDocumentResource extends JsonResource
@@ -22,8 +23,10 @@ class IncomeDocumentResource extends JsonResource
             'number'                =>  $this->number,
             'supplier_id'           =>  $this->supplier->id,
             'supplier'              =>  $this->supplier->name,
+            'branch_id'             =>  $this->department->branch->id,
+            'branch'                =>  $this->department->branch->name,
             'department_id'         =>  $this->credit_id,
-            'department'            =>  $this->department->name,
+            'department'            =>  $this->department->name,            
             'employee_id'           =>  $this->credit_person_id,
             'employee_full_name'    =>  $this->employee->full_name,
             // 'purchaseSum'           =>  number_format($this->sum1, 2, '.', ' '),
@@ -32,8 +35,11 @@ class IncomeDocumentResource extends JsonResource
             'purchaseSum'           =>  (float) $this->sum1,
             'retailSum'             =>  (float) $this->sum2, 
             'gain'                  =>  (float) $this->sum2 - $this->sum1,
-            // 'items'                 =>  DocumentItemResource::collection($this->whenLoaded('items'))
-            'items'                 =>  DocumentItemResource::collection($this->items)
+            'items'                 =>  DocumentItemResource::collection($this->whenLoaded('items')),
+            // 'items'                 =>  DocumentItemResource::collection($this->items),
+            'isPaid'                =>  (boolean) $this->isPaid,
+            'status'                =>  (int) $this->status,
+            'payments'              =>  PaymentResource::collection($this->whenLoaded('payments'))
         ];
     }
 }

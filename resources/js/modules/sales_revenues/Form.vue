@@ -192,10 +192,6 @@ export default {
                 this.newDocument.amount = 0;                
             }    
         },
-        'newDocument.cashId'(newValue, oldValue) {
-            console.log('asdasdasasdasdasd');
-            // this.getDepartmentsDictionary(newDocument.cashId);
-        }
     },
     created() {
         this.getCashesDictionary();

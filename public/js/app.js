@@ -5309,6 +5309,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); //
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 // import Vue from 'vue';
+// Vue.component('breadcrumbs', require('./components/Breadcrumbs.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -5318,6 +5319,14 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); //
 // const app = new Vue({
 //     el: '#app',
 //     data: {     
+//         breadcrumbs: [
+//             {
+//                 path: '/', name: '/'
+//             },
+//             {
+//                 path: '/cash_documents', name: 'Кассовые документы'
+//             }
+//         ]
 //     }
 // });
 

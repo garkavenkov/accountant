@@ -2024,6 +2024,11 @@ __webpack_require__.r(__webpack_exports__);
         return [10, 20, 50, 'all'];
       }
     },
+    filteredField: {
+      type: String,
+      required: false,
+      "default": null
+    },
     pagination: {
       type: Object,
       required: false,
@@ -2133,11 +2138,14 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         if (this.searchData) {
           return this.dataTable.filter(function (data) {
-            return data.department.toLowerCase().includes(_this.searchData.toLowerCase()) || data.supplier.toLowerCase().includes(_this.searchData.toLowerCase());
+            // console.log(`Search field - ${this.searchData.toLowerCase()}`);
+            // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
+            return data[_this.filteredField].toLowerCase().includes(_this.searchData.toLowerCase()); // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
+            //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
           });
         }
 
-        return this.dataTable.slice(this.paginateFrom - 1, this.paginateTo);
+        return this.dataTable.slice(this.paginateFrom - 1, this.paginateTo); // ??? Will it work after search
       }
     }
   },
@@ -2303,10 +2311,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       document.getElementById('dateBegin').value = new Date().toISOString().slice(0, 10);
       document.getElementById('dateEnd').value = "";
     },
-    // getCashesDictionary() {
-    //     this.getDictionary('cash')
-    //         .then(res => this.cashes = res);
-    // }
     getDepartmentsDictionary: function getDepartmentsDictionary(cashId) {
       var _this = this;
 
@@ -2538,9 +2542,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.newDocument.departmentId = 0;
         this.newDocument.amount = 0;
       }
-    },
-    'newDocument.cashId': function newDocumentCashId(newValue, oldValue) {
-      console.log('asdasdasasdasdasd'); // this.getDepartmentsDictionary(newDocument.cashId);
     }
   },
   created: function created() {
@@ -2569,6 +2570,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -2696,6 +2698,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
 //
 //
 //
@@ -3968,7 +3973,7 @@ var render = function() {
                 [
                   _c("label", { attrs: { for: "filter_data" } }, [
                     _vm._v(
-                      "\n                        Filter \n                        "
+                      "\n                        Search \n                        "
                     ),
                     _c("input", {
                       directives: [
@@ -4245,8 +4250,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.filter.cashId,
-                          expression: "filter.cashId"
+                          value: _vm.filter.creditId,
+                          expression: "filter.creditId"
                         }
                       ],
                       staticClass: "form-control select2",
@@ -4264,7 +4269,7 @@ var render = function() {
                               })
                             _vm.$set(
                               _vm.filter,
-                              "cashId",
+                              "creditId",
                               $event.target.multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
@@ -4321,8 +4326,8 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.filter.departmentId,
-                          expression: "filter.departmentId"
+                          value: _vm.filter.debetId,
+                          expression: "filter.debetId"
                         }
                       ],
                       staticClass: "form-control select2",
@@ -4339,7 +4344,7 @@ var render = function() {
                             })
                           _vm.$set(
                             _vm.filter,
-                            "departmentId",
+                            "debetId",
                             $event.target.multiple
                               ? $$selectedVal
                               : $$selectedVal[0]
@@ -4931,7 +4936,11 @@ var render = function() {
     "div",
     [
       _c("grid", {
-        attrs: { dataTable: _vm.documents, pagination: _vm.pagination },
+        attrs: {
+          dataTable: _vm.documents,
+          pagination: _vm.pagination,
+          filteredField: "department"
+        },
         on: { fetchData: _vm.fetchData },
         scopedSlots: _vm._u([
           {
@@ -5126,6 +5135,12 @@ var render = function() {
             _vm._v(" "),
             _c("dd", { staticClass: "col-sm-8" }, [
               _vm._v(_vm._s(_vm.document.cash))
+            ]),
+            _vm._v(" "),
+            _c("dt", { staticClass: "col-sm-4" }, [_vm._v("Назначение")]),
+            _vm._v(" "),
+            _c("dd", { staticClass: "col-sm-8" }, [
+              _vm._v(_vm._s(_vm.document.purpose))
             ]),
             _vm._v(" "),
             _c("dt", { staticClass: "col-sm-4" }, [_vm._v("Сумма")]),
@@ -22087,11 +22102,15 @@ __webpack_require__.r(__webpack_exports__);
 var Dictionary = {
   namespaced: true,
   state: {
-    cashes: []
+    cashes: [],
+    suppliers: []
   },
   getters: {
     cashes: function cashes(state) {
       return state.cashes;
+    },
+    suppliers: function suppliers(state) {
+      return state.suppliers;
     }
   },
   mutations: {},
@@ -22116,6 +22135,13 @@ var Dictionary = {
       dispatch('getDictionary', 'cash').then(function (res) {
         return state.cashes = res;
       });
+    },
+    getSuppliersDictionary: function getSuppliersDictionary(_ref2) {
+      var dispatch = _ref2.dispatch,
+          state = _ref2.state;
+      dispatch('getDictionary', 'supplier').then(function (res) {
+        return state.suppliers = res;
+      });
     }
   }
 };
@@ -22134,8 +22160,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SalesRevenue", function() { return SalesRevenue; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _core_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/actions */ "./resources/js/stores/core/actions.js");
+/* harmony import */ var _core_mutations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/mutations */ "./resources/js/stores/core/mutations.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-var url = '/api/sales-revenues';
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+ // const url = '/api/sales-revenues';
+
 var SalesRevenue = {
   namespaced: true,
   state: {
@@ -22143,11 +22179,12 @@ var SalesRevenue = {
     document: {},
     cashes: [],
     departments: [],
+    url: '/api/sales-revenues',
     filter: {
       dateBegin: null,
       dateEnd: null,
-      cashId: 0,
-      departmentId: 0,
+      creditId: 0,
+      debetId: 0,
       sumBegin: 0,
       sumEnd: 0,
       isFiltered: false,
@@ -22171,208 +22208,18 @@ var SalesRevenue = {
       return state.departments;
     }
   },
-  mutations: {
-    filterDocuments: function filterDocuments(state, payload) {
-      state.filter.queryStr = '';
-
-      if (state.filter.dateBegin) {
-        state.filter.queryStr = state.filter.queryStr + "date=".concat(payload.dateBegin);
-        state.filter.isFiltered = true;
-      }
-
-      if (state.filter.dateEnd) {
-        state.filter.queryStr = state.filter.queryStr + ",".concat(payload.dateEnd);
-        state.filter.isFiltered = true;
-      }
-
-      if (state.filter.cashId > 0) {
-        state.filter.queryStr = state.filter.queryStr + "&credit_id=".concat(payload.cashId);
-        state.filter.isFiltered = true;
-      }
-
-      if (state.filter.departmentId > 0) {
-        state.filter.queryStr = state.filter.queryStr + "&debet_id=".concat(payload.departmentId);
-        state.filter.isFiltered = true;
-      } // if (state.filter.sumBegin > 0) {
-      //     state.filter.queryStr = state.filter.queryStr + `&credit=${payload.departmentId}`;
-      //     state.filter.isFiltered = true;
-      // }
-
-    }
-  },
-  actions: {
-    fetchData: function fetchData(_ref) {
-      var state = _ref.state;
-      //  use Promise ???
-      var page_url = state.filter.isFiltered ? url + '?' + state.filter.queryStr : url;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(page_url, {
-        'headers': {
-          'Authorization': 'Bearer ' + window.api_token,
-          'Accept': 'application/json'
-        }
-      }).then(function (res) {
-        state.documents = res.data.data; // this.makePagination(res.data.links, res.data.meta);
-      })["catch"](function (err) {
-        return console.log(err);
-      });
-    },
-    fetchDocument: function fetchDocument(_ref2, id) {
-      var state = _ref2.state;
-      var page_url = "".concat(url, "/").concat(id);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(page_url, {
-        'headers': {
-          'Authorization': 'Bearer ' + window.api_token,
-          'Accept': 'application/json'
-        }
-      }).then(function (res) {
-        state.document = res.data.data;
-      })["catch"](function (err) {
-        return console.log(err);
-      });
-    },
-    saveDocument: function saveDocument(_ref3, payload) {
-      var dispatch = _ref3.dispatch;
-      return new Promise(function (resolve, reject) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, payload, {
-          'headers': {
-            'Authorization': 'Bearer ' + window.api_token,
-            'Accept': 'application/json'
-          }
-        }).then(function (res) {
-          if (res.status == 201) {
-            dispatch('fetchData');
-            resolve(res);
-          }
-        })["catch"](function (err) {
-          return reject(err);
-        });
-      });
-    },
-    deleteDocument: function deleteDocument(_ref4, id) {
-      var dispatch = _ref4.dispatch;
-      return new Promise(function (resolve, reject) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("".concat(url, "/").concat(id), {
-          'headers': {
-            'Authorization': 'Bearer ' + window.api_token,
-            'Accept': 'application/json'
-          }
-        }).then(function (res) {
-          dispatch('fetchData');
-          resolve(res);
-        })["catch"](function (err) {
-          return reject(err);
-        });
-      });
-    },
-    // updateDocument: ({dispatch, state}, payload) => {
-    //     return new Promise((resolve, reject) => {
-    //         axios.patch(`${url}/${state.document.id}`,  payload,
-    //                     {
-    //                         'headers': {
-    //                             'Authorization': 'Bearer ' + window.api_token,
-    //                             'Accept': 'application/json',
-    //                         } 
-    //                     }
-    //                 )
-    //                 .then(res => {
-    //                     dispatch('fetchDocument', state.document.id);
-    //                     resolve(res);
-    //                 })
-    //                 .catch(err => reject(err));
-    //     });
-    // },
-    // fetchDocumentItem: ({state}, id) => {
-    //     return new Promise((resolve, reject) => {
-    //         let page_url = `${documentItemsUrl}/${id}`;
-    //         axios
-    //             .get(page_url,
-    //                 {
-    //                     'headers': {
-    //                         'Authorization': 'Bearer ' + window.api_token,
-    //                         'Accept': 'application/json',
-    //                     }            
-    //                 }
-    //             )        
-    //             .then(res => {
-    //                 // console.log(res);
-    //                 // console.log(res.data);
-    //                 // console.log(res.data.data);
-    //                 resolve(res.data.data);
-    //                 // state.document = res.data.data;
-    //             })
-    //             .catch(err => reject(err));
-    //     })            
-    // },
-    // saveDocumentItem: ({dispatch}, payload) => {
-    //     return new Promise((resolve, reject) => {
-    //         axios.post(documentItemsUrl, payload,  
-    //                     {
-    //                         'headers': {
-    //                             'Authorization': 'Bearer ' + window.api_token,
-    //                             'Accept': 'application/json',
-    //                         } 
-    //                     }
-    //                 )
-    //                 .then(res => {
-    //                     if (res.status == 201) {
-    //                         dispatch('fetchDocument', payload.document_id);
-    //                         resolve(res);
-    //                     }
-    //                 })
-    //                 .catch(err => reject(err));
-    //     })            
-    // },
-    // updateDocumentItem: ({dispatch}, payload) => {
-    //     return new Promise((resolve, reject) => {
-    //         axios.patch(`${documentItemsUrl}/${payload.id}`,  payload,
-    //                     {
-    //                         'headers': {
-    //                             'Authorization': 'Bearer ' + window.api_token,
-    //                             'Accept': 'application/json',
-    //                         } 
-    //                     }
-    //                 )
-    //                 .then(res => {
-    //                     dispatch('fetchDocument', payload.document_id);
-    //                     resolve(res);
-    //                 })
-    //                 .catch(err => reject(err));
-    //     });
-    // },
-    // deleteDocumentItem: ({dispatch, state}, id) => {
-    //     return new Promise((resolve, reject) => {
-    //         axios
-    //             .delete(`${documentItemsUrl}/${id}`,
-    //                 {
-    //                     'headers': {
-    //                         'Authorization': 'Bearer ' + window.api_token,
-    //                         'Accept': 'application/json',
-    //                     } 
-    //                 }
-    //             )
-    //             .then(res => {
-    //                 dispatch('fetchDocument', state.document.id);
-    //                 resolve(res)
-    //             })
-    //             .catch(err => reject(err))
-    //         });
-    // },
-    applyFilter: function applyFilter(_ref5, payload) {
-      var commit = _ref5.commit,
-          dispatch = _ref5.dispatch;
-      commit('filterDocuments', payload);
-      dispatch('fetchData');
-    },
-    getCashesDictionary: function getCashesDictionary(_ref6) {
-      var dispatch = _ref6.dispatch,
-          state = _ref6.state;
+  mutations: _objectSpread({}, _core_mutations__WEBPACK_IMPORTED_MODULE_2__["default"]),
+  actions: _objectSpread(_objectSpread({}, _core_actions__WEBPACK_IMPORTED_MODULE_1__["default"]), {}, {
+    getCashesDictionary: function getCashesDictionary(_ref) {
+      var dispatch = _ref.dispatch,
+          state = _ref.state;
       dispatch('getDictionary', 'cash').then(function (res) {
         return state.cashes = res;
       });
     },
-    getDepartmentsDictionary: function getDepartmentsDictionary(_ref7, cashId) {
-      var dispatch = _ref7.dispatch,
-          state = _ref7.state;
+    getDepartmentsDictionary: function getDepartmentsDictionary(_ref2, cashId) {
+      var dispatch = _ref2.dispatch,
+          state = _ref2.state;
       var dictionary = 'department';
 
       if (cashId != 0) {
@@ -22397,8 +22244,137 @@ var SalesRevenue = {
         });
       });
     }
+  })
+};
+
+/***/ }),
+
+/***/ "./resources/js/stores/core/actions.js":
+/*!*********************************************!*\
+  !*** ./resources/js/stores/core/actions.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var config = {
+  'headers': {
+    'Authorization': 'Bearer ' + window.api_token,
+    'Accept': 'application/json'
   }
 };
+/* harmony default export */ __webpack_exports__["default"] = ({
+  fetchData: function fetchData(_ref) {
+    var state = _ref.state;
+    //  use Promise ???
+    var page_url = state.filter.isFiltered ? state.url + '?' + state.filter.queryStr : state.url;
+    axios.get(page_url, config).then(function (res) {
+      state.documents = res.data.data; // this.makePagination(res.data.links, res.data.meta);
+    })["catch"](function (err) {
+      return console.log(err);
+    });
+  },
+  fetchDocument: function fetchDocument(_ref2, id) {
+    var state = _ref2.state;
+    var page_url = "".concat(state.url, "/").concat(id);
+    axios.get(page_url, config).then(function (res) {
+      state.document = res.data.data;
+    })["catch"](function (err) {
+      return console.log(err);
+    });
+  },
+  saveDocument: function saveDocument(_ref3, payload) {
+    var state = _ref3.state,
+        dispatch = _ref3.dispatch;
+    return new Promise(function (resolve, reject) {
+      axios.post(state.url, payload, config).then(function (res) {
+        if (res.status == 201) {
+          dispatch('fetchData');
+          resolve(res);
+        }
+      })["catch"](function (err) {
+        return reject(err);
+      });
+    });
+  },
+  updateDocument: function updateDocument(_ref4, payload) {
+    var dispatch = _ref4.dispatch,
+        state = _ref4.state;
+    return new Promise(function (resolve, reject) {
+      axios.patch("".concat(url, "/").concat(state.document.id), payload, config).then(function (res) {
+        dispatch('fetchDocument', state.document.id);
+        resolve(res);
+      })["catch"](function (err) {
+        return reject(err);
+      });
+    });
+  },
+  deleteDocument: function deleteDocument(_ref5, id) {
+    var dispatch = _ref5.dispatch,
+        state = _ref5.state;
+    return new Promise(function (resolve, reject) {
+      axios["delete"]("".concat(state.url, "/").concat(id), config).then(function (res) {
+        dispatch('fetchData');
+        resolve(res);
+      })["catch"](function (err) {
+        return reject(err);
+      });
+    });
+  },
+  applyFilter: function applyFilter(_ref6, payload) {
+    var commit = _ref6.commit,
+        dispatch = _ref6.dispatch;
+    commit('filterDocuments', payload);
+    dispatch('fetchData');
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores/core/mutations.js":
+/*!***********************************************!*\
+  !*** ./resources/js/stores/core/mutations.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  filterDocuments: function filterDocuments(state, payload) {
+    state.filter.queryStr = '';
+
+    if (state.filter.dateBegin) {
+      state.filter.queryStr = state.filter.queryStr + "date=".concat(payload.dateBegin);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.dateEnd) {
+      state.filter.queryStr = state.filter.queryStr + ",".concat(payload.dateEnd);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.operationId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&operation_id=".concat(payload.operationId);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.creditId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&credit_id=".concat(payload.creditId);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.debetId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&debet_id=".concat(payload.debetId);
+      state.filter.isFiltered = true;
+    } // if (state.filter.sumBegin > 0) {
+    //     state.filter.queryStr = state.filter.queryStr + `&credit=${payload.departmentId}`;
+    //     state.filter.isFiltered = true;
+    // }
+
+  }
+});
 
 /***/ }),
 

@@ -4,6 +4,7 @@
 
     <grid   :dataTable="documents"
             :pagination="pagination"
+            filteredField="department"
             @fetchData="fetchData"> 
 
         <template v-slot:title>

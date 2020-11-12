@@ -23,6 +23,10 @@ class DatabaseSeeder extends Seeder
         $this->call(IncomeDocumentsSeeder::class);
         $this->call(IncomeDocumentItemsSeeder::class);
         $this->call(CashSeeder::class);
+        $this->call(CashOperationSeeder::class);
         $this->call(SalesRevenueSeeder::class);
+        $this->call(LinkedDocumentTypeSeeder::class);
+        $this->call(PaymentSeeder::class);
+        
     }
 }

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Cash;
+use App\Models\Branch;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\API\Supplier\SupplierResource;
 use App\Http\Resources\API\Supplier\SupplierResourceCollection;
+use App\Http\Resources\API\IncomeDocument\IncomeDocumentResource;
 
 class SupplierController extends Controller
 {
@@ -89,5 +92,14 @@ class SupplierController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function unpaidDocuments($supplier_id)
+    {
+        $supplier = Supplier::findOrFail($supplier_id);
+        
+        $documents = $supplier->unpaid;
+        
+        return  IncomeDocumentResource::collection($documents);        
     }
 }

@@ -27,7 +27,7 @@
                 <div class="col-sm-12 col-md-6">                    
                     <div id="filter_data__wrapper" class="filterData">
                         <label for="filter_data">
-                            Filter&nbsp;
+                            Search&nbsp;
                             <input type="search" name="filter_data" id="filter_data" class="form-control form-control-sm" v-model="searchData">
                         </label>
                     </div>                    
@@ -119,6 +119,11 @@ export default {
                     'all'
                 ]
             )
+        },
+        filteredField: {
+            type: String,
+            required: false,
+            default: null
         },
         pagination: {
             type: Object,
@@ -222,11 +227,15 @@ export default {
             } else {
                 if (this.searchData) {
                     return this.dataTable.filter(data => {
-                        return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
-                                data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
+                        // console.log(`Search field - ${this.searchData.toLowerCase()}`);
+                        // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
+
+                        return data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase());
+                        // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
+                        //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
                     });
                 }
-                return  this.dataTable.slice(this.paginateFrom-1, this.paginateTo);
+                return  this.dataTable.slice(this.paginateFrom-1, this.paginateTo); // ??? Will it work after search
             }
         },
     },

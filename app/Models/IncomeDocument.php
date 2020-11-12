@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Payment;
 use App\Models\DocumentItem;
+use App\Models\LinkedDocument;
 use App\Traits\Models\PathTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +19,7 @@ class IncomeDocument extends Model
     protected $fillable = [
         'date',       
         'number',
-        'debit_id',        
+        'debet_id',        
         'credit_id',
         'credit_person_id',
         'sum1',
@@ -44,7 +46,7 @@ class IncomeDocument extends Model
 
     public function supplier()
     {
-        return $this->hasOne(Supplier::class, 'id', 'debit_id');
+        return $this->hasOne(Supplier::class, 'id', 'debet_id');
     }
 
     public function department()
@@ -61,5 +63,31 @@ class IncomeDocument extends Model
     {
         return $this->hasMany(DocumentItem::class, 'document_id', 'id');
     }
+   
+    public function scopeUnpaid($query)
+    {        
+        return $query->where('status', 0);
+    }    
+   
+    public function getIsPaidAttribute()
+    {
+        if ($this->payments->count() > 0) {
+            return 1;
+        } 
+        
+        return 0;        
+    }
 
+    public function payments()
+    {
+        $link_type = LinkedDocumentType::where('code', 'payment')->first();
+
+        return $this->belongsToMany(Payment::class, LinkedDocument::class,  'owner_id', 'cash_document_id')->wherePivot('type_id', $link_type->id);
+    }
+
+    public function unpaid()
+    {
+        $this->status = 0;
+        $this->save();
+    }
 }

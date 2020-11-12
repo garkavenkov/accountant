@@ -8,9 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <!-- Scripts -->
+    <!-- Scripts -->    
     <script src="{{ asset('js/app.js') }}" ></script>
-
     <title>{{ config('app.name', 'Laravel') }}</title>    
 
     <!-- Font Awesome Icons -->
@@ -58,7 +57,7 @@
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
-
+    
     @stack('scripts')
 </body>
 </html>

@@ -1899,6 +1899,40 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DocumentPaid.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DocumentPaid.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['payments'],
+  computed: {
+    title: function title() {
+      var msg = '';
+
+      if (this.payments.length == 1) {
+        msg = "\u041E\u043F\u043B\u0430\u0442\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0430 ".concat(this.payments[0].date, " \n ").concat(this.payments[0].cash);
+      }
+
+      return msg;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Grid.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Grid.vue?vue&type=script&lang=js& ***!
@@ -2024,6 +2058,11 @@ __webpack_require__.r(__webpack_exports__);
         return [10, 20, 50, 'all'];
       }
     },
+    filteredField: {
+      type: String,
+      required: false,
+      "default": null
+    },
     pagination: {
       type: Object,
       required: false,
@@ -2133,11 +2172,14 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         if (this.searchData) {
           return this.dataTable.filter(function (data) {
-            return data.department.toLowerCase().includes(_this.searchData.toLowerCase()) || data.supplier.toLowerCase().includes(_this.searchData.toLowerCase());
+            // console.log(`Search field - ${this.searchData.toLowerCase()}`);
+            // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
+            return data[_this.filteredField].toLowerCase().includes(_this.searchData.toLowerCase()); // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
+            //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
           });
         }
 
-        return this.dataTable.slice(this.paginateFrom - 1, this.paginateTo);
+        return this.dataTable.slice(this.paginateFrom - 1, this.paginateTo); // ??? Will it work after search
       }
     }
   },
@@ -2288,7 +2330,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'DocumentItemForm',
-  props: ['title', 'item', 'measures', 'submitText', 'errors'],
+  props: ['title', 'item', 'measures', 'submitText'],
   mixins: [_mixins_FormValidator__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {};
@@ -2316,7 +2358,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_FormValidator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../mixins/FormValidator */ "./resources/js/mixins/FormValidator.js");
 /* harmony import */ var _components_Grid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/Grid */ "./resources/js/components/Grid.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_DocumentPaid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/DocumentPaid */ "./resources/js/components/DocumentPaid.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2660,6 +2703,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -2683,15 +2731,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       useFilter: false
     };
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])(['fetchData', 'applyFilter', 'saveDocument', 'getDepartmentsDictionary', 'getSuppliersDictionary'])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])(['fetchData', 'applyFilter', 'saveDocument', 'getDepartmentsDictionary', 'getSuppliersDictionary'])), {}, {
     makePagination: function makePagination(links, meta) {
       this.pagination = _objectSpread(_objectSpread({}, links), meta);
     },
     getEmployeesInChargeOfDepartment: function getEmployeesInChargeOfDepartment() {
       var _this = this;
 
-      if (this.document.date && this.document.departmentId != 0) {
-        var url = "/api/shift-employees-on-date/".concat(this.document.departmentId, "/").concat(this.document.date);
+      if (this.newDocument.date && this.newDocument.departmentId != 0) {
+        var url = "/api/shift-employees-on-date/".concat(this.newDocument.departmentId, "/").concat(this.newDocument.date);
         axios.get(url, {
           'headers': {
             'Authorization': 'Bearer ' + window.api_token,
@@ -2702,10 +2750,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           if (employees.length == 0) {
             _this.departmentShift = "<strong><a href='/shifts'>Сотрудники не назначены</a></strong>";
-            _this.document.employeeId = 0;
+            _this.newDocument.employeeId = 0;
           } else if (employees.length == 1) {
             _this.departmentShift = '';
-            _this.document.employeeId = employees[0].id;
+            _this.newDocument.employeeId = employees[0].id;
           } else {
             _this.departmentShift = '';
             _this.employees = employees;
@@ -2721,12 +2769,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.clearForm();
     },
     clearForm: function clearForm() {
-      this.document.date = null;
-      this.document.supplierId = 0;
-      this.document.departmentId = 0;
-      this.document.employeeId = 0;
-      this.document.purchaseSum = 0;
-      this.document.retailSum = 0;
+      this.newDocument.date = null;
+      this.newDocument.supplierId = 0;
+      this.newDocument.departmentId = 0;
+      this.newDocument.employeeId = 0;
+      this.newDocument.purchaseSum = 0;
+      this.newDocument.retailSum = 0;
       this.employees = [];
       this.errors = [];
     },
@@ -2735,7 +2783,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var doc = {
         date: this.newDocument.date,
-        debit_id: this.newDocument.supplierId,
+        debet_id: this.newDocument.supplierId,
         credit_id: this.newDocument.departmentId,
         credit_person_id: this.newDocument.employeeId,
         sum1: parseFloat(this.newDocument.purchaseSum.replace(",", ".")),
@@ -2770,7 +2818,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       document.getElementById('dateEnd').value = "";
     }
   }),
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])(['documents', 'filter', 'suppliers', 'departments'])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])(['documents', 'filter', 'suppliers', 'departments'])), {}, {
     totalPurchaseSum: function totalPurchaseSum() {
       var total = this.documents.reduce(function (a, b) {
         return a + b.sum1 * 1;
@@ -2785,42 +2833,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   created: function created() {
-    // this.fetchData();
+    this.fetchData();
     this.getSuppliersDictionary();
     this.getDepartmentsDictionary();
   },
   mounted: function mounted() {},
   watch: {
-    'document.date': function documentDate(newValue, oldValue) {
+    'newDocument.date': function newDocumentDate(newValue, oldValue) {
       this.getEmployeesInChargeOfDepartment();
 
       if (this.hasError('date')) {
         delete this.errors.date;
       }
     },
-    'document.departmentId': function documentDepartmentId(newValue, oldValue) {
+    'newDocument.departmentId': function newDocumentDepartmentId(newValue, oldValue) {
       this.getEmployeesInChargeOfDepartment();
 
       if (this.hasError('credit_id')) {
         delete this.errors.credit_id;
       }
     },
-    'document.supplierId': function documentSupplierId(newValue, oldValue) {
+    'newDocument.supplierId': function newDocumentSupplierId(newValue, oldValue) {
       if (this.hasError('debit_id')) {
         delete this.errors.debit_id;
       }
     },
-    'document.employeeId': function documentEmployeeId(newValue, oldValue) {
+    'newDocument.employeeId': function newDocumentEmployeeId(newValue, oldValue) {
       if (this.hasError('credit_person_id')) {
         delete this.errors.credit_person_id;
       }
     },
-    'document.purchaseSum': function documentPurchaseSum(newValue, oldValue) {
+    'newDocument.purchaseSum': function newDocumentPurchaseSum(newValue, oldValue) {
       if (this.hasError('sum1')) {
         delete this.errors.sum1;
       }
     },
-    'document.retailSum': function documentRetailSum(newValue, oldValue) {
+    'newDocument.retailSum': function newDocumentRetailSum(newValue, oldValue) {
       if (this.hasError('sum2')) {
         delete this.errors.sum2;
       }
@@ -2834,7 +2882,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   components: {
-    Grid: _components_Grid__WEBPACK_IMPORTED_MODULE_1__["default"]
+    Grid: _components_Grid__WEBPACK_IMPORTED_MODULE_1__["default"],
+    DocumentPaid: _components_DocumentPaid__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
@@ -3239,16 +3288,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3288,6 +3327,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
 
         _this.$router.go(-1);
+      })["catch"](function (err) {
+        if (err.response) console.log(err); // Swal.fire({
+        //     toast: true,
+        //     position: 'top-end',
+        //     showConfirmButton: false,
+        //     timer: 3000,
+        //     // title:'Good job!',
+        //     text: err,
+        //     icon:'error',
+        // });                    
       });
     },
     closeModal: function closeModal() {
@@ -4744,6 +4793,35 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DocumentPaid.vue?vue&type=template&id=3e6f7af2&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DocumentPaid.vue?vue&type=template&id=3e6f7af2& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "abbr",
+    { attrs: { title: _vm.title } },
+    [_vm._t("default", [_c("i", { staticClass: "fas fa-donate" })])],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Grid.vue?vue&type=template&id=92d6219e&scoped=true&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Grid.vue?vue&type=template&id=92d6219e&scoped=true& ***!
@@ -4813,7 +4891,7 @@ var render = function() {
                 [
                   _c("label", { attrs: { for: "filter_data" } }, [
                     _vm._v(
-                      "\n                        Filter \n                        "
+                      "\n                        Search \n                        "
                     ),
                     _c("input", {
                       directives: [
@@ -5360,7 +5438,11 @@ var render = function() {
     "div",
     [
       _c("grid", {
-        attrs: { dataTable: _vm.documents, pagination: _vm.pagination },
+        attrs: {
+          dataTable: _vm.documents,
+          pagination: _vm.pagination,
+          filteredField: "supplier"
+        },
         on: { fetchData: _vm.fetchData },
         scopedSlots: _vm._u([
           {
@@ -5495,15 +5577,18 @@ var render = function() {
                     _vm._v(_vm._s(_vm._f("formatNumber")(data.gain, 2)))
                   ]),
                   _vm._v(" "),
-                  _c("td", { staticClass: "text-center" }, [
-                    _c(
-                      "abbr",
-                      { attrs: { title: "Oплата произведена 29.06.2020" } },
-                      [_c("i", { staticClass: "fas fa-donate" })]
-                    ),
-                    _vm._v(" "),
-                    _c("i", { staticClass: "fas fa-file-invoice-dollar" })
-                  ])
+                  _c(
+                    "td",
+                    { staticClass: "text-center" },
+                    [
+                      data.isPaid
+                        ? _c("document-paid", {
+                            attrs: { payments: data.payments }
+                          })
+                        : _vm._e()
+                    ],
+                    1
+                  )
                 ])
               })
             }
@@ -6212,8 +6297,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.filter.departmentId,
-                              expression: "filter.departmentId"
+                              value: _vm.filter.creditId,
+                              expression: "filter.creditId"
                             }
                           ],
                           staticClass: "form-control select2",
@@ -6230,7 +6315,7 @@ var render = function() {
                                 })
                               _vm.$set(
                                 _vm.filter,
-                                "departmentId",
+                                "creditId",
                                 $event.target.multiple
                                   ? $$selectedVal
                                   : $$selectedVal[0]
@@ -6284,8 +6369,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.filter.supplierId,
-                              expression: "filter.supplierId"
+                              value: _vm.filter.debetId,
+                              expression: "filter.debetId"
                             }
                           ],
                           staticClass: "form-control select2",
@@ -6302,7 +6387,7 @@ var render = function() {
                                 })
                               _vm.$set(
                                 _vm.filter,
-                                "supplierId",
+                                "debetId",
                                 $event.target.multiple
                                   ? $$selectedVal
                                   : $$selectedVal[0]
@@ -6833,7 +6918,7 @@ var render = function() {
       _c("router-link", { attrs: { to: "/" } }, [_vm._v("Back")]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-10 offset-md-1" }, [
+        _c("div", { staticClass: "col-10 offset-1" }, [
           _c("div", { staticClass: "invoice p-3 mb-3" }, [
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-6" }, [
@@ -7145,28 +7230,26 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "row no-print" }, [
               _c("div", { staticClass: "col-12" }, [
-                _vm._m(2),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger float-right",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteDoc(_vm.document.id)
-                      }
-                    }
-                  },
-                  [
-                    _c("i", { staticClass: "far fa-credit-card" }),
-                    _vm._v(
-                      " \n                            Delete\n                        "
+                _vm.document.status == 0
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger float-right",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteDoc(_vm.document.id)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "far fa-credit-card" }),
+                        _vm._v(
+                          " \n                            Delete\n                        "
+                        )
+                      ]
                     )
-                  ]
-                ),
-                _vm._v(" "),
-                _vm._m(3)
+                  : _vm._e()
               ])
             ])
           ])
@@ -7190,9 +7273,9 @@ var render = function() {
         [
           _c("div", { staticClass: "modal-dialog" }, [
             _c("div", { staticClass: "modal-content bg-danger" }, [
-              _vm._m(4),
+              _vm._m(2),
               _vm._v(" "),
-              _vm._m(5),
+              _vm._m(3),
               _vm._v(" "),
               _c(
                 "div",
@@ -7332,36 +7415,6 @@ var staticRenderFns = [
         ])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "btn btn-default",
-        attrs: { href: "invoice-print.html", target: "_blank" }
-      },
-      [_c("i", { staticClass: "fas fa-print" }), _vm._v(" Print")]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-primary float-right",
-        staticStyle: { "margin-right": "5px" },
-        attrs: { type: "button" }
-      },
-      [
-        _c("i", { staticClass: "fas fa-download" }),
-        _vm._v(" Generate PDF\n                        ")
-      ]
-    )
   },
   function() {
     var _vm = this
@@ -23820,6 +23873,75 @@ module.exports = g;
 
 /***/ }),
 
+/***/ "./resources/js/components/DocumentPaid.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/DocumentPaid.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DocumentPaid_vue_vue_type_template_id_3e6f7af2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DocumentPaid.vue?vue&type=template&id=3e6f7af2& */ "./resources/js/components/DocumentPaid.vue?vue&type=template&id=3e6f7af2&");
+/* harmony import */ var _DocumentPaid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DocumentPaid.vue?vue&type=script&lang=js& */ "./resources/js/components/DocumentPaid.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DocumentPaid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DocumentPaid_vue_vue_type_template_id_3e6f7af2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DocumentPaid_vue_vue_type_template_id_3e6f7af2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/DocumentPaid.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/DocumentPaid.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/DocumentPaid.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DocumentPaid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./DocumentPaid.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DocumentPaid.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DocumentPaid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/DocumentPaid.vue?vue&type=template&id=3e6f7af2&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/DocumentPaid.vue?vue&type=template&id=3e6f7af2& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DocumentPaid_vue_vue_type_template_id_3e6f7af2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./DocumentPaid.vue?vue&type=template&id=3e6f7af2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DocumentPaid.vue?vue&type=template&id=3e6f7af2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DocumentPaid_vue_vue_type_template_id_3e6f7af2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DocumentPaid_vue_vue_type_template_id_3e6f7af2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Grid.vue":
 /*!******************************************!*\
   !*** ./resources/js/components/Grid.vue ***!
@@ -24350,8 +24472,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IncomeDocuments", function() { return IncomeDocuments; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _core_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/actions */ "./resources/js/stores/core/actions.js");
+/* harmony import */ var _core_mutations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/mutations */ "./resources/js/stores/core/mutations.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-var url = '/api/income-documents';
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+ // const url = '/api/income-documents';
+
 var documentItemsUrl = '/api/document-items';
 var IncomeDocuments = {
   namespaced: true,
@@ -24360,13 +24492,14 @@ var IncomeDocuments = {
     document: {
       items: []
     },
+    url: '/api/income-documents',
     suppliers: [],
     departments: [],
     filter: {
       dateBegin: null,
       dateEnd: null,
-      supplierId: 0,
-      departmentId: 0,
+      debetId: 0,
+      creditId: 0,
       sum1Begin: 0,
       sum1End: 0,
       isFiltered: false,
@@ -24390,114 +24523,10 @@ var IncomeDocuments = {
       return state.departments;
     }
   },
-  mutations: {
-    filterDocuments: function filterDocuments(state, payload) {
-      state.filter.queryStr = '';
-
-      if (state.filter.dateBegin) {
-        state.filter.queryStr = state.filter.queryStr + "date=".concat(payload.dateBegin);
-        state.filter.isFiltered = true;
-      }
-
-      if (state.filter.dateEnd) {
-        state.filter.queryStr = state.filter.queryStr + ",".concat(payload.dateEnd);
-        state.filter.isFiltered = true;
-      }
-
-      if (state.filter.supplierId > 0) {
-        state.filter.queryStr = state.filter.queryStr + "&debit_id=".concat(payload.supplierId);
-        state.filter.isFiltered = true;
-      }
-
-      if (state.filter.departmentId > 0) {
-        state.filter.queryStr = state.filter.queryStr + "&credit_id=".concat(payload.departmentId);
-        state.filter.isFiltered = true;
-      }
-    }
-  },
-  actions: {
-    fetchData: function fetchData(_ref) {
+  mutations: _objectSpread({}, _core_mutations__WEBPACK_IMPORTED_MODULE_2__["default"]),
+  actions: _objectSpread(_objectSpread({}, _core_actions__WEBPACK_IMPORTED_MODULE_1__["default"]), {}, {
+    fetchDocumentItem: function fetchDocumentItem(_ref, id) {
       var state = _ref.state;
-      //  use Promise ???
-      var page_url = state.filter.isFiltered ? url + '?' + state.filter.queryStr : url;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(page_url, {
-        'headers': {
-          'Authorization': 'Bearer ' + window.api_token,
-          'Accept': 'application/json'
-        }
-      }).then(function (res) {
-        state.documents = res.data.data; // this.makePagination(res.data.links, res.data.meta);
-      })["catch"](function (err) {
-        return console.log(err);
-      });
-    },
-    fetchDocument: function fetchDocument(_ref2, id) {
-      var state = _ref2.state;
-      var page_url = "".concat(url, "/").concat(id);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(page_url, {
-        'headers': {
-          'Authorization': 'Bearer ' + window.api_token,
-          'Accept': 'application/json'
-        }
-      }).then(function (res) {
-        state.document = res.data.data;
-      })["catch"](function (err) {
-        return console.log(err);
-      });
-    },
-    saveDocument: function saveDocument(_ref3, payload) {
-      var dispatch = _ref3.dispatch;
-      return new Promise(function (resolve, reject) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, payload, {
-          'headers': {
-            'Authorization': 'Bearer ' + window.api_token,
-            'Accept': 'application/json'
-          }
-        }).then(function (res) {
-          if (res.status == 201) {
-            dispatch('fetchData');
-            resolve(res);
-          }
-        })["catch"](function (err) {
-          return reject(err);
-        });
-      });
-    },
-    deleteDocument: function deleteDocument(_ref4, id) {
-      var dispatch = _ref4.dispatch;
-      return new Promise(function (resolve, reject) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("".concat(url, "/").concat(id), {
-          'headers': {
-            'Authorization': 'Bearer ' + window.api_token,
-            'Accept': 'application/json'
-          }
-        }).then(function (res) {
-          dispatch('fetchData');
-          resolve(res);
-        })["catch"](function (err) {
-          return reject(err);
-        });
-      });
-    },
-    updateDocument: function updateDocument(_ref5, payload) {
-      var dispatch = _ref5.dispatch,
-          state = _ref5.state;
-      return new Promise(function (resolve, reject) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("".concat(url, "/").concat(state.document.id), payload, {
-          'headers': {
-            'Authorization': 'Bearer ' + window.api_token,
-            'Accept': 'application/json'
-          }
-        }).then(function (res) {
-          dispatch('fetchDocument', state.document.id);
-          resolve(res);
-        })["catch"](function (err) {
-          return reject(err);
-        });
-      });
-    },
-    fetchDocumentItem: function fetchDocumentItem(_ref6, id) {
-      var state = _ref6.state;
       return new Promise(function (resolve, reject) {
         var page_url = "".concat(documentItemsUrl, "/").concat(id);
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(page_url, {
@@ -24506,17 +24535,14 @@ var IncomeDocuments = {
             'Accept': 'application/json'
           }
         }).then(function (res) {
-          // console.log(res);
-          // console.log(res.data);
-          // console.log(res.data.data);
-          resolve(res.data.data); // state.document = res.data.data;
+          resolve(res.data.data);
         })["catch"](function (err) {
           return reject(err);
         });
       });
     },
-    saveDocumentItem: function saveDocumentItem(_ref7, payload) {
-      var dispatch = _ref7.dispatch;
+    saveDocumentItem: function saveDocumentItem(_ref2, payload) {
+      var dispatch = _ref2.dispatch;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(documentItemsUrl, payload, {
           'headers': {
@@ -24533,8 +24559,8 @@ var IncomeDocuments = {
         });
       });
     },
-    updateDocumentItem: function updateDocumentItem(_ref8, payload) {
-      var dispatch = _ref8.dispatch;
+    updateDocumentItem: function updateDocumentItem(_ref3, payload) {
+      var dispatch = _ref3.dispatch;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.patch("".concat(documentItemsUrl, "/").concat(payload.id), payload, {
           'headers': {
@@ -24549,9 +24575,9 @@ var IncomeDocuments = {
         });
       });
     },
-    deleteDocumentItem: function deleteDocumentItem(_ref9, id) {
-      var dispatch = _ref9.dispatch,
-          state = _ref9.state;
+    deleteDocumentItem: function deleteDocumentItem(_ref4, id) {
+      var dispatch = _ref4.dispatch,
+          state = _ref4.state;
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("".concat(documentItemsUrl, "/").concat(id), {
           'headers': {
@@ -24566,22 +24592,16 @@ var IncomeDocuments = {
         });
       });
     },
-    applyFilter: function applyFilter(_ref10, payload) {
-      var commit = _ref10.commit,
-          dispatch = _ref10.dispatch;
-      commit('filterDocuments', payload);
-      dispatch('fetchData');
-    },
-    getSuppliersDictionary: function getSuppliersDictionary(_ref11) {
-      var dispatch = _ref11.dispatch,
-          state = _ref11.state;
+    getSuppliersDictionary: function getSuppliersDictionary(_ref5) {
+      var dispatch = _ref5.dispatch,
+          state = _ref5.state;
       dispatch('getDictionary', 'supplier').then(function (res) {
         return state.suppliers = res;
       });
     },
-    getDepartmentsDictionary: function getDepartmentsDictionary(_ref12) {
-      var dispatch = _ref12.dispatch,
-          state = _ref12.state;
+    getDepartmentsDictionary: function getDepartmentsDictionary(_ref6) {
+      var dispatch = _ref6.dispatch,
+          state = _ref6.state;
       dispatch('getDictionary', 'department').then(function (res) {
         return state.departments = res;
       });
@@ -24600,8 +24620,137 @@ var IncomeDocuments = {
         });
       });
     }
+  })
+};
+
+/***/ }),
+
+/***/ "./resources/js/stores/core/actions.js":
+/*!*********************************************!*\
+  !*** ./resources/js/stores/core/actions.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var config = {
+  'headers': {
+    'Authorization': 'Bearer ' + window.api_token,
+    'Accept': 'application/json'
   }
 };
+/* harmony default export */ __webpack_exports__["default"] = ({
+  fetchData: function fetchData(_ref) {
+    var state = _ref.state;
+    //  use Promise ???
+    var page_url = state.filter.isFiltered ? state.url + '?' + state.filter.queryStr : state.url;
+    axios.get(page_url, config).then(function (res) {
+      state.documents = res.data.data; // this.makePagination(res.data.links, res.data.meta);
+    })["catch"](function (err) {
+      return console.log(err);
+    });
+  },
+  fetchDocument: function fetchDocument(_ref2, id) {
+    var state = _ref2.state;
+    var page_url = "".concat(state.url, "/").concat(id);
+    axios.get(page_url, config).then(function (res) {
+      state.document = res.data.data;
+    })["catch"](function (err) {
+      return console.log(err);
+    });
+  },
+  saveDocument: function saveDocument(_ref3, payload) {
+    var state = _ref3.state,
+        dispatch = _ref3.dispatch;
+    return new Promise(function (resolve, reject) {
+      axios.post(state.url, payload, config).then(function (res) {
+        if (res.status == 201) {
+          dispatch('fetchData');
+          resolve(res);
+        }
+      })["catch"](function (err) {
+        return reject(err);
+      });
+    });
+  },
+  updateDocument: function updateDocument(_ref4, payload) {
+    var dispatch = _ref4.dispatch,
+        state = _ref4.state;
+    return new Promise(function (resolve, reject) {
+      axios.patch("".concat(url, "/").concat(state.document.id), payload, config).then(function (res) {
+        dispatch('fetchDocument', state.document.id);
+        resolve(res);
+      })["catch"](function (err) {
+        return reject(err);
+      });
+    });
+  },
+  deleteDocument: function deleteDocument(_ref5, id) {
+    var dispatch = _ref5.dispatch,
+        state = _ref5.state;
+    return new Promise(function (resolve, reject) {
+      axios["delete"]("".concat(state.url, "/").concat(id), config).then(function (res) {
+        dispatch('fetchData');
+        resolve(res);
+      })["catch"](function (err) {
+        return reject(err);
+      });
+    });
+  },
+  applyFilter: function applyFilter(_ref6, payload) {
+    var commit = _ref6.commit,
+        dispatch = _ref6.dispatch;
+    commit('filterDocuments', payload);
+    dispatch('fetchData');
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores/core/mutations.js":
+/*!***********************************************!*\
+  !*** ./resources/js/stores/core/mutations.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  filterDocuments: function filterDocuments(state, payload) {
+    state.filter.queryStr = '';
+
+    if (state.filter.dateBegin) {
+      state.filter.queryStr = state.filter.queryStr + "date=".concat(payload.dateBegin);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.dateEnd) {
+      state.filter.queryStr = state.filter.queryStr + ",".concat(payload.dateEnd);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.operationId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&operation_id=".concat(payload.operationId);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.creditId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&credit_id=".concat(payload.creditId);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.debetId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&debet_id=".concat(payload.debetId);
+      state.filter.isFiltered = true;
+    } // if (state.filter.sumBegin > 0) {
+    //     state.filter.queryStr = state.filter.queryStr + `&credit=${payload.departmentId}`;
+    //     state.filter.isFiltered = true;
+    // }
+
+  }
+});
 
 /***/ }),
 

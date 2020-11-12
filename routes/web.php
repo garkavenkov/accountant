@@ -57,5 +57,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sales-revenues', function() {
         return view('sales_revenues');
     });
+    
+    Route::get('cash-documents', function() {
+        return view('cash_documents');
+    });
+
+    Route::get('payments', function() {
+        return view('payments');
+    });
 
 });

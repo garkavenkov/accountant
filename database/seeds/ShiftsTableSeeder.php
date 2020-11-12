@@ -20,11 +20,13 @@ class ShiftsTableSeeder extends Seeder
 
         foreach ($departments as $department) {
             
-            $dateBegin = $department->opened;
+            $dateBegin = Carbon::createFromFormat('Y-m-d','2020-11-01');
 
             foreach ($department->employees as $employee) {
 
-                $dateEnd = Carbon::parse($dateBegin)->addWeeks(2);
+                // $dateBegin  = $faker->dateTimeBetween($startDate = $document->date, $endDate = '+2 weeks', $timezome='Europe/Moscow')->format("Y-m-d");
+                $dateEnd    = Carbon::parse($dateBegin)->addWeeks(2);
+
                 $shift_id = DB::table('shifts')->insertGetId([
                     'department_id' =>  $department->id,
                     'date_begin'    =>  $dateBegin,

@@ -26,7 +26,7 @@ class IncomeDocumentRequest extends FormRequest
     {
         return [
             'date'              =>  'required|date',
-            'debit_id'          =>  'exists:suppliers,id',
+            'debet_id'          =>  'exists:suppliers,id',
             'credit_id'         =>  'exists:departments,id',
             'credit_person_id'  =>  'exists:employees,id',
             'sum1'              =>  'required|numeric|min:0',

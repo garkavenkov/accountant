@@ -10,13 +10,16 @@ class IncomeDocumentTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $url;    
+    // private $url;    
 
     public function setUp(): void
     {
         parent::setUp();
                 
         $this->url = '/api/income-documents';
+
+        $this->operation    = $this->model->instance('CashOperation')->override(['code' => 'payment'])->create();
+        $this->link_type    = $this->model->instance('LinkedDocumentType')->override(['code' => 'payment'])->create();
     }
 
     public function test_api_should_return_income_documents()
@@ -121,5 +124,51 @@ class IncomeDocumentTest extends TestCase
         $response = $this->get($document->path(), $this->httpHeaders)->getData();
 
         $this->assertEquals($response->data->sum1, $attr['sum1']);
+    }
+
+
+    private function pay_document($document)
+    {
+        $cash = $this->model
+                    ->instance('Cash')
+                    ->override([
+                        'branch_id' => $document->department->branch->id
+                    ])->create();
+        
+        // $operation = $this->model->instance('CashOperation')->override(['code' => 'payment'])->create();
+        
+        $payment = $this->model 
+                    ->instance('Payment')
+                    ->override([
+                        'operation_id'  =>  $this->operation->id,
+                        'debet_id'      =>  $cash->id,
+                        'credit_id'     =>  $document->supplier->id,
+                        'debet'         =>  $document->sum1
+                    ])
+                    ->create();
+        // dd($payment);
+        // $link_type= $this->model->instance('LinkedDocumentType')->override(['code' => 'payment'])->create();
+
+        $link = $this->model->instance('LinkedDocument')
+                            ->override([
+                                'type_id'           =>  $this->link_type->id,
+                                'cash_document_id'  =>  $payment->id,
+                                'owner_id'          =>  $document->id
+                            ]);        
+    }
+
+    public function test_api_should_not_delete_an_income_document_if_already_paid()
+    {
+        $document = $this->model->instance('IncomeDocument')->create();
+
+        $this->pay_document($document);
+        
+        $this->expectException(\Exception::class);
+
+        $this->delete($document->path(), [], $this->httpHeaders);//->assertStatus(400);
+        
+        $this->assertDatabaseHas('documents', [
+            'id' => $document->id
+        ]);
     }
 }

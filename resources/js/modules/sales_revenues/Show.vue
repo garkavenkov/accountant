@@ -21,6 +21,9 @@
                     <dt class="col-sm-4">Касса</dt>
                     <dd class="col-sm-8">{{document.cash}}</dd>
 
+                    <dt class="col-sm-4">Назначение</dt>
+                    <dd class="col-sm-8">{{document.purpose}}</dd>
+
                     <dt class="col-sm-4">Сумма</dt>
                     <dd class="col-sm-8">{{document.amount | formatNumber(2) }}</dd>
 
