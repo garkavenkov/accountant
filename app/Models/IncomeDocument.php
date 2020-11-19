@@ -3,41 +3,52 @@
 namespace App\Models;
 
 use App\Models\Payment;
+use App\Models\Document;
 use App\Models\DocumentItem;
+use App\Models\DocumentType;
 use App\Models\LinkedDocument;
 use App\Traits\Models\PathTrait;
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Model;
+use App\Scopes\Document\IncomeDocumentScope;
 
-class IncomeDocument extends Model
+class IncomeDocument extends Document
 {
     use PathTrait;
     
     private $api_path="/api/income-documents";    
     
-    protected $table = 'documents';
+    // protected $table = 'documents';
 
-    protected $fillable = [
-        'date',       
-        'number',
-        'debet_id',        
-        'credit_id',
-        'credit_person_id',
-        'sum1',
-        'sum2',
-        'user_id'
-    ];    
+    // protected $fillable = [
+    //     'date',  
+    //     'document_type_id'     ,
+    //     'number',
+    //     'debet_id',        
+    //     'credit_id',
+    //     'credit_person_id',
+    //     'sum1',
+    //     'sum2',
+    //     'user_id'
+    // ];    
 
     protected static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new IncomeDocumentScope);
+
         static::creating(function ($model) {            
             $number = IncomeDocument::where('date', $model->date)->max('number');
+            
+            $document_type = DocumentType::where('code', 'income')->first();
             
             if (is_numeric($number)) {
                 $number++;
             } else {
                 $number = 1;
             }
+            
+            $model->document_type_id = $document_type->id;
             
             $model->number = $number;
             $model->user_id = \Auth::id();

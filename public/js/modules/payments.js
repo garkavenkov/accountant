@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -22115,7 +22115,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      errors: []
+      errors: {}
     };
   },
   methods: {
@@ -22721,7 +22721,7 @@ var config = {
     var dispatch = _ref4.dispatch,
         state = _ref4.state;
     return new Promise(function (resolve, reject) {
-      axios.patch("".concat(url, "/").concat(state.document.id), payload, config).then(function (res) {
+      axios.patch("".concat(state.url, "/").concat(state.document.id), payload, config).then(function (res) {
         dispatch('fetchDocument', state.document.id);
         resolve(res);
       })["catch"](function (err) {
@@ -22797,7 +22797,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 10:
+/***/ 11:
 /*!*********************************************************!*\
   !*** multi ./resources/js/modules/payments/payments.js ***!
   \*********************************************************/

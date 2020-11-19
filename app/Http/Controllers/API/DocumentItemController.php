@@ -68,7 +68,7 @@ class DocumentItemController extends Controller
     // public function update(Request $request, $id)
     {   
         $validated = $request->validated();
-        
+      
         $item = DocumentItem::findOrFail($id);
         // dd($request->all());
         // $item->update($request->all());

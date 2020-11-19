@@ -16,7 +16,7 @@ class CreateDocumentsTable extends Migration
         Schema::create('documents', function (Blueprint $table) {            
             $table->increments('id');
             $table->date('date');
-            // $table->smallInteger('document_type_id');
+            $table->smallInteger('document_type_id');
             $table->smallInteger('number');
             $table->smallInteger('debet_id');
             $table->smallInteger('debet_person_id')->default(0);

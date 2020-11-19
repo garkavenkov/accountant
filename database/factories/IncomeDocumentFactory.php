@@ -17,7 +17,7 @@ $factory->define(IncomeDocument::class, function (Faker $faker) {
     $sum = $faker->numberBetween($min=1000, $max=10000);
 
     return [
-        'date'                  =>  Carbon::now(),       
+        'date'                  =>  Carbon::now()->toDatestring(),       
         'debet_id'              =>  factory(Supplier::class),        
         'credit_id'             =>  $employee->department->id,
         'credit_person_id'      =>  $employee->id,

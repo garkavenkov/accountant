@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth:api'], function() {
         'employees'         =>  'API\EmployeeController',
         'suppliers'         =>  'API\SupplierController',
         'income-documents'  =>  'API\IncomeDocumentController',
+        'transfer-documents'=>  'API\TransferDocumentController',
         'shifts'            =>  'API\ShiftController',
         'department-types'  =>  'API\DepartmentTypeController',
         'document-items'    =>  'API\DocumentItemController',

@@ -46,20 +46,10 @@ class IncomeDocumentController extends Controller
         // }
         
         // $documents  = IncomeDocument::with('employee', 'supplier', 'department')->paginate($per_page);
-        
+        // return response()->json($data);
         return new IncomeDocumentResourceCollection($data);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *

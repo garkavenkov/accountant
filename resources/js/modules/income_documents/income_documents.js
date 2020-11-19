@@ -6,13 +6,11 @@ Vue.use(VueRouter)
 
 import IncomeDocumentsMain  from './Main.vue';
 import IncomeDocumentsShow  from './Show.vue';
-import IncomeDocumentsNew   from './New.vue';
 
 
 const routes = [
     {path: '/', name: 'IncomeDocumentsMain', component: IncomeDocumentsMain},
     {path: '/:id', name: 'IncomeDocumentsShow', component: IncomeDocumentsShow, props: true},
-    {path: '/new', name: 'IncomeDocumentsNew', component: IncomeDocumentsNew, props: true} 
 ];
 
 const router = new VueRouter({
@@ -36,7 +34,6 @@ new Vue({
     components: {
         IncomeDocumentsMain,
         IncomeDocumentsShow,
-        IncomeDocumentsNew
     },
     router,
     store

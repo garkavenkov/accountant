@@ -21,6 +21,7 @@ export default {
     },
     
     fetchDocument({state}, id) {
+        
         let page_url = `${state.url}/${id}`;
         axios
             .get(page_url, config)        
@@ -47,7 +48,7 @@ export default {
     updateDocument: ({dispatch, state}, payload) => {
         return new Promise((resolve, reject) => {
             axios
-                .patch(`${url}/${state.document.id}`,  payload, config)
+                .patch(`${state.url}/${state.document.id}`,  payload, config)
                 .then(res => {
                     dispatch('fetchDocument', state.document.id);
                     resolve(res);

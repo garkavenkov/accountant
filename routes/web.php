@@ -50,6 +50,10 @@ Route::group(['middleware' => ['auth']], function () {
         return view('income_documents');
     });
 
+    Route::get('transfer-documents', function() {
+        return view('transfer_documents');
+    });
+
     Route::get('shifts', function() {
         return view('shifts');
     });

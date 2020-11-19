@@ -20,8 +20,10 @@ class DatabaseSeeder extends Seeder
         $this->call(SuppliersTableSeeder::class);
         $this->call(ShiftsTableSeeder::class);
         $this->call(MeasuresTableSeeder::class);
-        $this->call(IncomeDocumentsSeeder::class);
+        $this->call(DocumentTypesTableSeeder::class);
+        $this->call(IncomeDocumentsSeeder::class);        
         $this->call(IncomeDocumentItemsSeeder::class);
+        $this->call(TransferDocumentsSeeder::class);
         $this->call(CashSeeder::class);
         $this->call(CashOperationSeeder::class);
         $this->call(SalesRevenueSeeder::class);

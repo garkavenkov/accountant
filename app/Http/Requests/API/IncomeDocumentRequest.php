@@ -43,7 +43,7 @@ class IncomeDocumentRequest extends FormRequest
     {
         return [            
             'date.required'             =>  'Вы не указали дату',
-            'debit_id.exists'           =>  'Вы не выбрали поставщика',            
+            'debet_id.exists'           =>  'Вы не выбрали поставщика',            
             'credit_id.exists'          =>  'Вы не выбрали отдел',
             'credit_person_id.exists'   =>  'Вы не выбрали сотрудника',
             'sum1.min'                  =>  'Сумма должна быть больше или равна 0',

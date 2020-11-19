@@ -20,15 +20,14 @@ class DocumentService
 
     public function get($model, $parameters = [])
     {
-        if (!array_key_exists('date', $parameters)) {
-            // dd(Carbon::now('UTC')->toDateString());
+        if (!array_key_exists('date', $parameters)) {            
             $parameters['date'] = Carbon::now()->toDateString();
-            // $parameters['date'] = "2020-06-25,2020-07-02";
         }        
         
         $where = $this->getWhereClause($parameters);
-        // dd($where);
+        
         $relationships = $this->getRelationships($parameters);
+        
         // $scopes = $this->getScopes($parameters);        
         $per_page = $this->perPage($parameters);
 
@@ -41,7 +40,7 @@ class DocumentService
         // }
 
         $data = $model::with($relationships)->whereRaw($where);
-        // $data = $model::get();
+        // dd($model::with($relationships)->orderBy('date', 'asc')->get());
         // dd($model::all());
         
         if ($per_page > 0) {
@@ -49,7 +48,7 @@ class DocumentService
         } else {
             $data = $data->orderBy('date', 'asc')->get();
         }
-        
+        // dd($data);
         return $data;
         
     }

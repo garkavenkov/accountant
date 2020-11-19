@@ -28,7 +28,13 @@
                                 <i class="fas fa-file-invoice nav-icon"></i>
                                 <p>Товарные накладные</p>
                             </a>
-                        </li>                       
+                        </li>
+                        <li class="nav-item">
+                            <a href="transfer-documents" class="nav-link">                                
+                                <i class="fas fa-dolly nav-icon"></i>                                
+                                <p>Трансферные накладные</p>
+                            </a>
+                        </li>                 
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">

@@ -10,24 +10,23 @@ class IncomeDocumentTest extends TestCase
 {
     use RefreshDatabase;
 
-    // private $url;    
-
     public function setUp(): void
     {
         parent::setUp();
                 
         $this->url = '/api/income-documents';
 
-        $this->operation    = $this->model->instance('CashOperation')->override(['code' => 'payment'])->create();
-        $this->link_type    = $this->model->instance('LinkedDocumentType')->override(['code' => 'payment'])->create();
+        $this->operation        = $this->model->instance('CashOperation')->override(['code' => 'payment'])->create();
+        $this->link_type        = $this->model->instance('LinkedDocumentType')->override(['code' => 'payment'])->create();
+        $this->document_type    = $this->model->instance('DocumentType')->override(['code' => 'income'])->create();
     }
 
     public function test_api_should_return_income_documents()
     {
-        $this->model->instance('IncomeDocument')->create(5);
-
+        $this->model->instance('IncomeDocument')->override(['document_type_id'=> $this->document_type->id])->create(5);
+        
         $response = $this->get($this->url, $this->httpHeaders)->getData();
-
+        
         $this->assertCount(5, $response->data);
     }
 
@@ -38,7 +37,7 @@ class IncomeDocumentTest extends TestCase
 
         $document = $this->model->instance('IncomeDocument')
                                 ->override([
-                                    'debit_id'  =>  $supplier->id,
+                                    'debet_id'  =>  $supplier->id,
                                     'credit_id' =>  $department->id,
                                     'sum1'      =>  1000,
                                     'sum2'      =>  1200,
@@ -53,7 +52,7 @@ class IncomeDocumentTest extends TestCase
     public function test_api_should_delete_a_document()
     {
         $document = $this->model->instance('IncomeDocument')->create();
-
+        
         $this->delete($document->path(),  [] ,$this->httpHeaders)->assertStatus(200);
 
         $this->assertDatabaseMissing('documents', [
@@ -80,9 +79,9 @@ class IncomeDocumentTest extends TestCase
 
     public function test_api_should_return_an_error_if_supplier_is_not_exists()
     {
-        $document = $this->model->instance('IncomeDocument')->override(['debit_id' => 0])->makeArray();
+        $document = $this->model->instance('IncomeDocument')->override(['debet_id' => 0])->makeArray();
         
-        $this->post($this->url, $document, $this->httpHeaders)->assertSessionHasErrors('debit_id');        
+        $this->post($this->url, $document, $this->httpHeaders)->assertSessionHasErrors('debet_id');
     }
 
     public function test_api_should_return_an_error_if_department_is_not_exists()
@@ -122,8 +121,8 @@ class IncomeDocumentTest extends TestCase
         $this->patch($document->path(), $attr, $this->httpHeaders)->assertStatus(201);
 
         $response = $this->get($document->path(), $this->httpHeaders)->getData();
-
-        $this->assertEquals($response->data->sum1, $attr['sum1']);
+        
+        $this->assertEquals($response->data->purchaseSum, $attr['sum1']);
     }
 
 

@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class DepartmentType extends Model
 {
-    //
+    protected $fillable = [
+        'code',
+        'name',
+        'description',
+    ];
 }
+
