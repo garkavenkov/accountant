@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\API;
 
+use App\Models\Document;
+use Illuminate\Validation\Factory;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DocumentItemRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,13 +26,11 @@ class DocumentItemRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {   
         return [
             'name'          =>  'required|min:3',
             'quantity'      =>  'required|gt:0',
-            'measure_id'    =>  'required|exists:measures,id',            
-            'price'         =>  'required|numeric|gt:0',
-            'price2'        =>  'required|numeric|gt:0|gte:price'
+            'measure_id'    =>  'required|exists:measures,id',        
         ];
     }
 
@@ -50,5 +51,27 @@ class DocumentItemRequest extends FormRequest
             'price2.gt'             =>  "Стоимость должна быть больше 0",
             'price2.gte'            =>  "Розничная стоимость должна быть больше закупочной",
         ];
+    }
+
+    public function validator(Factory $factory)
+    {
+
+        $validator = $factory->make($this->input(), $this->rules(), $this->messages(), $this->attributes());
+  
+        $document = Document::findOrFail($this->document_id);
+
+        $validator->sometimes(['price', 'price2'], 'gt:0', function($input)  use($document) {                                
+            return $document->type->code === 'income' || $document->type->code === 'transfer';
+        });
+
+        $validator->sometimes('price2', 'gt:0', function($input) use($document)  {            
+            return $document->type->code === 'expense';
+        });
+
+        $validator->sometimes('price2', 'gte:price', function($input) use($document)  {            
+            return $document->type->code === 'income' || $document->type->code === 'transfer';
+        });        
+
+        return $validator;
     }
 }

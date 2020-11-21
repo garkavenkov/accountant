@@ -34,6 +34,12 @@
                                 <i class="fas fa-dolly nav-icon"></i>                                
                                 <p>Трансферные накладные</p>
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="expense-documents" class="nav-link">                                
+                                <i class="fas fa-share-alt nav-icon"></i>
+                                <p>Расходые накладные</p>
+                            </a>
                         </li>                 
                     </ul>
                 </li>

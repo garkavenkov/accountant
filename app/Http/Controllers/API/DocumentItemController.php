@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Document;
 use App\Models\DocumentItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\DocumentItemRequest;
+use App\Http\Requests\API\ExpenseDocumentItemRequest;
 use App\Http\Resources\API\DocumentItem\DocumentItemResource;
 
 class DocumentItemController extends Controller
@@ -27,15 +29,16 @@ class DocumentItemController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(DocumentItemRequest $request)
+    // public function store(ExpenseDocumentItemRequest $request)
     {   
         $validated = $request->validated();
-
+        // dd($validated);
         $item = DocumentItem::create([
             'document_id'   =>  $request->document_id,
             'name'          =>  $validated['name'],
             'measure_id'    =>  $validated['measure_id'],
             'quantity'      =>  $validated['quantity'],
-            'price'         =>  $validated['price'],
+            // 'price'         =>  $validated['price'],
             'price2'        =>  $validated['price2'],
         ]);
         
@@ -64,20 +67,19 @@ class DocumentItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(DocumentItemRequest $request, $id)
-    // public function update(Request $request, $id)
-    {   
+    public function update(DocumentItemRequest $request, $id)        
+    {  
+        
         $validated = $request->validated();
-      
+        
         $item = DocumentItem::findOrFail($id);
-        // dd($request->all());
-        // $item->update($request->all());
+     
         $item->update([
             'document_id'   =>  $request->document_id,
             'name'          =>  $validated['name'],
             'measure_id'    =>  $validated['measure_id'],
             'quantity'      =>  $validated['quantity'],
-            'price'         =>  $validated['price'],
+            // 'price'         =>  $validated['price'],
             'price2'        =>  $validated['price2'],
         ]);
         

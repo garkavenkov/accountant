@@ -2,33 +2,30 @@
 
 namespace App\Models;
 
-use App\Models\Document;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Models\DocumentItem;
-use App\Models\DocumentType;
-use App\Models\TransferDocument;
 use App\Traits\Models\PathTrait;
-use App\Scopes\Document\TransferDocumentScope;
+use Illuminate\Database\Eloquent\Model;
+use App\Scopes\Document\ExpenseDocumentScope;
 
-class TransferDocument extends Document
+class ExpenseDocument extends Document
 {
     use PathTrait;
     
-    private $api_path="/api/transfer-documents";    
-   
-   
+    private $api_path="/api/expense-documents";    
+
     protected static function boot()
     {
         parent::boot();
 
-        static::addGlobalscope(new TransferDocumentScope);
+        static::addGlobalscope(new ExpenseDocumentScope);
 
         static::creating(function ($model) {            
             
-            $number = TransferDocument::where('date', $model->date)->max('number');
+            $number = ExpenseDocument::where('date', $model->date)->max('number');
             
-            $document_type = DocumentType::where('code', 'transfer')->first();
+            $document_type = DocumentType::where('code', 'expense')->first();
             
             
             if (is_numeric($number)) {
@@ -36,36 +33,29 @@ class TransferDocument extends Document
             } else {
                 $number = 1;
             }
-            $model->document_type_id = $document_type->id;
+            $model->document_type_id = $document_type->id;            
             $model->number = $number;
+            $model->credit_id = 0;
+            $model->credit_person_id = 0;
+            $model->sum1 = 0;
             $model->user_id = \Auth::id();
         });
     }
 
-    public function department_gives()
+    
+    public function department()
     {
         return $this->hasOne(Department::class, 'id', 'debet_id');
     }
 
-    public function department_takes()
-    {
-        return $this->hasOne(Department::class, 'id', 'credit_id');
-    }
-
-
-    public function employee_gives()
+    public function employee()
     {
         return $this->hasOne(Employee::class, 'id', 'debet_person_id');
-    }
-
-    public function employee_takes()
-    {
-        return $this->hasOne(Employee::class, 'id', 'credit_person_id');
     }
 
     public function items()
     {
         return $this->hasMany(DocumentItem::class, 'document_id', 'id');
     }
-   
+    
 }

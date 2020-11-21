@@ -22,7 +22,11 @@ class DocumentTypesTableSeeder extends Seeder
             [            
                 'code'  =>  'transfer',
                 'name'  =>  'Трансферная накладная'
-            ]
+            ],
+            [            
+                'code'  =>  'expense',
+                'name'  =>  'Трансферная накладная'
+            ],
         ]);        
     }
 }

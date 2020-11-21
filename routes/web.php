@@ -54,6 +54,10 @@ Route::group(['middleware' => ['auth']], function () {
         return view('transfer_documents');
     });
 
+    Route::get('expense-documents', function() {
+        return view('expense_documents');
+    });
+
     Route::get('shifts', function() {
         return view('shifts');
     });

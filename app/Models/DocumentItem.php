@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Measure;
+use App\Models\Document;
 use App\Models\DocumentItem;
 use App\Traits\Models\PathTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +36,10 @@ class DocumentItem extends Model
                 $number = 1;
             }
             
+            if (!isset($model->price)) {
+                $model->price = 0;
+            }
+
             $model->number = $number;
         });
     }
@@ -42,5 +47,10 @@ class DocumentItem extends Model
     public function measure()
     {
         return $this->belongsTo(Measure::class);
+    }
+
+    public function document()
+    {
+        return $this->belongsTo(Document::class);
     }
 }
