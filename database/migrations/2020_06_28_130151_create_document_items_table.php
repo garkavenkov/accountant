@@ -23,6 +23,11 @@ class CreateDocumentItemsTable extends Migration
             $table->decimal('price', 10, 2);
             $table->decimal('price2', 10, 2);
             $table->timestamps();
+
+            // $table->foreign('document_id')
+                    // ->references('id')
+                    // ->on('documents')
+                    // ->onDelete('cascade');
         });
     }
 

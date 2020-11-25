@@ -12,17 +12,18 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .js('resources/js/modules/branches/branches.js', 'public/js/modules')
-    .js('resources/js/modules/departments/departments.js', 'public/js/modules')
-    .js('resources/js/modules/positions/positions.js', 'public/js/modules')
-    .js('resources/js/modules/employees/employees.js', 'public/js/modules')
-    .js('resources/js/modules/suppliers/suppliers.js', 'public/js/modules')
-    .js('resources/js/modules/income_documents/income_documents.js', 'public/js/modules')
-    .js('resources/js/modules/transfer_documents/transfer_documents.js', 'public/js/modules')
-    .js('resources/js/modules/expense_documents/expense_documents.js', 'public/js/modules')
-    .js('resources/js/modules/shifts/shifts.js', 'public/js/modules')
-    .js('resources/js/modules/sales_revenues/sales_revenues.js', 'public/js/modules')
-    .js('resources/js/modules/cash_documents/cash_documents.js', 'public/js/modules')
-    .js('resources/js/modules/payments/payments.js', 'public/js/modules');
+    .js('resources/js/modules/branches/branches.js',                        'public/js/modules')
+    .js('resources/js/modules/departments/departments.js',                  'public/js/modules')
+    .js('resources/js/modules/positions/positions.js',                      'public/js/modules')
+    .js('resources/js/modules/employees/employees.js',                      'public/js/modules')
+    .js('resources/js/modules/suppliers/suppliers.js',                      'public/js/modules')
+    .js('resources/js/modules/income_documents/income_documents.js',        'public/js/modules')
+    .js('resources/js/modules/transfer_documents/transfer_documents.js',    'public/js/modules')
+    .js('resources/js/modules/expense_documents/expense_documents.js',      'public/js/modules')
+    .js('resources/js/modules/markdown_documents/markdown_documents.js',    'public/js/modules')
+    .js('resources/js/modules/shifts/shifts.js',                            'public/js/modules')
+    .js('resources/js/modules/sales_revenues/sales_revenues.js',            'public/js/modules')
+    .js('resources/js/modules/cash_documents/cash_documents.js',            'public/js/modules')
+    .js('resources/js/modules/payments/payments.js',                        'public/js/modules');
     
 mix.sass('resources/sass/app.scss', 'public/css');

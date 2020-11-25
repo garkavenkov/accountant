@@ -8,14 +8,24 @@ use App\Http\Controllers\Controller;
 
 class DocumentController extends Controller
 {
+    protected $documents;
+
+    public function __construct(DocumentService $service)
+    {
+        $this->documents = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($model, $params = [])
     {
-        //
+        $parameters = request()->input();
+
+        $data = $this->documents->get($model, $parameters);
+        dd($data);
     }
 
     /**

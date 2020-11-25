@@ -24,6 +24,34 @@ class Document extends Model
         'sum2'
     ];
 
+    protected static function boot() {
+
+        parent::boot();
+
+        static::creating(function ($model) {
+            
+            $model->user_id = \Auth::id();
+
+            $number = Document::where('date', $model->date)
+                                ->where('document_type_id', $model->document_type_id)
+                                ->max('number');
+
+            if (is_numeric($number)) {
+                $number++;
+            } else {
+                $number = 1;
+            }
+
+            $model->number = $number;
+            
+        });
+    }
+
+    public function number()
+    {
+        dd($this->model);
+    }
+
     public function scopeIncome($query)
     {        
         return $query->where('operation_id', DocumentType::where('code', 'income')->first()->id);

@@ -180,9 +180,6 @@
                         @submitForm="submitForm"
                         :submitText="submitText"
                         :errors="errors">
-        <!-- <template v-slot:footer >
-            <button type="button" class="btn btn-primary" @click="saveItem">Добавить</button>
-        </template> -->
     </document-item-form>
 
     <div class="modal fade" id="modal-delete-item">

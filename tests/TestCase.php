@@ -2,9 +2,9 @@
 
 namespace Tests;
 
+// use Tests\HttpHelper;
 use App\Exceptions\Handler;
 use TestHelper\ModelHelper;
-// use Tests\HttpHelper;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -29,7 +29,6 @@ abstract class TestCase extends BaseTestCase
 
         // $this->httpHeaders = HttpHelper::bearerToken($user);
         $this->httpHeaders =  ['Authorization' => 'Bearer ' . $user->api_token];
+     
     }
-  
-
 }

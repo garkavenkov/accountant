@@ -25,20 +25,9 @@ class TransferDocument extends Document
         static::addGlobalscope(new TransferDocumentScope);
 
         static::creating(function ($model) {            
+
+            parent::creating($model);
             
-            $number = TransferDocument::where('date', $model->date)->max('number');
-            
-            $document_type = DocumentType::where('code', 'transfer')->first();
-            
-            
-            if (is_numeric($number)) {
-                $number++;
-            } else {
-                $number = 1;
-            }
-            $model->document_type_id = $document_type->id;
-            $model->number = $number;
-            $model->user_id = \Auth::id();
         });
     }
 
@@ -63,9 +52,9 @@ class TransferDocument extends Document
         return $this->hasOne(Employee::class, 'id', 'credit_person_id');
     }
 
-    public function items()
-    {
-        return $this->hasMany(DocumentItem::class, 'document_id', 'id');
-    }
+    // public function items()
+    // {
+    //     return $this->hasMany(DocumentItem::class, 'document_id', 'id');
+    // }
    
 }

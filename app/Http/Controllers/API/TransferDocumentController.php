@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Document;
+use App\Models\DocumentType;
 use Illuminate\Http\Request;
 use App\Models\TransferDocument;
 use App\Services\DocumentService;
@@ -52,8 +53,11 @@ class TransferDocumentController extends Controller
     {
         $validated = $request->validated();
         
+        $document_type = DocumentType::where('code', 'transfer')->first();
+
         $document = TransferDocument::create([
             'date'              =>  $validated['date'],
+            'document_type_id'  =>  $document_type->id,
             'debet_id'          =>  $validated['debet_id'],
             'debet_person_id'   =>  $validated['debet_person_id'],
             'credit_id'         =>  $validated['credit_id'],

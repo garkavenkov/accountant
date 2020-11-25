@@ -4,7 +4,7 @@ namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ExpenseDocumentRequest extends FormRequest
+class MarkdownDocumentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,6 +31,7 @@ class ExpenseDocumentRequest extends FormRequest
         ];
     }
 
+
     /**
      * Custom messages for validation
      *
@@ -41,8 +42,7 @@ class ExpenseDocumentRequest extends FormRequest
         return [            
             'date.required'                 =>  'Вы не указали дату',
             'debet_id.exists'               =>  'Вы не выбрали отдел',            
-            'debet_person_id.exists'        =>  'Вы не выбрали сотрудника',            
-
+            'debet_person_id.exists'        =>  'Вы не выбрали сотрудника',
             'sum2.min'                      =>  'Сумма должна быть больше или равна 0',
         ];
     }

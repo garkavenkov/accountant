@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth:api'], function() {
         'income-documents'  =>  'API\IncomeDocumentController',
         'transfer-documents'=>  'API\TransferDocumentController',
         'expense-documents' =>  'API\ExpenseDocumentController',
+        'markdown-documents'=>  'API\MarkdownDocumentController',
         'shifts'            =>  'API\ShiftController',
         'department-types'  =>  'API\DepartmentTypeController',
         'document-items'    =>  'API\DocumentItemController',

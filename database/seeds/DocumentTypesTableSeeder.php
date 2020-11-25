@@ -27,6 +27,10 @@ class DocumentTypesTableSeeder extends Seeder
                 'code'  =>  'expense',
                 'name'  =>  'Трансферная накладная'
             ],
+            [            
+                'code'  =>  'markdown',
+                'name'  =>  'Уценка товара'
+            ],
         ]);        
     }
 }

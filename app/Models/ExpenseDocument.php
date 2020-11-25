@@ -53,9 +53,9 @@ class ExpenseDocument extends Document
         return $this->hasOne(Employee::class, 'id', 'debet_person_id');
     }
 
-    public function items()
-    {
-        return $this->hasMany(DocumentItem::class, 'document_id', 'id');
-    }
+    // public function items()
+    // {
+    //     return $this->hasMany(DocumentItem::class, 'document_id', 'id');
+    // }
     
 }

@@ -137,7 +137,8 @@ export default {
                     document_id         : this.data.documentId,
                     name                : this.data.name,
                     quantity            : this.data.quantity,    
-                    measure_id          : this.data.measureId,                    
+                    measure_id          : this.data.measureId, 
+                    // price2              : 0,                   
                     price2              : this.data.retailPrice
                 }
 
@@ -167,6 +168,7 @@ export default {
                     name                : this.data.name,
                     quantity            : this.data.quantity,    
                     measure_id          : this.data.measureId,
+                    // price               : 0,
                     price2              : this.data.retailPrice
                 }
 

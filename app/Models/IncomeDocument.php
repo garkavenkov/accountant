@@ -70,10 +70,10 @@ class IncomeDocument extends Document
         return $this->hasOne(Employee::class, 'id', 'credit_person_id');
     }
 
-    public function items()
-    {
-        return $this->hasMany(DocumentItem::class, 'document_id', 'id');
-    }
+    // public function items()
+    // {
+    //     return $this->hasMany(DocumentItem::class, 'document_id', 'id');
+    // }
    
     public function scopeUnpaid($query)
     {        

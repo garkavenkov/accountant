@@ -40,7 +40,13 @@
                                 <i class="fas fa-share-alt nav-icon"></i>
                                 <p>Расходые накладные</p>
                             </a>
-                        </li>                 
+                        </li>
+                        <li class="nav-item">
+                            <a href="markdown-documents" class="nav-link">
+                                <i class="fas fa-file-download nav-icon"></i>
+                                <p>Уценка товара</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">

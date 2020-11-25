@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use Carbon\Carbon;
+use App\Models\Document;
+use App\Models\DocumentType;
 use Illuminate\Http\Request;
 use App\Models\IncomeDocument;
 use App\Services\DocumentService;
@@ -27,15 +29,16 @@ class IncomeDocumentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+
         $parameters = request()->input();
         $parameters['with']         = 'employee,supplier,department,payments';
         
-        if (request()->input('per_page')) {
-            $per_page = request()->input('per_page');
-        } else {
-            $per_page = 10;
-        }
+        // if (request()->input('per_page')) {
+        //     $per_page = request()->input('per_page');
+        // } else {
+        //     $per_page = 10;
+        // }
         
         $data = $this->documents->get(IncomeDocument::class, $parameters);
         
@@ -61,14 +64,16 @@ class IncomeDocumentController extends Controller
         
         $validated = $request->validated();
         
+        $document_type = DocumentType::where('code', 'income')->first();        
+
         $document = IncomeDocument::create([
             'date'              =>  $validated['date'],
+            'document_type_id'  =>  $document_type->id,
             'debet_id'          =>  $validated['debet_id'],
             'credit_id'         =>  $validated['credit_id'],
             'credit_person_id'  =>  $validated['credit_person_id'],
             'sum1'              =>  $validated['sum1'],
             'sum2'              =>  $validated['sum2'],
-            // 'user_id'           =>  \Auth::id(),
         ]);
         
         if ($document) {
