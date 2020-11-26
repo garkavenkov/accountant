@@ -7,7 +7,7 @@ use Faker\Factory as Faker;
 use App\Models\DocumentType;
 use Illuminate\Database\Seeder;
 
-class ExpenseDocumentSeeder extends Seeder
+class ExpenseDocumentsSeeder extends Seeder
 {
     /**
      * Run the database seeds.

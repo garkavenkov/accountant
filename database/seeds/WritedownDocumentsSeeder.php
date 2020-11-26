@@ -7,7 +7,7 @@ use Faker\Factory as Faker;
 use App\Models\DocumentType;
 use Illuminate\Database\Seeder;
 
-class MarkdownDocumentsSeeder extends Seeder
+class WritedownDocumentsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,9 +18,9 @@ class MarkdownDocumentsSeeder extends Seeder
     {
         $faker = Faker::create('ru_RU');  
 
-        Document::markdown()->delete();
+        Document::writedown()->delete();
         
-        $document_type = DocumentType::where('code', 'markdown')->first();
+        $document_type = DocumentType::where('code', 'writedown')->first();
         
         $departments =  Department::goods()->get();
         

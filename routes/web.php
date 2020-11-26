@@ -62,6 +62,10 @@ Route::group(['middleware' => ['auth']], function () {
         return view('markdown_documents');
     });
 
+    Route::get('writedown-documents', function() {
+        return view('writedown_documents');
+    });
+
     Route::get('shifts', function() {
         return view('shifts');
     });

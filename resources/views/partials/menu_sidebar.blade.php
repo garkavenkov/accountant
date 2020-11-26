@@ -47,6 +47,12 @@
                                 <p>Уценка товара</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="writedown-documents" class="nav-link">
+                                <i class="fas fa-file-export nav-icon"></i>
+                                <p>Списание товара</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">

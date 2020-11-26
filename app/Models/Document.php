@@ -42,8 +42,7 @@ class Document extends Model
                 $number = 1;
             }
 
-            $model->number = $number;
-            
+            $model->number = $number;            
         });
     }
 
@@ -65,6 +64,16 @@ class Document extends Model
     public function scopeExpense($query)
     {        
         return $query->where('operation_id', DocumentType::where('code', 'expense')->first()->id);
+    }    
+
+    public function scopeMarkdown($query)
+    {        
+        return $query->where('operation_id', DocumentType::where('code', 'markdown')->first()->id);
+    }    
+
+    public function scopeWritedown($query)
+    {        
+        return $query->where('operation_id', DocumentType::where('code', 'writedown')->first()->id);
     }    
 
     public function items()

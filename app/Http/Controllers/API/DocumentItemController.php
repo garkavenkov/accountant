@@ -7,6 +7,7 @@ use App\Models\DocumentItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\DocumentItemRequest;
+use App\Http\Resources\API\DocumentItem\DocumentItemResource;
 
 class DocumentItemController extends Controller
 {

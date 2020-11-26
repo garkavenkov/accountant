@@ -22,6 +22,7 @@ class MarkdownDocumentTest extends TestCase
 
     public function test_api_should_return_documents()
     {
+        // override(['document_type_id' => $this->document_type->id])->
         $this->model->instance('MarkdownDocument')->create(5);
 
         $response = $this->get($this->url, $this->httpHeaders)->getData();

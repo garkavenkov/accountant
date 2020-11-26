@@ -83,7 +83,7 @@ class DocumentItemRequest extends FormRequest
         });
 
         $validator->sometimes('price2', 'gt:0', function($input) use($document)  {            
-            return $document->type->code === 'expense';
+            return $document->type->code === 'expense' || $document->type->code === 'writedown';
         });
 
         $validator->sometimes('price2', 'gte:price', function($input) use($document)  {            

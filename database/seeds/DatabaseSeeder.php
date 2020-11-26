@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call(IncomeDocumentItemsSeeder::class);
         $this->call(TransferDocumentsSeeder::class);
         $this->call(ExpenseDocumentsSeeder::class);
+        $this->call(MarkdownDocumentsSeeder::class);
+        $this->call(WritedownDocumentsSeeder::class);
         $this->call(CashSeeder::class);
         $this->call(CashOperationSeeder::class);
         $this->call(SalesRevenueSeeder::class);
