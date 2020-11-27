@@ -30,13 +30,13 @@ class DocumentItemController extends Controller
     public function store(DocumentItemRequest $request)
     {   
         $validated = $request->validated();
-
+        // dd($validated);
         $item = DocumentItem::create([
             'document_id'   =>  $request->document_id,
             'name'          =>  $validated['name'],
             'measure_id'    =>  $validated['measure_id'],
             'quantity'      =>  $validated['quantity'],
-            'price'         =>  isset($validated['price']) ?: 0,
+            'price'         =>  isset($validated['price']) ? $validated['price'] : 0,
             'price2'        =>  $validated['price2'],
         ]);
         
@@ -77,7 +77,7 @@ class DocumentItemController extends Controller
             'name'          =>  $validated['name'],
             'measure_id'    =>  $validated['measure_id'],
             'quantity'      =>  $validated['quantity'],
-            'price'         =>  isset($validated['price']) ?: 0 ,
+            'price'         =>  isset($validated['price']) ? $validated['price'] : 0 ,
             'price2'        =>  $validated['price2'],
         ]);
         

@@ -82,361 +82,38 @@
         </template>       
     </grid>
 
-
-    <div class="modal fade" id="modal-new-document">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Новый документ</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">                 
-                            <div class="form-group">
-                                <label>Дата</label>                                
-                                <input  type="date" 
-                                        name="date" 
-                                        id="date" 
-                                        class="form-control datetimepicker-input" 
-                                        v-bind:class="{'is-invalid' : hasError('date')}"
-                                        v-model="newDocument.date">                                
-                                <span   id="date-error" 
-                                        class="error invalid-feedback">
-                                            {{getError('date')}}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Поставщик</label>
-                                <select class="form-control select2" 
-                                        style="width: 100%;" 
-                                        v-bind:class="{'is-invalid' : hasError('debit_id')}"
-                                        v-model="newDocument.supplierId">
-                                    <option selected="selected" 
-                                            disabled 
-                                            value="0">
-                                        Выберите поставщика
-                                    </option>
-                                    <option v-for="supplier in suppliers" 
-                                            :value="supplier.id" 
-                                            :key="supplier.id">
-                                                {{supplier.name}}
-                                    </option>                          
-                                </select>
-                                <span   id="supplier-error" 
-                                        class="error invalid-feedback">
-                                            {{getError('debit_id')}}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Отдел</label>
-                                <select class="form-control select2" 
-                                        style="width: 100%;" 
-                                        v-bind:class="{'is-invalid' : hasError('credit_id')}"
-                                        v-model="newDocument.departmentId">
-                                    <option selected="selected" disabled value="0">
-                                        Выбирите подразделение
-                                    </option>
-                                    <option v-for="department in departments" 
-                                            :value="department.id" 
-                                            :key="department.id">
-                                                {{department.name}}
-                                    </option>                          
-                                </select>
-                                <span   id="supplier-error" 
-                                        class="error invalid-feedback">
-                                            {{getError('credit_id')}}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Сотрудник</label>
-                                <select class="form-control select2" 
-                                        style="width: 100%;"
-                                        v-bind:class="{'is-invalid' : hasError('credit_person_id')}"
-                                        v-model="newDocument.employeeId">
-                                    <option selected="selected" disabled value="0">
-                                        Выбирите сотрудника
-                                    </option>                                    
-                                    <option v-for="employee in employees" 
-                                            :value="employee.id" 
-                                            :key="employee.id">
-                                                {{employee.full_name}}
-                                    </option>
-                                </select>
-                                <span v-if="departmentShift.length > 0"  v-html="departmentShift"></span>
-                                <span   id="supplier-error" 
-                                        class="error invalid-feedback">
-                                            {{getError('credit_person_id')}}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Сумма поставщика</label>                    
-                                <input  type="text" 
-                                        name="purchaseSum" 
-                                        id="purchaseSum" 
-                                        class="form-control" v-model="newDocument.purchaseSum"
-                                        v-bind:class="{'is-invalid' : hasError('sum1')}">
-                                <span   id="supplier-error" 
-                                        class="error invalid-feedback">
-                                            {{getError('sum1')}}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Сумма отдела</label>                    
-                                <input  type="text" 
-                                        name="retailSum" 
-                                        id="retailSum" 
-                                        class="form-control" 
-                                        v-bind:class="{'is-invalid' : hasError('sum2')}"
-                                        v-model="newDocument.retailSum">
-                                <span   id="supplier-error" 
-                                        class="error invalid-feedback">
-                                            {{getError('sum2')}}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <!-- data-dismiss="modal" -->
-                    <button type="button" class="btn btn-default" data-dismiss="modal" @click="closeModal">Close</button>
-                    <div class="custom-control custom-switch" v-if="filter.isFiltered">
-                        <input type="checkbox" id="useFilter" class="custom-control-input" v-model="useFilter">
-                        <label for="useFilter" class="custom-control-label">Use filter</label>
-                    </div>
-                    <button type="button" class="btn btn-primary" @click="saveDoc">Сохранить</button>
-                </div>
-            </div>
-        <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-    <div class="modal fade" id="modal-filter-document">    
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Фильтр документов</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">                        
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Дата с</label>
-                                <input  type="date" 
-                                        name="dateBegin" 
-                                        id="dateBegin" 
-                                        class="form-control datetimepicker-input"
-                                        v-model="filter.dateBegin">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Дата по</label>
-                                <input  type="date" 
-                                        name="dateEnd" 
-                                        id="dateEnd" 
-                                        class="form-control datetimepicker-input" 
-                                        :min="filter.dateBegin"
-                                        :disabled="!filter.dateBegin"
-                                        v-model="filter.dateEnd">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Отдел</label>                                
-                                <select class="form-control select2" 
-                                        style="width: 100%;"
-                                        v-model="filter.creditId">
-                                    <option selected="selected" value="0">
-                                        Все отделы
-                                    </option>
-                                    <option v-for="department in departments" 
-                                            :value="department.id" 
-                                            :key="department.id">
-                                                {{department.name}}
-                                    </option>                          
-                                </select>                                
-                            </div>
-                        </div>
-                    </div>                    
-                    <div class="row">
-                        <div class="col-md-12">
-                             <div class="form-group">
-                                <label>Поставщик</label>
-                                <select class="form-control select2" 
-                                        style="width: 100%;"
-                                        v-model="filter.debetId">
-                                    <option selected="selected"
-                                            value="0">
-                                        Все поставщики
-                                    </option>
-                                    <option v-for="supplier in suppliers" 
-                                            :value="supplier.id" 
-                                            :key="supplier.id">
-                                                {{supplier.name}}
-                                    </option>                          
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Сумма c</label>                    
-                                <input  type="text" 
-                                        name="purchaseSumFrom" 
-                                        id="purchaseSumFrom"
-                                        class="form-control"
-                                        v-model="filter.sum1Begin">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Сумма по</label>                    
-                                <input  type="text" 
-                                        name="purchaseSumTo" 
-                                        id="purchaseSumTo" 
-                                        class="form-control"
-                                        v-model="filter.sum1End">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">                    
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-default" @click="resetFilter">Сбросить</button>
-                    <button type="button" class="btn btn-primary" @click="applyFilter(filter)">Применить</button>
-                </div>
-            </div>
-        <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
+    <document-form></document-form>
+    <document-filter></document-filter>
 
 </div>
 
 </template>
 
 <script>
-import FormValidator    from '../../mixins/FormValidator';
+
 import Grid             from '../../components/Grid';
 import DocumentPaid     from '../../components/DocumentPaid';
+import DocumentForm     from './Form';
+import DocumentFilter   from './Filter';
 
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    mixins: [FormValidator],
+    // mixins: [FormValidator],
     name: 'IncomeDocumentsMain',
     data() {
         return {            
-            pagination: {},
-            newDocument: {
-                date                : null,
-                supplierId          : 0,
-                departmentId        : 0,
-                employeeId          : 0,
-                purchaseSum         : 0,
-                retailSum           : 0
-            },           
-            employees: [],
-            departmentShift: '',
+            pagination: {},            
             url: '/api/income-documents',            
             useFilter: false
         }
     },
     methods: {
-        ...mapActions(['fetchData', 'applyFilter', 'saveDocument', 'getDepartmentsDictionary', 'getSuppliersDictionary']),        
+        ...mapActions(['fetchData', 'getDepartmentsDictionary', 'getSuppliersDictionary']),
         makePagination(links, meta) {
             this.pagination = {...links, ...meta}
         },        
-        getEmployeesInChargeOfDepartment() {
-            if (this.newDocument.date && this.newDocument.departmentId != 0) {
-                let url = `/api/shift-employees-on-date/${this.newDocument.departmentId}/${this.newDocument.date}`;
-                 axios.get(url, 
-                        {
-                            'headers': {
-                                'Authorization': 'Bearer ' + window.api_token,
-                                'Accept': 'application/json',
-                            } 
-                        }
-                    )
-                    .then(res => {
-                        let employees = res.data.data;
-   
-                        if (employees.length == 0) {
-                            this.departmentShift = "<strong><a href='/shifts'>Сотрудники не назначены</a></strong>";
-                            this.newDocument.employeeId = 0;                            
-                        } else if (employees.length == 1) {
-                            this.departmentShift = '';                            
-                            this.newDocument.employeeId = employees[0].id;
-                        } else {
-                            this.departmentShift = '';
-                            this.employees = employees;
-                        }
-                        this.employees = employees;
-                    })
-                    .catch(err => console.log(err));
-            }
-        },
-        closeModal() {
-            this.clearForm();
-        },
-        clearForm() {
-            this.newDocument.date = null;
-            this.newDocument.supplierId = 0;
-            this.newDocument.departmentId = 0;
-            this.newDocument.employeeId = 0;            
-            this.newDocument.purchaseSum = 0;
-            this.newDocument.retailSum = 0;
-            this.employees = [];
-            this.errors = [];
-        },
-        saveDoc() {
-            let doc = {
-                    date                : this.newDocument.date,
-                    debet_id            : this.newDocument.supplierId,
-                    credit_id           : this.newDocument.departmentId,
-                    credit_person_id    : this.newDocument.employeeId,
-                    sum1                : parseFloat(this.newDocument.purchaseSum.replace(",", ".")),
-                    sum2                : parseFloat(this.newDocument.retailSum.replace(",", "."))
-                }
-            this.saveDocument(doc)
-                .then(res => {
-                    this.clearForm();
-                    Swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 2000,
-                        title:'Good job!',
-                        text:'Документ успешно создан',
-                        icon:'success',
-                    });
-                })
-                .catch(err => this.errors = err.response.data.errors);            
-        },        
+       
         resetFilter() {
             this.filter.dateBegin       =   null;
             this.filter.dateEnd         =   null;
@@ -452,7 +129,7 @@ export default {
 
     },
     computed: {
-        ...mapGetters(['documents', 'filter', 'suppliers', 'departments']),
+        ...mapGetters(['documents', 'filter']),
         totalPurchaseSum() {
             let total =  this.documents.reduce((a, b) => a + b.sum1*1, 0.00);
             return total;
@@ -467,54 +144,53 @@ export default {
         this.getSuppliersDictionary();
         this.getDepartmentsDictionary();
     },
-    mounted() {
-    
-    },
     watch: {
-        'newDocument.date'(newValue, oldValue) {            
-            this.getEmployeesInChargeOfDepartment();
-            if (this.hasError('date')) {
-                delete this.errors.date;
-            }
+        // 'newDocument.date'(newValue, oldValue) {            
+        //     this.getEmployeesInChargeOfDepartment();
+        //     if (this.hasError('date')) {
+        //         delete this.errors.date;
+        //     }
             
-        },
-        'newDocument.departmentId'(newValue, oldValue) {
-            this.getEmployeesInChargeOfDepartment();
-            if (this.hasError('credit_id')) {
-                delete this.errors.credit_id;
-            }
-        },
-        'newDocument.supplierId'(newValue, oldValue) {            
-            if (this.hasError('debit_id')) {
-                delete this.errors.debit_id;
-            }
-        },
-        'newDocument.employeeId'(newValue, oldValue) {
-            if (this.hasError('credit_person_id')) {
-                delete this.errors.credit_person_id;
-            }
-        },
-        'newDocument.purchaseSum'(newValue, oldValue) {
-            if (this.hasError('sum1')) {
-                delete this.errors.sum1;
-            }
-        },
-        'newDocument.retailSum'(newValue, oldValue) {
-            if (this.hasError('sum2')) {
-                delete this.errors.sum2;
-            }
-        },
-        'filter.date_begin'(newValue, oldValue) {
-            if (!newValue) {
-                var el = document.getElementById('date_end');
-                el.value = ""
-                this.filter.date_end = null;
-            }
-        },    
+        // },
+        // 'newDocument.departmentId'(newValue, oldValue) {
+        //     this.getEmployeesInChargeOfDepartment();
+        //     if (this.hasError('credit_id')) {
+        //         delete this.errors.credit_id;
+        //     }
+        // },
+        // 'newDocument.supplierId'(newValue, oldValue) {            
+        //     if (this.hasError('debit_id')) {
+        //         delete this.errors.debit_id;
+        //     }
+        // },
+        // 'newDocument.employeeId'(newValue, oldValue) {
+        //     if (this.hasError('credit_person_id')) {
+        //         delete this.errors.credit_person_id;
+        //     }
+        // },
+        // 'newDocument.purchaseSum'(newValue, oldValue) {
+        //     if (this.hasError('sum1')) {
+        //         delete this.errors.sum1;
+        //     }
+        // },
+        // 'newDocument.retailSum'(newValue, oldValue) {
+        //     if (this.hasError('sum2')) {
+        //         delete this.errors.sum2;
+        //     }
+        // },
+        // 'filter.date_begin'(newValue, oldValue) {
+        //     if (!newValue) {
+        //         var el = document.getElementById('date_end');
+        //         el.value = ""
+        //         this.filter.date_end = null;
+        //     }
+        // },    
     },
     components: {
         Grid,
-        DocumentPaid
+        DocumentPaid,
+        DocumentForm,
+        DocumentFilter
     }
 }    
 </script>

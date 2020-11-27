@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Resources\API\ExpenseDocument;
+namespace App\Http\Resources\API\MarkupDocument;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\API\DocumentItem\DocumentItemResource;
 
-class ExpenseDocumentResource extends JsonResource
+class MarkupDocumentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,19 +16,19 @@ class ExpenseDocumentResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'                    =>  (int)   $this->id,
-            // 'date'                  =>  Carbon::parse($this->date)->formatLocalized('%d.%m.%Y'),
+            'id'                    =>  (int)   $this->id,          
             'date'                  =>  $this->date,
             'number'                =>  $this->number,
-            'branchId'              =>  (int) $this->department->branch->id,
+            'documentTypeId'        =>  $this->document_type_id,
+            'branchId'              =>  $this->department->branch->id,
             'branch'                =>  $this->department->branch->name,
-            'departmentId'          =>  (int) $this->debet_id,
+            'departmentId'          =>  $this->debet_id,
             'department'            =>  $this->department->name,            
-            'employeeId'            =>  (int) $this->debet_person_id,
+            'employeeId'            =>  $this->debet_person_id,
             'employeeFullName'      =>  $this->employee->full_name,
-            'expenseSum'            =>  (float) $this->sum2,            
+            'markupSum'             =>  (float) $this->sum2,            
             'items'                 =>  DocumentItemResource::collection($this->whenLoaded('items')),
-            'status'                =>  (int) $this->status,            
+            'status'                =>  (int) $this->status,      
         ];
     }
 }

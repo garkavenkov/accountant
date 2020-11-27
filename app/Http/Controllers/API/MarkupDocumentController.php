@@ -4,16 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\Models\DocumentType;
 use Illuminate\Http\Request;
-use App\Models\ExpenseDocument;
+use App\Models\MarkupDocument;
 use App\Services\DocumentService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\ExpenseDocumentRequest;
-use App\Http\Resources\API\ExpenseDocument\ExpenseDocumentResource;
-use App\Http\Resources\API\ExpenseDocument\ExpenseDocumentResourceCollection;
+use App\Http\Requests\API\MarkupDocumentRequest;
+use App\Http\Resources\API\MarkupDocument\MarkupDocumentResource;
+use App\Http\Resources\API\MarkupDocument\MarkupDocumentResourceCollection;
 
-class ExpenseDocumentController extends Controller
+class MarkupDocumentController extends Controller
 {
-    
     protected $documents;
 
     public function __construct(DocumentService $service)
@@ -21,7 +20,7 @@ class ExpenseDocumentController extends Controller
         $this->documents = $service;
     }
     
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -38,10 +37,9 @@ class ExpenseDocumentController extends Controller
             $per_page = 10;
         }
         
-        $data = $this->documents->get(ExpenseDocument::class, $parameters);
+        $data = $this->documents->get(MarkupDocument::class, $parameters);
 
-        return new ExpenseDocumentResourceCollection($data);    
-    
+        return new MarkupDocumentResourceCollection($data);    
     }
 
     /**
@@ -50,13 +48,13 @@ class ExpenseDocumentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ExpenseDocumentRequest $request)
+    public function store(MarkupDocumentRequest $request)
     {
         $validated = $request->validated();
         
-        $document_type = DocumentType::where('code', 'expense')->first();        
+        $document_type = DocumentType::where('code', 'markup')->first();
 
-        $document = ExpenseDocument::create([
+        $document = MarkupDocument::create([            
             'date'              =>  $validated['date'],
             'document_type_id'  =>  $document_type->id,
             'debet_id'          =>  $validated['debet_id'],
@@ -65,10 +63,8 @@ class ExpenseDocumentController extends Controller
         ]);
 
         if ($document) {
-            return new ExpenseDocumentResource($document);     
+            return new MarkupDocumentResource($document);     
         }
-        
-
     }
 
     /**
@@ -79,9 +75,9 @@ class ExpenseDocumentController extends Controller
      */
     public function show($id)
     {
-        $document = ExpenseDocument::with('department','employee', 'items')->findOrFail($id);
-   
-        return new ExpenseDocumentResource($document);
+        $document = MarkupDocument::with('department', 'employee', 'items')->findOrFail($id);
+        
+        return new MarkupDocumentResource($document);
     }
 
     /**
@@ -93,13 +89,13 @@ class ExpenseDocumentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $document = ExpenseDocument::findOrFail($id);
+        $document = MarkupDocument::findOrFail($id);
         
         $document->update($request->all());
         
         if ($document->save()) {
             
-            return (new ExpenseDocumentResource($document))
+            return (new MarkupDocumentResource($document))
                     ->response()
                     ->setStatusCode(201);
         }
@@ -113,6 +109,10 @@ class ExpenseDocumentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $document = MarkupDocument::findOrFail($id);
+
+        if ($document->delete()) {
+            return response()->json(['message' => 'Document has been successfully deleted!'], 200);
+        }
     }
 }

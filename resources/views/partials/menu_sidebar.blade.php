@@ -53,6 +53,12 @@
                                 <p>Списание товара</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="markup-documents" class="nav-link">
+                                <i class="fas fa-file-upload nav-icon"></i>
+                                <p>Дооценка товара</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">

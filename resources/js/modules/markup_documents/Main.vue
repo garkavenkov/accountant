@@ -8,7 +8,7 @@
             @fetchData="fetchData"> 
 
         <template v-slot:title>
-            <h3 class="card-title">Расходные накладные
+            <h3 class="card-title">Дооценка товара
                 <button class="btn btn-primary"
                         data-toggle="modal" 
                         data-target="#modal-new-document"
@@ -45,7 +45,7 @@
         <template v-slot:default="slotProps">
             <tr v-for="data in slotProps.paginatedData" :key="data.id">
                 <td class="text-center">
-                    <router-link :to="{name: 'ExpenseDocumentsShow', params: {id: data.id}}">
+                    <router-link :to="{name: 'MarkupDocumentsShow', params: {id: data.id}}">
                         <i class="far fa-eye"></i>
                     </router-link>
                 </td>
@@ -53,22 +53,14 @@
                 <td>{{data.number}}</td>
                 <td>{{data.department}}</td>
                 <td>{{data.employeeFullName}}</td>
-                <td class="text-right">{{data.expenseSum | formatNumber(2)}}</td>                
-                <td class="text-center">
-                    <!-- <document-paid v-if="data.isPaid" :payments="data.payments"></document-paid> -->
-                    <!-- <template v-if="data.isPaid">
-                        <abbr :title="Oплата произведена ${data.supplier}">
-                            <i class="fas fa-donate"></i>
-                        </abbr>
-                    </template> -->                   
-                    <!-- <i class="fas fa-file-invoice-dollar"></i> -->
-                </td>         
+                <td class="text-right">{{data.markupSum | formatNumber(2)}}</td>                
+                <td class="text-center"></td>         
             </tr>     
         </template>
         <template v-slot:footer>
             <tr>
                 <td colspan="5" class="font-weight-bold">Итого документов: {{documents.length}}</td>
-                <td class="text-right font-weight-bold">{{totalExpenseSum | formatNumber(2)}}</td>
+                <td class="text-right font-weight-bold">{{totalMarkupSum | formatNumber(2)}}</td>
                 <td></td>
             </tr>
         </template>       
@@ -91,11 +83,11 @@ import DocumentFilter   from './Filter';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    name: 'ExpenseDocumentsMain',
+    name: 'MarkupDocumentsMain',
     data() {
         return {            
             pagination: {},
-            url: '/api/expense-documents',            
+            url: '/api/markup-documents',            
             
         }
     },
@@ -118,8 +110,8 @@ export default {
     },
     computed: {
         ...mapGetters(['documents', 'filter']),
-        totalExpenseSum() {
-            let total =  this.documents.reduce((a, b) => a + b.expenseSum * 1, 0.00);
+        totalMarkupSum() {
+            let total =  this.documents.reduce((a, b) => a + b.markupSum*1, 0.00);
             return total;
         },        
     },

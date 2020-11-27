@@ -20,9 +20,10 @@ class DocumentItemRequest extends FormRequest
             'measure_id.required'   =>  "Ед. измерения не выбрана",
             'measure_id.exists'     =>  "Ед. измерения не найдена",
             'price.gt'              =>  "Стоимость должна быть больше 0",
-            'price.gt'              =>  "Новая цена должна быть меньше старой",
+            'price2.lt'             =>  "Новая цена должна быть меньше старой",
             'price2.gt'             =>  "Стоимость должна быть больше 0",
-            'price2.gte'            =>  "Розничная стоимость должна быть больше закупочной",
+            // 'price2.gt'             =>  "Новая цена должна быть больше старой",
+            'price2.gte'            =>  "Розничная стоимость должна быть больше либо равна закупочной",
         ];
     }
     /**
@@ -74,23 +75,41 @@ class DocumentItemRequest extends FormRequest
     public function validator(Factory $factory)
     {
 
-        $validator = $factory->make($this->input(), $this->rules(), $this->messages(), $this->attributes());
-  
         $document = Document::findOrFail($this->document_id);
+        
+        // $this->messages['price.gt'] = 'Стоимость должна быть больше 0';
+        // $this->messages['price2.gt'] = 'Стоимость должна быть больше 0';
+        $validator = $factory->make($this->input(), $this->rules(), $this->messages(), $this->attributes());
 
-        $validator->sometimes(['price', 'price2'], 'gt:0', function($input)  use($document) {                                
-            return $document->type->code === 'income' || $document->type->code === 'transfer' || $document->type->code === 'markdown';
+        $validator->sometimes(['price', 'price2'], 'gt:0', function($input)  use($document)  {
+            return  $document->type->code === 'income' || 
+                    $document->type->code === 'transfer' || 
+                    $document->type->code === 'markdown'|| 
+                    $document->type->code === 'markup';
         });
 
-        $validator->sometimes('price2', 'gt:0', function($input) use($document)  {            
-            return $document->type->code === 'expense' || $document->type->code === 'writedown';
+        // $this->messages['price2.gt'] = 'Стоимость должна быть больше 0';
+        // $validator = $factory->make($this->input(), $this->rules(), $this->messages(), $this->attributes());
+        $validator->sometimes('price2', 'gt:0', function($input) use($document)  {
+            return  $document->type->code === 'expense' || 
+                    $document->type->code === 'writedown';
         });
 
-        $validator->sometimes('price2', 'gte:price', function($input) use($document)  {            
-            return $document->type->code === 'income' || $document->type->code === 'transfer';
+        $validator->sometimes('price2', 'gt:price', function($input) use($document)  {            
+            return  $document->type->code === 'markup';
+                    // $document->type->code === 'transfer' ||
+                    // $document->type->code === 'markup';
         });        
 
-        $validator->sometimes('price', 'gt:price2', function($input) use($document)  {            
+        // $this->messages['price2.gte'] = "Розничная стоимость должна быть больше либо равна закупочной";        
+        // $validator = $factory->make($this->input(), $this->rules(), $this->messages(), $this->attributes());
+        $validator->sometimes('price2', 'gte:price', function($input) use($document)  {            
+            return  $document->type->code === 'income' ||
+                    $document->type->code === 'transfer';
+                    // $document->type->code === 'markup';
+        });        
+
+        $validator->sometimes('price2', 'lt:price', function($input) use($document)  {            
             return $document->type->code === 'markdown';
         });        
 

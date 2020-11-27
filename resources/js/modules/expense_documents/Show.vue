@@ -12,16 +12,16 @@
                                     <dt class="col-sm-4">Отдел</dt>
                                     <dd class="col-sm-8">{{document.department}}</dd>
                                     <dt class="col-sm-4">Сотрудник</dt>
-                                    <dd class="col-sm-8">{{document.employee_full_name}}</dd>
+                                    <dd class="col-sm-8">{{document.employeeFullName}}</dd>
                                     <dt class="col-sm-4">Сумма</dt>
-                                    <dd class="col-sm-8">{{ document.expense_sum | formatNumber(2) }}</dd>
+                                    <dd class="col-sm-8">{{ document.expenseSum | formatNumber(2) }}</dd>
                                     <template v-if="correctExpenseSum">
                                         <dt class="col-sm-4">Расчетная сумма</dt>
                                         <dd class="col-sm-8">
                                             {{ totalExpenseSum | formatNumber(2) }}&nbsp;
                                             <button class="btn btn-info btn-sm" 
                                                     title="Скорректировать сумму закупки " 
-                                                    @click="updateDoc({expense_sum: totalExpenseSum})">
+                                                    @click="updateDoc({expenseSum: totalExpenseSum})">
                                                 Изменить
                                             </button>                                            
                                         </dd>
@@ -201,8 +201,8 @@ export default {
       
         newDocumentItemForm() {
             this.title="Новая спецификация";
-            this.action='create',
-            this.submitText='Добавить',
+            this.action='create';
+            this.submitText='Добавить';
             $('#modal-document-item').modal('toggle');
         },            
                
@@ -213,8 +213,8 @@ export default {
                     this.item = res;
                     
                     this.title="Редактирование спецификации";
-                    this.action='update',
-                    this.submitText='Изменить',
+                    this.action='update';
+                    this.submitText='Изменить';
                     
                     $('#modal-document-item').modal('toggle');            
                 })
@@ -257,15 +257,13 @@ export default {
                     }
                 });
         },
-        updateDoc(data) {
-            console.log(data);
+        updateDoc(data) {            
             let doc = {
                 date                : (data.date) ? data.date  : this.document.date,
-                debet_id            : (data.departmentid) ? data.department_id : this.document.department_id,
-                debet_person_id     : (data.employee_id) ? data.employee_id : this.document.employee_id,
-                sum2                : (data.expense_sum) ? parseFloat(data.expense_sum) : parseFloat(this.document.expense_sum)
+                debet_id            : (data.departmentId) ? data.departmentId : this.document.departmentId,
+                debet_person_id     : (data.employeeId) ? data.employeeId : this.document.employeeId,
+                sum2                : (data.expenseSum) ? parseFloat(data.expenseSum) : parseFloat(this.document.expenseSum)
             }
-            // console.log(doc);
             this.updateDocument(doc)
                 .then(res => {
                     console.log(res);
@@ -287,11 +285,11 @@ export default {
     computed: {
         ...mapGetters(['document']),
         totalExpenseSum() {
-            let total =  this.document.items.reduce((a, b) => a + b.quantity * b.retailSum, 0);
+            let total =  this.document.items.reduce((a, b) => a + b.retailSum, 0);
             return total;
         },        
         correctExpenseSum() {
-            return (this.document.taken_sum != this.totalExpenseSum) && this.document.items.length > 0  ? true : false
+            return (this.document.expenseSum != this.totalExpenseSum) && this.document.items.length > 0  ? true : false
         }
     },
     created() {

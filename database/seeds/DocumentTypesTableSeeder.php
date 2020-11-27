@@ -35,6 +35,10 @@ class DocumentTypesTableSeeder extends Seeder
                 'code'  =>  'writedown',
                 'name'  =>  'Списание товара'
             ],
+            [            
+                'code'  =>  'markup',
+                'name'  =>  'Дооценка товара'
+            ],
         ]);        
     }
 }
