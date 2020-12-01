@@ -4,6 +4,7 @@
 
 use Carbon\Carbon;
 use App\Models\Employee;
+use App\Models\DocumentType;
 use Faker\Generator as Faker;
 use App\Models\TransferDocument;
 
@@ -15,7 +16,8 @@ $factory->define(TransferDocument::class, function (Faker $faker) {
     $sum = $faker->numberBetween($min=1000, $max=10000);
 
     return [
-        'date'                  =>  Carbon::now()->toDateString(),       
+        'date'                  =>  Carbon::now()->toDateString(),  
+        'document_type_id'      =>  factory(DocumentType::class),     
         'debet_id'              =>  $employee_gives->department->id,
         'debet_person_id'       =>  $employee_gives->id,
         'credit_id'             =>  $employee_takes->department->id,

@@ -130,8 +130,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-                
+                </li>                
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="fas fa-cubes nav-icon"></i>
@@ -143,8 +142,34 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="shifts" class="nav-link">                                
-                                <i class="fas fa-exchange-alt"></i>
+                                <i class="fas fa-exchange-alt  nav-icon"></i>
                                 <p>Смены</p>
+                            </a>
+                        </li>                       
+                        
+                        <li class="nav-item">
+                            <a href="department-turns" class="nav-link">                                
+                                <i class="fas fa-dolly-flatbed nav-icon"></i>
+                                <!-- <i class="fas fa-exchange-alt"></i> -->
+                                <p>Обороты и остатки</p>
+                            </a>
+                        </li>                       
+                    </ul>
+
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-toolbox nav-icon"></i>
+                        <p>
+                            Настройки
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="shifts" class="nav-link">                                
+                                <i class="fas fas fa-tools nav-icon"></i>
+                                <p>Системные справочники</p>
                             </a>
                         </li>                       
                     </ul>

@@ -2975,75 +2975,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3131,12 +3062,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['departments', 'filter', 'suppliers'])),
-  created: function created() {// this.getSuppliersDictionary();
-    // this.getDepartmentsDictionary();
-  },
   watch: {
     'document.date': function documentDate(newValue, oldValue) {
-      // this.getEmployeesInChargeOfDepartment();
       if (this.hasError('date')) {
         delete this.errors.date;
       }
@@ -3300,7 +3227,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-// import FormValidator    from '../../mixins/FormValidator';
 
 
 
@@ -3312,16 +3238,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       pagination: {},
-      // newDocument: {
-      //     date                : null,
-      //     supplierId          : 0,
-      //     departmentId        : 0,
-      //     employeeId          : 0,
-      //     purchaseSum         : 0,
-      //     retailSum           : 0
-      // },           
-      // employees: [],
-      // departmentShift: '',
       url: '/api/income-documents',
       useFilter: false
     };
@@ -3430,10 +3346,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
 //
 //
 //

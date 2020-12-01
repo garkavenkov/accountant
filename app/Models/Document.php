@@ -21,7 +21,8 @@ class Document extends Model
         'credit_id',
         'credit_person_id',
         'sum1',
-        'sum2'
+        'sum2',
+        'user_id',
     ];
 
     protected static function boot() {

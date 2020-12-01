@@ -86,4 +86,8 @@ Route::group(['middleware' => ['auth']], function () {
         return view('payments');
     });
 
+    Route::get('department-turns', function() {
+        return view('department_turns');
+    });
+
 });

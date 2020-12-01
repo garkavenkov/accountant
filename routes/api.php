@@ -44,7 +44,7 @@ Route::group(['middleware' => 'auth:api'], function() {
         'cashes'                =>  'API\CashController', 
         'rest-types'            =>  'API\RestTypeController'
     ]);
-
+        
     Route::get('select-dictionary/{model}', 'API\SelectDictionaryController');
     Route::get('shift-employees-on-date/{department_id}/{date}', 'API\ShiftEmployeeController@list');
 
@@ -53,4 +53,5 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::get('unpaid-documents/{supplier_id}',    'API\SupplierController@unpaidDocuments');
 
+    Route::get('department-turns',  'API\DepartmentController@turns');
 });

@@ -22,8 +22,8 @@ class MarkupDocument extends Document
             
             parent::creating($model);
                        
-            $model->credit_id = 0;
-            $model->credit_person_id = 0;
+            $model->debet_id = 0;
+            $model->debet_person_id = 0;
             $model->sum1 = 0;
 
         });

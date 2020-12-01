@@ -4,13 +4,13 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\Department;
+use App\Models\DepartmentType;
+use App\Models\TransferDocument;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DepartmentTest extends TestCase
 {
     use RefreshDatabase;
-
-    private $url;    
 
     public function setUp(): void
     {
@@ -63,5 +63,58 @@ class DepartmentTest extends TestCase
         $department = $this->model->instance('Department')->override(['department_type_id' => $department_type->id])->create();
 
         $this->assertEquals($department_type->name, $department->type->name);
+    }
+
+    public function test_sales_department_may_have_an_income_rest()
+    {
+        $department = $this->model->instance('Department')->create();
+        $rest_type = $this->model->instance('RestType')->override(['code'=>'department'])->create();
+
+        $rest = $this->model
+                    ->instance('Rest')
+                    ->override([
+                        'rest_type_id'  => $rest_type->id, 
+                        'owner_id'      => $department->id,
+                        'date'          => "2020-11-20",
+                        'rest'          => 10000
+                    ])                    
+                    ->create();
+
+        $this->assertEquals($department->incomeRest("2020-11-21"), $rest->rest);
+        
+    }
+
+    public function test_sales_department_may_have_turns()
+    {
+        $department_type = $this->model
+                                ->instance('DepartmentType')
+                                ->override(['code' => 'outlet'])
+                                ->create();
+
+        $department = $this->model
+                            ->instance('Department')
+                            ->override(['department_type_id' => $department_type->id])
+                            ->create();
+
+        $date = "2020-11-20";
+
+        $document_type = $this->model
+                            ->instance('DocumentType')
+                            ->override(['code' => 'income'])
+                            ->create();
+
+        $income_documents_sum = $this->model
+                                ->instance('IncomeDocument')
+                                ->override([
+                                    'document_type_id'  =>  $document_type->id,
+                                    'credit_id'         =>  $department->id,
+                                    'date'              =>  $date,
+                                    'sum2'              =>  1000
+                                ])
+                                ->create(10)
+                                ->sum('sum2');
+        
+        $this->assertEquals(10000, $department->turns($date));
+        
     }
 }

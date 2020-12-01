@@ -26,6 +26,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/modules/shifts/shifts.js',                            'public/js/modules')
     .js('resources/js/modules/sales_revenues/sales_revenues.js',            'public/js/modules')
     .js('resources/js/modules/cash_documents/cash_documents.js',            'public/js/modules')
-    .js('resources/js/modules/payments/payments.js',                        'public/js/modules');
+    .js('resources/js/modules/payments/payments.js',                        'public/js/modules')
+    .js('resources/js/modules/department_turns/department_turns.js',        'public/js/modules');
     
 mix.sass('resources/sass/app.scss', 'public/css');

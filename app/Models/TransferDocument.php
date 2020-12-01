@@ -26,7 +26,7 @@ class TransferDocument extends Document
 
         static::creating(function ($model) {            
 
-            parent::creating($model);
+            parent::creating($model);            
             
         });
     }

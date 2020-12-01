@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Employee;
 use App\Models\Supplier;
 use App\Models\DocumentItem;
+use App\Models\DocumentType;
 use Faker\Generator as Faker;
 use App\Models\IncomeDocument;
 
@@ -17,7 +18,8 @@ $factory->define(IncomeDocument::class, function (Faker $faker) {
     $sum = $faker->numberBetween($min=1000, $max=10000);
 
     return [
-        'date'                  =>  Carbon::now()->toDatestring(),       
+        'date'                  =>  Carbon::now()->toDatestring(),   
+        'document_type_id'      =>  factory(DocumentType::class),
         'debet_id'              =>  factory(Supplier::class),        
         'credit_id'             =>  $employee->department->id,
         'credit_person_id'      =>  $employee->id,

@@ -42,9 +42,10 @@ class MarkupDocumentsSeeder extends Seeder
             DB::table('documents')->insert([
                 'date'                  =>  $date,
                 'document_type_id'      =>  $document_type->id,
-                'number'                =>  $i+1,
-                'debet_id'              =>  $dep->id,
-                'debet_person_id'       =>  $employee->id,
+                'number'                =>  $i+1,                
+                'credit_id'             =>  $dep->id,
+                'credit_person_id'      =>  $employee->id,
+                'debet_id'              =>  0,
                 'sum1'                  =>  0,
                 'sum2'                  =>  $sum,
                 'user_id'               =>  1
