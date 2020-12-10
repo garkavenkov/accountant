@@ -43,7 +43,7 @@ class SalesRevenueTest extends TestCase
                     ->override([
                         'operation_id' => $this->operation->id
                     ])
-                    ->create();
+                    ->create(5);
 
         $response = $this->get($document->path(), $this->httpHeaders)->getData();
         

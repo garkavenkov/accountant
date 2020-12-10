@@ -22,14 +22,16 @@ const router = new VueRouter({
 Vue.use(Vuex);
 
 import {SalesRevenue}   from '../../stores/SalesRevenue';
-import {Dictionary}     from '../../stores/Dictionary';
+// import {Dictionary}     from '../../stores/Dictionary';
 
-const store = new Vuex.Store({
-    modules: {
-        SalesRevenue,
-        Dictionary
-    }    
-}
+const store = new Vuex.Store(
+    SalesRevenue
+    // {
+    //     modules: {
+    //         SalesRevenue,
+    //         Dictionary
+    //     }    
+    // }
 );
 
 

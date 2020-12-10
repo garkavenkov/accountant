@@ -42,11 +42,16 @@ Route::group(['middleware' => 'auth:api'], function() {
         'cash-documents'        =>  'API\CashDocumentController',
         'payments'              =>  'API\PaymentController',
         'cashes'                =>  'API\CashController', 
-        'rest-types'            =>  'API\RestTypeController'
+        'rest-types'            =>  'API\RestTypeController',
+        'salary-types'          =>  'API\SalaryTypeController',
+        'salaries'              =>  'API\SalaryController'
     ]);
-        
+
+    
     Route::get('select-dictionary/{model}', 'API\SelectDictionaryController');
-    Route::get('shift-employees-on-date/{department_id}/{date}', 'API\ShiftEmployeeController@list');
+    
+    Route::get('shift-employees-on-date/{department_id}/{date}', 'API\ShiftEmployeeController@employees');
+    Route::get('employees-shifts/{employee_id}/{date?}', 'API\ShiftEmployeeController@shifts');
 
     Route::get('approve-cash-document/{id}',    'API\CashDocumentController@approve');
     Route::get('storno-cash-document/{id}',     'API\CashDocumentController@storno');
@@ -54,4 +59,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('unpaid-documents/{supplier_id}',    'API\SupplierController@unpaidDocuments');
 
     Route::get('department-turns',  'API\DepartmentController@turns');
+
+    Route::get('employees/{id}/current-salary/{date?}',     'API\EmployeeController@currentSalary');
+    Route::get('shift-salary/{shift_id}/{employee_id?}',    'API\SalaryController@shiftsSalesRevenue');
 });

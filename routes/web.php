@@ -90,4 +90,8 @@ Route::group(['middleware' => ['auth']], function () {
         return view('department_turns');
     });
 
+    Route::get('salaries', function() {
+        return view('salaries');
+    });
+
 });

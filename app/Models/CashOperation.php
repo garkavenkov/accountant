@@ -10,4 +10,9 @@ class CashOperation extends Model
     use PathTrait;
 
     private $api_path="/api/cash-operations";
+
+    protected $fillable = [
+        'code',
+        'name'
+    ];
 }

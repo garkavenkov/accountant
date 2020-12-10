@@ -93,17 +93,19 @@ export default {
         }
     },    
     methods: {
-        ...mapActions('SalesRevenue',   ['fetchData']),   
+        ...mapActions(['fetchData', 'getCashesDictionary', 'getDepartmentsDictionary']),   
     },
     computed: {
-        ...mapGetters('SalesRevenue',   ['documents', 'filter']),
+        ...mapGetters(['documents', 'filter']),
         totalSum() {
             let total =  this.documents.reduce((a, b) => a + b.amount * 1, 0.00);
             return total;
         },
     },
     created() {
-        this.fetchData()
+        this.fetchData();
+        this.getCashesDictionary();
+        this.getDepartmentsDictionary(0);
     },
     components: {
         Grid,

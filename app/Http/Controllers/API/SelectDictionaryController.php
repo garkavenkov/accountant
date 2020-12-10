@@ -4,11 +4,12 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Traits\Filters\WhereTrait;
+use App\Traits\Filters\FieldsTrait;
 use App\Http\Controllers\Controller;
 
 class SelectDictionaryController extends Controller
 {
-    use WhereTrait;
+    use WhereTrait, FieldsTrait;
     
     protected $whereClauses = [
         // 'date'      =>  'between',
@@ -27,16 +28,29 @@ class SelectDictionaryController extends Controller
     public function __invoke($model)
     {
         $parameters =  request()->input();
-
+        
         $model = 'App\\Models\\' . \Str::studly(\Str::singular($model));
+        
+        // $fields = ['id', 'name'];
 
-        if ($parameters) {
-            $where = $this->getWhereClause($parameters);
-            $data = $model::whereRaw($where)->get(['id', 'name']);
+        $where  = $this->getWhereClause($parameters);
+        $fields = $this->getFields($parameters);
+
+        if ($where) {
+            $data = $model::whereRaw($where)->get($fields);
         } else {
-            $data = $model::get(['id', 'name']);
+            $data = $model::get($fields);
+            // dd(array_values($fields));
+            // $data = $model::all()->pluck('id', 'full_name');
         }
-
+        // if ($parameters) {
+        //     $where = $this->getWhereClause($parameters);
+        //     $data = $model::whereRaw($where)->get($fields);
+            
+        // } else {
+        //     $data = $model::get($fields);
+        // }
+        
         return response()->json($data);
     }
 }

@@ -23,33 +23,46 @@ class SalesRevenueSeeder extends Seeder
         CashDocument::salesrevenues()->delete();
 
         $departments =  Department::sales()->get();
-        
-        $cashes = Cash::get();
 
         $operation_id = CashOperation::where('code', 'sales_revenue')->first()->id;
 
-        for ($i=0; $i < 100; $i++) { 
+        $enough = false;
+        $purpose = 'Сдача торговой выручки';
 
-            $department =   $faker->randomElement($departments);
+        $date       = Carbon::createFromFormat("Y-m-d", "2020-10-31");
+        $dateEnd    = Carbon::createFromFormat("Y-m-d", "2020-11-30");
+        
+        while (!$enough) {
             
-            $date = $faker->dateTimeBetween($startDate = '-2 months', $endDate = '+1 month', $timezome='Europe/Moscow')->format("Y-m-d");
-            
-            $sum = $faker->numberBetween($min=1000, $max=10000);
-            
-            $purpose = 'Сдача торговой выручки';
+            $date = $date->addDay();
+            $number = 1;
 
-            DB::table('cash_documents')->insert([
-                'operation_id'          =>  $operation_id,
-                'date'                  =>  $date,
-                'number'                =>  $i+1,
-                'debet_id'              =>  $department->id,
-                'credit_id'             =>  $department->branch->cash->id,                
-                'purpose'               =>  $purpose,
-                'credit'                =>  $sum,
-                'user_id'               =>  1
-            ]);
-            
-        }
+            foreach ($departments as $department) {
+                
+                $count = $faker->numberBetween($min = 2, $max = 5);
+
+                for ($i = 0; $i< $count; $i++) {
+                    $sum = $faker->numberBetween($min=1000, $max=10000);
+
+                    DB::table('cash_documents')->insert([
+                        'operation_id'          =>  $operation_id,
+                        'date'                  =>  $date->toDateString(),
+                        'number'                =>  $number++,
+                        'debet_id'              =>  $department->id,
+                        'credit_id'             =>  $department->branch->cash->id,                
+                        'purpose'               =>  $purpose,
+                        'credit'                =>  $sum,
+                        'user_id'               =>  1
+                    ]);
+
+                }
+
+            }
+        
+            // echo $date->toDateString() . PHP_EOL;
+            $enough = $date->greaterThanOrEqualTo($dateEnd);
+        
+        }      
     
     }
 }

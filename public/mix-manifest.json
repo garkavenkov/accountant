@@ -12,6 +12,7 @@
     "/js/modules/markup_documents.js": "/js/modules/markup_documents.js",
     "/js/modules/payments.js": "/js/modules/payments.js",
     "/js/modules/positions.js": "/js/modules/positions.js",
+    "/js/modules/salaries.js": "/js/modules/salaries.js",
     "/js/modules/sales_revenues.js": "/js/modules/sales_revenues.js",
     "/js/modules/shifts.js": "/js/modules/shifts.js",
     "/js/modules/suppliers.js": "/js/modules/suppliers.js",

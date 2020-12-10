@@ -130,7 +130,7 @@ export default {
         }        
     },
     methods: {
-        ...mapActions('SalesRevenue', ['getCashesDictionary',  'getDepartmentsDictionary', 'saveDocument']),
+        ...mapActions(['getCashesDictionary',  'getDepartmentsDictionary', 'saveDocument']),
         saveDoc() {
             let doc = {
                     date                : this.newDocument.date,
@@ -166,7 +166,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters('SalesRevenue', ['cashes', 'departments', 'filter'])
+        ...mapGetters(['cashes', 'departments', 'filter'])
     },
     watch: {
         useFilter() {
@@ -194,7 +194,7 @@ export default {
         },
     },
     created() {
-        this.getCashesDictionary();
+        // this.getCashesDictionary();
     }
 }
 </script>

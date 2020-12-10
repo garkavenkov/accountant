@@ -2014,11 +2014,11 @@ var render = function() {
               _c("td", [_vm._v(_vm._s(shift.department))]),
               _vm._v(" "),
               _c("td", { staticClass: "text-center" }, [
-                _vm._v(_vm._s(shift.date_begin))
+                _vm._v(_vm._s(shift.dateBegin))
               ]),
               _vm._v(" "),
               _c("td", { staticClass: "text-center" }, [
-                _vm._v(_vm._s(shift.date_end))
+                _vm._v(_vm._s(shift.dateEnd))
               ])
             ])
           })
@@ -2074,7 +2074,7 @@ var render = function() {
                         _vm._m(0),
                         _vm._v(" "),
                         _c("a", { staticClass: "float-right" }, [
-                          _vm._v(_vm._s(_vm.shift.date_begin))
+                          _vm._v(_vm._s(_vm.shift.dateBegin))
                         ])
                       ]),
                       _vm._v(" "),
@@ -2082,7 +2082,7 @@ var render = function() {
                         _vm._m(1),
                         _vm._v(" "),
                         _c("a", { staticClass: "float-right" }, [
-                          _vm._v(_vm._s(_vm.shift.date_end))
+                          _vm._v(_vm._s(_vm.shift.dateEnd))
                         ])
                       ])
                     ]

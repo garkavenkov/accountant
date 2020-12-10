@@ -12,11 +12,11 @@
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
                                     <strong><i class="fas fa-user-plus mr-1"></i> Начало смены</strong>
-                                    <a class="float-right">{{shift.date_begin}}</a>
+                                    <a class="float-right">{{shift.dateBegin}}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <strong><i class="fas fa-user-minus mr-1"></i> Окончание смены</strong>
-                                    <a class="float-right">{{shift.date_end}}</a>
+                                    <a class="float-right">{{shift.dateEnd}}</a>
                                 </li>
                             </ul>                        
                         </div>                       

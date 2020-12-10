@@ -39,7 +39,7 @@
                                 <label>Подразделение</label>                                
                                 <select class="form-control select2" 
                                         style="width: 100%;"
-                                        @change="getDepartmentsDictionary(filter.cashId)"
+                                        @change="getDepartmentsDictionary(filter.creditId)"
                                         v-model="filter.creditId">
                                     <option selected="selected" value="0">
                                         Все кассы
@@ -116,12 +116,12 @@ export default {
     data() {
         return  {
             // cashes: [],
-            departments: [],
+            // departments: [],
         }
     },
     methods: {
-        ...mapActions('SalesRevenue',   ['applyFilter']),
-        ...mapActions('Dictionary',     ['getDictionary', 'getCashesDictionary']),
+        ...mapActions(['applyFilter', 'getDepartmentsDictionary']),
+        // ...mapActions('Dictionary',     ['getDepartmentDictionary', 'getCashesDictionary']),
          resetFilter() {
             this.filter.dateBegin       =   null;
             this.filter.dateEnd         =   null;
@@ -134,21 +134,20 @@ export default {
             document.getElementById('dateBegin').value = new Date().toISOString().slice(0,10);
             document.getElementById('dateEnd').value = "";
         },      
-        getDepartmentsDictionary(cashId) {
-            let dictionary = 'department';
-            if (cashId != 0) {
-                dictionary = 'department?branch_id=' + cashId;
-            }
-            this.getDictionary(dictionary)
-                .then(res => this.departments = res);
-        },      
+        // getDepartmentsDictionary(cashId) {
+        //     let dictionary = 'department';
+        //     if (cashId != 0) {
+        //         dictionary = 'department?branch_id=' + cashId;
+        //     }
+        //     this.getDictionary(dictionary)
+        //         .then(res => this.departments = res);
+        // },      
     },
     computed: {
-        ...mapGetters('SalesRevenue',   ['filter']),
-        ...mapGetters('Dictionary',     ['cashes'])
+        ...mapGetters(['filter', 'cashes', 'departments']),
     },
     created() {
-        this.getCashesDictionary();
+        // this.getCashesDictionary();
         // this.
     }
 

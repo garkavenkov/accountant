@@ -35,8 +35,8 @@
                 </router-link>
             </td>
             <td>{{shift.department}}</td>
-            <td class="text-center">{{shift.date_begin}}</td>
-            <td class="text-center">{{shift.date_end}}</td>            
+            <td class="text-center">{{shift.dateBegin}}</td>
+            <td class="text-center">{{shift.dateEnd}}</td>            
         </tr>            
     </grid>
 

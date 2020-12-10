@@ -33,8 +33,9 @@ class EmployeesTableSeeder extends Seeder
                         'position_id'       =>  $position_id,
                         'department_id'     =>  $department->id,
                         'address'           =>  $faker->address,
-                        'birthdate'         =>  $faker->dateTimeBetween($startDate = '-50 years', $endDate = '-20 years'),
-                        'hired'             =>  $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now'),
+                        'birthdate'         =>  $faker->dateTimeBetween($startDate = '-50 years', $endDate = '-20 years', $timezome='Europe/Moscow')->format("Y-m-d"),
+                        'hired'             =>  $faker->dateTimeBetween($department->opened, "2020-10-31", $timezome='Europe/Moscow')->format("Y-m-d"),
+                        
                     ]
                 );
             }            

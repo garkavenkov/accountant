@@ -35,7 +35,7 @@ class CashOperationSeeder extends Seeder
                 'name'      =>  'Выдача в долг'
             ],
             [
-                'code'      =>  'cretid_repayment',
+                'code'      =>  'credit_repayment',
                 'name'      =>  'Погашение кредита'
             ],
             [

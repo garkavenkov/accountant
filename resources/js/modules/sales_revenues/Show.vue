@@ -68,7 +68,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions('SalesRevenue', ['fetchDocument', 'deleteDocument']),
+        ...mapActions(['fetchDocument', 'deleteDocument']),
         deleteDoc(id) {
             this.deleteDocument(id)            
                 .then(res => {
@@ -86,7 +86,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('SalesRevenue', ['document'])
+        ...mapGetters(['document'])
     },
     created() {
         this.fetchDocument(this.id)

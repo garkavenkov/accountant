@@ -45,6 +45,15 @@ class Department extends Model
         return $this->hasMany(Shift::class);
     }
 
+    public function currentShift($date = null)
+    {
+        if (is_null($date)) {
+            $date = Carbon::now()->format('Y-m-d');
+        }
+
+        return $this->shifts()->where('date_begin', '<=', $date)->where('date_end', '>=' , $date)->first();
+    }
+
     public function type()
     {
         return $this->belongsTo(DepartmentType::class, 'department_type_id', 'id');

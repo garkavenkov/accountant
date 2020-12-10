@@ -112,42 +112,21 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- <tr v-for="employee in department.employees" :key="employee.id"> -->
-                                            <tr>
+                                            <tr v-for="salary in employee.salary" :key="salary.id">                                            
                                                 <td>
-                                                    2
+                                                    {{salary.id}}
                                                 </td>
                                                 <td>
-                                                    Оклад
+                                                    {{salary.salaryDescription}}
                                                 </td>
                                                 <td>
-                                                    15000
+                                                    {{salary.amount | formatNumber(2)}}
                                                 </td>
                                                 <td>
-                                                    01.01.2020
+                                                    {{salary.date | formatDate }}
                                                 </td>
                                                 <td>
-                                                    31.12.2020
-                                                </td>
-                                                <!-- <td class="project-state">
-                                                    <span class="badge badge-success">Работает</span>
-                                                </td>                                                 -->
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    1
-                                                </td>
-                                                <td>
-                                                    Оклад
-                                                </td>
-                                                <td>
-                                                    10000
-                                                </td>
-                                                <td>
-                                                    01.01.2019
-                                                </td>
-                                                <td>
-                                                    31.12.2019
+                                                    n/a
                                                 </td>
                                                 <!-- <td class="project-state">
                                                     <span class="badge badge-success">Работает</span>
@@ -200,7 +179,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <div class="offset-sm-2 col-sm-10">
-                                            <button type="submit" class="btn btn-danger">Submit</button>
+                                            <button type="button" class="btn btn-danger" @click="salary">Salary</button>
                                         </div>
                                     </div>
                                     </form>
@@ -379,6 +358,18 @@ export default {
                 .then(res => this.employee = res.data.data)
                 .catch(err => console.log(err));
                 
+        },
+        salary() {
+                axios.get(`/api/employees/${this.id}/current-salary`, 
+                    {
+                        'headers': {
+                            'Authorization': 'Bearer ' + window.api_token,
+                            'Accept': 'application/json',
+                        } 
+                    }
+                )
+                .then(res => console.log(res))
+                .catch(err => console.log(err));
         }
     },
     created() {

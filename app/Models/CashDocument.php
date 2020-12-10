@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Employee;
 use App\Models\Supplier;
 use App\Models\CashOperation;
 use App\Traits\Models\PathTrait;
@@ -41,6 +42,10 @@ class CashDocument extends Model
         return $this->belongsTo(Supplier::class, 'credit_id', 'id');
     }
 
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'credit_id', 'id');
+    }
 
     public function cash_credit()
     {
@@ -78,6 +83,11 @@ class CashDocument extends Model
     public function scopeSalesRevenues($query)
     {
         return $query->where('operation_id', CashOperation::where('code', 'sales_revenue')->first()->id);
+    }
+
+    public function scopeSalaries($query)
+    {
+        return $query->where('operation_id', CashOperation::where('code', 'salary')->first()->id);
     }
 
     // public function document()

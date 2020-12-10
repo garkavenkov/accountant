@@ -18,11 +18,11 @@ class ShiftResource extends JsonResource
     {
         return [
             'id'            =>  $this->id,
-            'department_id' =>  $this->department_id,
+            'departmentId'  =>  $this->department_id,
             'department'    =>  $this->department->name,
             'employees'     =>  ShiftEmployeesResource::collection($this->whenLoaded('employees')),
-            'date_begin'    =>  Carbon::parse($this->date_begin)->formatLocalized('%d.%m.%Y'),
-            'date_end'      =>  Carbon::parse($this->date_end)->formatLocalized('%d.%m.%Y'),
+            'dateBegin'     =>  Carbon::parse($this->date_begin)->formatLocalized('%d.%m.%Y'),
+            'dateEnd'       =>  Carbon::parse($this->date_end)->formatLocalized('%d.%m.%Y'),
         ];
     }
 }

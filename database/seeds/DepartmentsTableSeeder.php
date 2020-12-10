@@ -30,7 +30,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  'Продажа алкогольных и слабоалкогольных продуктов, сигареты',
                 'department_type_id'    =>  $outlet->id,
                 'flag'                  =>  3,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')->format('Y-m-d')
             ],
             [
                 'branch_id'             =>  $branch->id,
@@ -38,7 +38,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  'Хлебо-булочные изделия, колбасы, кисло-молочные изделия, крупы',
                 'department_type_id'    =>  $outlet->id,
                 'flag'                  =>  3,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')->format('Y-m-d')
             ],
             [
                 'branch_id'             =>  $branch->id,
@@ -46,7 +46,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  'Овощи, консервы, рыба',
                 'department_type_id'    =>  $outlet->id,
                 'flag'                  =>  3,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')->format('Y-m-d')
             ],
             [
                 'branch_id'             =>  $branch->id,
@@ -54,7 +54,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  'Фрукты и овощи',
                 'department_type_id'    =>  $outlet->id,
                 'flag'                  =>  3,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')->format('Y-m-d')
             ],
             [
                 'branch_id'             =>  $branch->id,
@@ -62,7 +62,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  'Овощной склад',
                 'department_type_id'    =>  DepartmentType::whereCode('stock')->get()->first()->id,
                 'flag'                  =>  1,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')->format('Y-m-d')
             ],
             [
                 'branch_id'             =>  $branch->id,
@@ -70,7 +70,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  'Кафе',
                 'department_type_id'    =>  $outlet->id,
                 'flag'                  =>  3,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, "2020-10-31")->format('Y-m-d')
             ],
             [
                 'branch_id'             =>  $branch->id,
@@ -78,7 +78,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  'Кухня кафе',
                 'department_type_id'    =>  DepartmentType::whereCode('production')->get()->first()->id,
                 'flag'                  =>  1,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, "2020-10-31")->format('Y-m-d')
             ],
             [
                 'branch_id'             =>  $branch->id,
@@ -86,7 +86,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  'Цех производства пирожков, беляшей',
                 'department_type_id'    =>  DepartmentType::whereCode('production')->get()->first()->id,
                 'flag'                  =>  1,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, "2020-10-31")->format('Y-m-d')
             ],
             [
                 'branch_id'             =>  $branch->id,
@@ -94,7 +94,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  'Цех производства чебуреков',
                 'department_type_id'    =>  DepartmentType::whereCode('production')->get()->first()->id,
                 'flag'                  =>  1,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, "2020-10-31")->format('Y-m-d')
             ],
             [
                 'branch_id'             =>  $branch->id,
@@ -102,7 +102,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  'Ганделик',
                 'department_type_id'    =>  $outlet->id,
                 'flag'                  =>  3,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, "2020-10-31")->format('Y-m-d')
             ],            
         ]);
 
@@ -116,7 +116,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  $faker->sentence(6),
                 'department_type_id'    =>  $outlet->id,
                 'flag'                  =>  3,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, "2020-10-31")->format('Y-m-d')
             ],
             [
                 'branch_id'             =>  $branch->id,
@@ -124,7 +124,7 @@ class DepartmentsTableSeeder extends Seeder
                 'description'           =>  $faker->sentence(6),
                 'department_type_id'    =>  $outlet->id,
                 'flag'                  =>  3,
-                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, $endDate='-1 month')                
+                'opened'                =>  $faker->dateTimeBetween($startDate = $branch->opened, "2020-10-31")->format('Y-m-d')
             ],
         ]);
         

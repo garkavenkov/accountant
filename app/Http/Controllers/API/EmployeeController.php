@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\API\Employee\EmployeeResource;
 use App\Http\Resources\API\Employee\EmployeeResourceCollection;
+use App\Http\Resources\API\Employee\EmployeeTariffRatesResource;
 
 class EmployeeController extends Controller
 {
@@ -51,8 +52,8 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        // $employee = Employee::with('department', 'position')->findOrFail($id);
-        $employee = Employee::findOrFail($id);
+        $employee = Employee::with('department', 'position','tariffRates')->findOrFail($id);
+        // $employee = Employee::findOrFail($id);
         // return response()->json($employee);
         return new EmployeeResource($employee);
     }
@@ -89,5 +90,25 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param int $id
+     * @param date $date
+     * @return void
+     */
+    public function currentSalary($id, $date = null)
+    {
+        $employee = Employee::findOrFail($id);
+
+        $salary = $employee->salary($date);
+        if ($salary) {
+            // return new EmployeeSalaryResource($salary);
+            return new EmployeeTariffRatesResource($salary);
+        } else {
+            return response()->json(['message' => 'Salary not found', 404]);
+        }
     }
 }

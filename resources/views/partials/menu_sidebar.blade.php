@@ -71,21 +71,27 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="cash-documents" class="nav-link">                                
+                            <a href="cash-documents" class="nav-link">
                                 <i class="fas fa-coins"></i>
                                 <p>Кассовые документы</p>
                             </a>
-                        </li>                       
+                        </li>
                         <li class="nav-item">
-                            <a href="payments" class="nav-link">                                
+                            <a href="payments" class="nav-link">
                                 <i class="fas fa-coins"></i>
                                 <p>Расчет с поставщиками</p>
                             </a>
-                        </li>                       
+                        </li>
                         <li class="nav-item">
-                            <a href="sales-revenues" class="nav-link">                                
+                            <a href="sales-revenues" class="nav-link">
                                 <i class="fas fa-coins"></i>
                                 <p>Торговая выручка</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="salaries" class="nav-link">
+                                <i class="fas fa-coins"></i>
+                                <p>Зарплата</p>
                             </a>
                         </li>                       
                     </ul>

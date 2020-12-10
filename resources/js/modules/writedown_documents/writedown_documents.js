@@ -27,8 +27,6 @@ Vue.filter('formatNumber', function(value, precision = 0) {
     return formatedNumber;
 })
 
-import moment from 'moment'
-
 Vue.filter('formatDate', function(value) {
   if (value) {
     return moment(String(value)).format('DD.MM.YYYY')

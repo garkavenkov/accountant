@@ -2293,12 +2293,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SalesRevenueFilterForm',
   data: function data() {
-    return {
-      // cashes: [],
-      departments: []
+    return {// cashes: [],
+      // departments: [],
     };
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('SalesRevenue', ['applyFilter'])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('Dictionary', ['getDictionary', 'getCashesDictionary'])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['applyFilter', 'getDepartmentsDictionary'])), {}, {
+    // ...mapActions('Dictionary',     ['getDepartmentDictionary', 'getCashesDictionary']),
     resetFilter: function resetFilter() {
       this.filter.dateBegin = null;
       this.filter.dateEnd = null;
@@ -2310,24 +2310,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.filter.queryStr = '';
       document.getElementById('dateBegin').value = new Date().toISOString().slice(0, 10);
       document.getElementById('dateEnd').value = "";
-    },
-    getDepartmentsDictionary: function getDepartmentsDictionary(cashId) {
-      var _this = this;
+    } // getDepartmentsDictionary(cashId) {
+    //     let dictionary = 'department';
+    //     if (cashId != 0) {
+    //         dictionary = 'department?branch_id=' + cashId;
+    //     }
+    //     this.getDictionary(dictionary)
+    //         .then(res => this.departments = res);
+    // },      
 
-      var dictionary = 'department';
-
-      if (cashId != 0) {
-        dictionary = 'department?branch_id=' + cashId;
-      }
-
-      this.getDictionary(dictionary).then(function (res) {
-        return _this.departments = res;
-      });
-    }
   }),
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('SalesRevenue', ['filter'])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('Dictionary', ['cashes'])),
-  created: function created() {
-    this.getCashesDictionary(); // this.
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['filter', 'cashes', 'departments'])),
+  created: function created() {// this.getCashesDictionary();
+    // this.
   }
 });
 
@@ -2478,7 +2473,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       useFilter: false
     };
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('SalesRevenue', ['getCashesDictionary', 'getDepartmentsDictionary', 'saveDocument'])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['getCashesDictionary', 'getDepartmentsDictionary', 'saveDocument'])), {}, {
     saveDoc: function saveDoc() {
       var _this = this;
 
@@ -2516,7 +2511,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.useFilter = false;
     }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('SalesRevenue', ['cashes', 'departments', 'filter'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['cashes', 'departments', 'filter'])),
   watch: {
     useFilter: function useFilter() {
       // console.log(`newValue: ${newValue} | oldValue: ${oldValue}`);
@@ -2544,8 +2539,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   },
-  created: function created() {
-    this.getCashesDictionary();
+  created: function created() {// this.getCashesDictionary();
   }
 });
 
@@ -2661,8 +2655,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     };
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('SalesRevenue', ['fetchData'])),
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('SalesRevenue', ['documents', 'filter'])), {}, {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['fetchData', 'getCashesDictionary', 'getDepartmentsDictionary'])),
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['documents', 'filter'])), {}, {
     totalSum: function totalSum() {
       var total = this.documents.reduce(function (a, b) {
         return a + b.amount * 1;
@@ -2672,6 +2666,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   created: function created() {
     this.fetchData();
+    this.getCashesDictionary();
+    this.getDepartmentsDictionary(0);
   },
   components: {
     Grid: _components_Grid__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -2764,7 +2760,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {};
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('SalesRevenue', ['fetchDocument', 'deleteDocument'])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['fetchDocument', 'deleteDocument'])), {}, {
     deleteDoc: function deleteDoc(id) {
       var _this = this;
 
@@ -2783,7 +2779,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('SalesRevenue', ['document'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['document'])),
   created: function created() {
     this.fetchDocument(this.id);
   }
@@ -4277,7 +4273,7 @@ var render = function() {
                           },
                           function($event) {
                             return _vm.getDepartmentsDictionary(
-                              _vm.filter.cashId
+                              _vm.filter.creditId
                             )
                           }
                         ]
@@ -22036,7 +22032,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Main_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Main.vue */ "./resources/js/modules/sales_revenues/Main.vue");
 /* harmony import */ var _Show_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Show.vue */ "./resources/js/modules/sales_revenues/Show.vue");
 /* harmony import */ var _stores_SalesRevenue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../stores/SalesRevenue */ "./resources/js/stores/SalesRevenue.js");
-/* harmony import */ var _stores_Dictionary__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../stores/Dictionary */ "./resources/js/stores/Dictionary.js");
 
 
 
@@ -22059,14 +22054,15 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes
 });
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
+ // import {Dictionary}     from '../../stores/Dictionary';
 
-
-var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
-  modules: {
-    SalesRevenue: _stores_SalesRevenue__WEBPACK_IMPORTED_MODULE_5__["SalesRevenue"],
-    Dictionary: _stores_Dictionary__WEBPACK_IMPORTED_MODULE_6__["Dictionary"]
-  }
-});
+var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store(_stores_SalesRevenue__WEBPACK_IMPORTED_MODULE_5__["SalesRevenue"] // {
+//     modules: {
+//         SalesRevenue,
+//         Dictionary
+//     }    
+// }
+);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('formatNumber', function (number) {
   var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var formatedNumber = number.toLocaleString('ru-RU', {
@@ -22083,68 +22079,6 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   router: router,
   store: store
 });
-
-/***/ }),
-
-/***/ "./resources/js/stores/Dictionary.js":
-/*!*******************************************!*\
-  !*** ./resources/js/stores/Dictionary.js ***!
-  \*******************************************/
-/*! exports provided: Dictionary */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Dictionary", function() { return Dictionary; });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-var Dictionary = {
-  namespaced: true,
-  state: {
-    cashes: [],
-    suppliers: []
-  },
-  getters: {
-    cashes: function cashes(state) {
-      return state.cashes;
-    },
-    suppliers: function suppliers(state) {
-      return state.suppliers;
-    }
-  },
-  mutations: {},
-  actions: {
-    getDictionary: function getDictionary(context, dictionary) {
-      return new Promise(function (resolve, reject) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/select-dictionary/".concat(dictionary), {
-          'headers': {
-            'Authorization': 'Bearer ' + window.api_token,
-            'Accept': 'application/json'
-          }
-        }).then(function (res) {
-          return resolve(res.data);
-        })["catch"](function (err) {
-          return reject(err);
-        });
-      });
-    },
-    getCashesDictionary: function getCashesDictionary(_ref) {
-      var dispatch = _ref.dispatch,
-          state = _ref.state;
-      dispatch('getDictionary', 'cash').then(function (res) {
-        return state.cashes = res;
-      });
-    },
-    getSuppliersDictionary: function getSuppliersDictionary(_ref2) {
-      var dispatch = _ref2.dispatch,
-          state = _ref2.state;
-      dispatch('getDictionary', 'supplier').then(function (res) {
-        return state.suppliers = res;
-      });
-    }
-  }
-};
 
 /***/ }),
 
