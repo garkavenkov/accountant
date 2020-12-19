@@ -20,7 +20,10 @@
                                 </li>
                             </ul>                        
                         </div>                       
-                    </div>                   
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-danger" @click="deleteShift">Удалить</button>
+                    </div>          
                 </div>
             </div>            
             <div class="col-md-8">
@@ -34,6 +37,14 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="active tab-pane" id="employees">
+                                <button class="btn btn-primary"
+                                        data-toggle="modal" 
+                                        data-target="#modal-add-employee"
+                                        data-backdrop="static" 
+                                        data-keyboard="true">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <!-- <button type="button" class="btn btn-primary" @click="addEmployee">Добавить</button> -->
                                 <table class="table table-striped projects">
                                     <thead>
                                         <tr>
@@ -54,6 +65,11 @@
                                     <tbody>
                                         <tr v-for="employee in shift.employees" :key="employee.id">
                                             <td>{{employee.full_name}}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-sm btn-danger" @click="removeEmployee(employee.id)" title="Удалить сотрудника из смены">
+                                                    <i class="fas fa-user-minus"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -71,38 +87,64 @@
             </div>              
         </div>            
     </div>
+    <employee-form :shiftId = "id" />
+    
 </div>
 
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+import EmployeeForm from './EmployeeForm.vue';
+
 export default {
+    components: { EmployeeForm },
     name: 'ShiftsShow',
     props: ['id'],
     data() {
         return {
-            shift: {
-                employees: []
-            }
+            // shift: {
+            //     employees: []
+            // }
         }
     },
     methods: {
-       fetchData() {               
-            axios.get(`/api/shifts/${this.id}`, 
-                    {
-                        'headers': {
-                            'Authorization': 'Bearer ' + window.api_token,
-                            'Accept': 'application/json',
-                        } 
-                    }
-                )
-                .then(res => this.shift = res.data.data)
-                .catch(err => console.log(err));
-                
+        ...mapActions(['fetchDocument', 'deleteDocument', 'getEmployeesDictionary', 'removeEmployeeFromShift']),
+        deleteShift() {
+            this.deleteDocument(this.id)
+                .then(res => {
+                      Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        // title:'Good job!',
+                        text:'Смена успешно удалена',
+                        icon:'success',
+                    });                    
+                    this.$router.go(-1);
+                })
         },
+        removeEmployee(employeeId) {            
+            this.removeEmployeeFromShift({shiftId:this.id, employeeId})
+                .then(res => {
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        // title:'Good job!',
+                        text: res.data.message,
+                        icon:'success',
+                    });                    
+                });
+        }
+    },
+    computed: {
+        ...mapGetters(['shift'])
     },
     created() {
-        this.fetchData();
+        this.fetchDocument(this.id);
     }
 }
 </script>

@@ -62,4 +62,8 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::get('employees/{id}/current-salary/{date?}',     'API\EmployeeController@currentSalary');
     Route::get('shift-salary/{shift_id}/{employee_id?}',    'API\SalaryController@shiftsSalesRevenue');
+    
+    Route::post('add-employee-into-shift',                                  'API\ShiftController@addEmployee');
+    Route::delete('remove-employee-from-shift/{shift_id}/{employee_id}',    'API\ShiftController@removeEmployee');
+    
 });

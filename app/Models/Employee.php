@@ -18,7 +18,7 @@ class Employee extends Model
     
     private $api_path = "/api/employees";
 
-    // protected $appends = ['full_name'];
+    protected $appends = ['full_name'];
 
 
     public function position()
@@ -66,4 +66,4 @@ class Employee extends Model
         return $this->shifts()->where('date_begin', '<=', $date)->where('date_end', '>=', $date)->first();
     }
 }
-/*
+

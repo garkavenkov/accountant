@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use App\Traits\Filters\TypeTrait;
 use App\Traits\Filters\WhereTrait;
 use App\Traits\Filters\FieldsTrait;
 use App\Http\Controllers\Controller;
 
 class SelectDictionaryController extends Controller
 {
-    use WhereTrait, FieldsTrait;
+    use WhereTrait, FieldsTrait, TypeTrait;
     
     protected $whereClauses = [
         // 'date'      =>  'between',
@@ -35,14 +36,29 @@ class SelectDictionaryController extends Controller
 
         $where  = $this->getWhereClause($parameters);
         $fields = $this->getFields($parameters);
-
-        if ($where) {
-            $data = $model::whereRaw($where)->get($fields);
+        $type   = $this->getType($parameters);
+        
+        if ($type) {
+            if ($where) {
+                $data = $model::ofType($type)->whereRaw($where)->get($fields);
+            } else {
+                $data = $model::ofType($type)->get($fields);
+            }
         } else {
+            // $fields = ['id', 'full_name'];
             $data = $model::get($fields);
-            // dd(array_values($fields));
-            // $data = $model::all()->pluck('id', 'full_name');
+            // $data = $model::get()->pluck(array_values($fields));
         }
+
+        // if ($where) {
+        //     $data = $model::whereRaw($where)->get($fields);
+        // } else if ($type) {
+        //     $data = $model::whereRaw($where)->get($fields);
+        // } else {
+        //     $data = $model::get($fields);
+        //     // dd(array_values($fields));
+        //     // $data = $model::all()->pluck('id', 'full_name');
+        // }
         // if ($parameters) {
         //     $where = $this->getWhereClause($parameters);
         //     $data = $model::whereRaw($where)->get($fields);

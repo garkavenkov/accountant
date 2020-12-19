@@ -3,20 +3,52 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Shift;
 use App\Models\Branch;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Models\ShiftEmployee;
+use App\Traits\Models\PathTrait;
 use Illuminate\Database\Eloquent\Model;
+use App\Exceptions\API\ShiftDateRangeIntersectFound;
 
 class Shift extends Model
 {
+
+    use PathTrait;
+    
+    private $api_path = "/api/shifts";
 
     protected $fillable = [
         'department_id',
         'date_begin',
         'date_end'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // static::addGlobalScope(new IncomeDocumentScope);
+
+        static::saving(function ($model) {                        
+            // throw new \Exception('Date diapazon');
+            // return response()->json(['message' => 'WTF!!!'], 422);
+            // dd($model->department_id);
+
+            $shifts = Shift::where('department_id', $model->department_id)
+                            ->where('date_begin', '<=', $model->date_end)
+                            ->where('date_end', '>=', $model->date_begin)
+                            ->get()
+                            ->count();
+            // dd($shifts);
+            if ($shifts > 0) {
+                throw new ShiftDateRangeIntersectFound('Found ' . $shifts . ' shift(s) in range', 422);
+            }
+        });
+    }
+
+
 
     public function department()
     {
@@ -25,7 +57,7 @@ class Shift extends Model
 
     public function employees()
     {
-        return $this->hasManyThrough(Employee::class, ShiftEmployee::class, 'shift_id', 'id');
+        return $this->hasManyThrough(Employee::class, ShiftEmployee::class, 'shift_id', 'id', 'id', 'employee_id');
         
     }
 

@@ -11,12 +11,12 @@ use Faker\Generator as Faker;
 $factory->define(Shift::class, function (Faker $faker) {
         
     $department = factory(Department::class)->create();
-    $dateBegin = $faker->dateTimeBetween($department->opened, 'now');     
-
+    $dateBegin = $faker->dateTimeBetween($department->opened, 'now')->format("Y-m-d");
+    
     return [
         'department_id' =>  $department->id,
         'date_begin'    =>  $dateBegin,
-        'date_end'      =>  Carbon::parse($dateBegin)->addWeeks(2),
+        'date_end'      =>  Carbon::createFromFormat('Y-m-d', $dateBegin)->addWeeks(2)->toDateString()
     ];
 });
 

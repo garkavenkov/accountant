@@ -40,6 +40,23 @@ class Department extends Model
         return $query->whereRaw('flag & 2 = 2');
     }
 
+    public function scopeOfType($query, $type)
+    {
+        switch ($type) {
+            case 'goods':
+                $type = 1;
+                break;
+            case 'sales':
+                $type = 2;
+                break;
+            default:
+                $type = 0;
+                break;
+        }
+        
+        return $query->whereRaw("flag & {$type} = {$type}");
+    }
+
     public function shifts()
     {
         return $this->hasMany(Shift::class);
