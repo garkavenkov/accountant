@@ -2501,7 +2501,7 @@ var render = function() {
                     [
                       _vm._v(
                         "\n                                        " +
-                          _vm._s(_vm.getError("debet")) +
+                          _vm._s(_vm.getError("name")) +
                           "\n                            "
                       )
                     ]
@@ -2603,7 +2603,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "col-md-6" }, [
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Дата зарытия")]),
+                  _c("label", [_vm._v("Дата закрытия")]),
                   _vm._v(" "),
                   _c("input", {
                     directives: [

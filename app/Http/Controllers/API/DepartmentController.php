@@ -12,6 +12,7 @@ use App\Models\MarkdownDocument;
 use App\Models\TransferDocument;
 use App\Models\WritedownDocument;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\DepartmentRequest;
 use App\Http\Resources\API\Department\DepartmentResource;
 use App\Http\Resources\API\Department\DepartmentResourceCollection;
 use App\Http\Resources\API\DepartmentTurns\DepartmentTurnsResource;
@@ -30,26 +31,19 @@ class DepartmentController extends Controller
         return new DepartmentResourceCollection($departments);
         // return response()->json($departments);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+   
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DepartmentRequest $request)
     {
-        //
+        dd($request->validated());
+        $department = Department::create($request->validated());
+
+        return new DepartmentResource($department);
     }
 
     /**

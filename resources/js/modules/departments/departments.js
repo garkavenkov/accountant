@@ -1,8 +1,6 @@
-// const  Vue = require('vue');
-
-
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Vuex from 'vuex'
 
 Vue.use(VueRouter)
 
@@ -20,12 +18,18 @@ const router = new VueRouter({
     routes
 });
 
+Vue.use(Vuex);
+import {Department} from '../../stores/Department';
+
+const store = new Vuex.Store(Department);
+
 new Vue({
     el: '#app2',    
     components: {
         DepartmentsMain,
         DepartmentsShow
     },
-    router
+    router,
+    store
 });
 

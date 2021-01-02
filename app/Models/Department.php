@@ -20,6 +20,15 @@ class Department extends Model
 
     private $api_path="/api/departments";
 
+    protected $fillable = [
+        'branch_id',
+        'department_type_id',
+        'name',
+        'description',
+        'opened',
+        'closed'
+    ];
+
     public function branch()
     {
         return $this->belongsTo(Branch::class);
