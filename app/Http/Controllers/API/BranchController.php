@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\BranchRequest;
 use App\Http\Resources\API\Branch\BranchResource;
 use App\Http\Resources\API\Branch\BranchResourceCollection;
 
@@ -21,17 +22,7 @@ class BranchController extends Controller
 
         return new BranchResourceCollection($branches);
         // return response()->json($branches);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    }   
 
     /**
      * Store a newly created resource in storage.
@@ -39,9 +30,19 @@ class BranchController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BranchRequest $request)
     {
-        //
+        $validated = $request->validated();
+       
+        $branch = Branch::create([
+            'name'      =>  $validated['name'],
+            'address'   =>  $validated['address'],
+            'opened'    =>  $validated['opened'],
+            'closed'    =>  $validated['closed'],
+        ]);    
+
+        return response()->json($branch, 201);
+   
     }
 
     /**
@@ -57,18 +58,7 @@ class BranchController extends Controller
         // return response()->json($branch);            
         return new BranchResource($branch);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
+    
     /**
      * Update the specified resource in storage.
      *

@@ -12,6 +12,13 @@ class Branch extends Model
 {
     use PathTrait;
 
+    protected $fillable = [
+        'name',
+        'address',
+        'opened',
+        'closed'
+    ];
+
     private $api_path="/api/branches";    
 
     public function departments()
