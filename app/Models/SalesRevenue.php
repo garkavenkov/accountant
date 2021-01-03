@@ -22,7 +22,8 @@ class SalesRevenue extends Model
         'credit_id',
         'debet',
         'credit',
-        'status',
+        'purpose',
+        'status',        
         'user_id'
     ];    
 

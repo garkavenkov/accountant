@@ -30,8 +30,8 @@ class Branch extends Model
         return $this->hasManyThrough(Employee::class, Department::class);
     }
 
-    public function cash()
+    public function cashes()
     {
-        return $this->hasOne(Cash::class);
+        return $this->hasMany(Cash::class);
     }
 }

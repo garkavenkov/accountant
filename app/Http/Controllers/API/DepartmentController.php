@@ -40,7 +40,6 @@ class DepartmentController extends Controller
      */
     public function store(DepartmentRequest $request)
     {
-        dd($request->validated());
         $department = Department::create($request->validated());
 
         return new DepartmentResource($department);

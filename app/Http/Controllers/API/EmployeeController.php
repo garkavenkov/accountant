@@ -44,8 +44,8 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        // $employee = Employee::with('department', 'position','tariffRates')->findOrFail($id);
-        $employee = Employee::findOrFail($id);
+        $employee = Employee::with('department', 'position','tariffRates')->findOrFail($id);
+        // $employee = Employee::findOrFail($id);
         // $employee = Employee::findOrFail($id);
         // return response()->json($employee);
         return new EmployeeResource($employee);

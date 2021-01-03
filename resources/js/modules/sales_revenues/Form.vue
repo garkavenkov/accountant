@@ -155,14 +155,16 @@ export default {
         },
         closeModal() {        
             this.clearForm();
+            this.useFilter  = false;
         },
         clearForm() {
             this.errors = [];
             this.newDocument.amount         = 0;
-            this.newDocument.cashId         = 0;
-            this.newDocument.date           = null;
-            this.newDocument.departmentId   = 0;
-            this.useFilter                  = false;
+            
+            this.newDocument.cashId         = this.filter.creditId ? this.filter.creditId :  0 ;
+            this.newDocument.date           = this.filter.dateBegin ? this.filter.dateBegin :null;
+            this.newDocument.departmentId   = this.filter.debetId ? this.filter.debetId : 0;
+            
         },
     },
     computed: {
@@ -173,16 +175,17 @@ export default {
             // console.log(`newValue: ${newValue} | oldValue: ${oldValue}`);
              if (this.useFilter) {
                  // Use filter date if set
-                if (this.filter.date) {
-                    document.getElementById('date').setAttribute("min", this.filter.date)
+                if (this.filter.dateBegin) {
+                    document.getElementById('date').setAttribute("min", this.filter.dateBegin)
+                    this.newDocument.date = this.filter.dateBegin;
                 }
                 // Use supplier if set
-                if (this.filter.cashId) {
-                    this.newDocument.cashId = this.filter.cashId
+                if (this.filter.creditId) {
+                    this.newDocument.cashId = this.filter.creditId
                 }
                 // Use department if set
-                if (this.filter.departmentId) {
-                    this.newDocument.departmentId = this.filter.departmentId
+                if (this.filter.debetId) {
+                    this.newDocument.departmentId = this.filter.debetId
                 }
             } else {
                 document.getElementById('date').value = new Date().toISOString().slice(0,10);

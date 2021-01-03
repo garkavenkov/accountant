@@ -3160,7 +3160,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])(['documents', 'filter'])), {}, {
     totalMarkdownSum: function totalMarkdownSum() {
       var total = this.documents.reduce(function (a, b) {
-        return a + b.expense_sum * 1;
+        return a + b.markdownSum * 1;
       }, 0.00);
       return total;
     }

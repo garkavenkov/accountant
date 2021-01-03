@@ -111,7 +111,7 @@ export default {
     computed: {
         ...mapGetters(['documents', 'filter']),
         totalMarkdownSum() {
-            let total =  this.documents.reduce((a, b) => a + b.expense_sum*1, 0.00);
+            let total =  this.documents.reduce((a, b) => a + b.markdownSum*1, 0.00);
             return total;
         },        
     },

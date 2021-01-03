@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Vuex from 'vuex'
 
 Vue.use(VueRouter)
 
@@ -17,12 +18,18 @@ const router = new VueRouter({
     routes
 });
 
+Vue.use(Vuex);
+import {Supplier} from '../../stores/Supplier.js';
+
+const store = new Vuex.Store(Supplier);
+
 new Vue({
     el: '#app2',    
     components: {
         SuppliersMain,
         SuppliersShow
     },
-    router
+    router,
+    store
 });
 

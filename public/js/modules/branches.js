@@ -1008,30 +1008,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'BranchesShow',
   props: ['id'],
@@ -2918,43 +2894,37 @@ var render = function() {
                       attrs: { id: "departments" }
                     },
                     [
-                      _c(
-                        "table",
-                        { staticClass: "table table-striped projects" },
-                        [
-                          _vm._m(3),
-                          _vm._v(" "),
-                          _c(
-                            "tbody",
-                            _vm._l(_vm.branch.departments, function(
-                              department
-                            ) {
-                              return _c("tr", { key: department.id }, [
-                                _c("td", [
-                                  _vm._v(
-                                    "\n                                                " +
-                                      _vm._s(department.name) +
-                                      "\n                                            "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(
-                                    "\n                                                " +
-                                      _vm._s(department.description) +
-                                      "\n                                            "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _vm._m(4, true),
-                                _vm._v(" "),
-                                _vm._m(5, true)
-                              ])
-                            }),
-                            0
-                          )
-                        ]
-                      )
+                      _c("table", { staticClass: "table table-striped" }, [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.branch.departments, function(department) {
+                            return _c("tr", { key: department.id }, [
+                              _c("td", [
+                                _vm._v(
+                                  "\n                                                " +
+                                    _vm._s(department.name) +
+                                    "\n                                            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  "\n                                                " +
+                                    _vm._s(department.description) +
+                                    "\n                                            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(4, true),
+                              _vm._v(" "),
+                              _vm._m(5, true)
+                            ])
+                          }),
+                          0
+                        )
+                      ])
                     ]
                   ),
                   _vm._v(" "),
@@ -2962,51 +2932,71 @@ var render = function() {
                     "div",
                     { staticClass: "tab-pane", attrs: { id: "employees" } },
                     [
-                      _c(
-                        "table",
-                        { staticClass: "table table-striped projects" },
-                        [
-                          _vm._m(6),
-                          _vm._v(" "),
-                          _c(
-                            "tbody",
-                            _vm._l(_vm.branch.employees, function(employee) {
-                              return _c("tr", { key: employee.id }, [
-                                _c("td", [
-                                  _vm._v(
-                                    "\n                                                " +
-                                      _vm._s(employee.full_name) +
-                                      "\n                                            "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(
-                                    "\n                                                " +
-                                      _vm._s(employee.department) +
-                                      "\n                                            "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(
-                                    "\n                                                " +
-                                      _vm._s(employee.position) +
-                                      "\n                                            "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _vm._m(7, true)
-                              ])
-                            }),
-                            0
-                          )
-                        ]
-                      )
+                      _c("table", { staticClass: "table table-striped" }, [
+                        _vm._m(6),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.branch.employees, function(employee) {
+                            return _c("tr", { key: employee.id }, [
+                              _c("td", [
+                                _vm._v(
+                                  "\n                                                " +
+                                    _vm._s(employee.full_name) +
+                                    "\n                                            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  "\n                                                " +
+                                    _vm._s(employee.department) +
+                                    "\n                                            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  "\n                                                " +
+                                    _vm._s(employee.position) +
+                                    "\n                                            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(7, true)
+                            ])
+                          }),
+                          0
+                        )
+                      ])
                     ]
                   ),
                   _vm._v(" "),
-                  _vm._m(8)
+                  _c(
+                    "div",
+                    { staticClass: "tab-pane", attrs: { id: "cashes" } },
+                    [
+                      _c("table", { staticClass: "table table-striped" }, [
+                        _vm._m(8),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.branch.cashes, function(cash) {
+                            return _c("tr", { key: cash.id }, [
+                              _c("td", [
+                                _vm._v(
+                                  "\n                                                " +
+                                    _vm._s(cash.name) +
+                                    "\n                                            "
+                                )
+                              ])
+                            ])
+                          }),
+                          0
+                        )
+                      ])
+                    ]
+                  )
                 ])
               ])
             ])
@@ -3124,9 +3114,9 @@ var staticRenderFns = [
             "a",
             {
               staticClass: "nav-link",
-              attrs: { href: "#miscelaneous", "data-toggle": "tab" }
+              attrs: { href: "#cashes", "data-toggle": "tab" }
             },
-            [_vm._v("Miscellaneous")]
+            [_vm._v("Cashes")]
           )
         ])
       ])
@@ -3210,7 +3200,7 @@ var staticRenderFns = [
           )
         ]),
         _vm._v(" "),
-        _c("th", [
+        _c("th", { staticStyle: { width: "25%" } }, [
           _vm._v(
             "\n                                                Должность\n                                            "
           )
@@ -3240,131 +3230,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "tab-pane", attrs: { id: "miscelaneous" } },
-      [
-        _c("form", { staticClass: "form-horizontal" }, [
-          _c("div", { staticClass: "form-group row" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-sm-2 col-form-label",
-                attrs: { for: "inputName" }
-              },
-              [_vm._v("Name")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-10" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "email", id: "inputName", placeholder: "Name" }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-sm-2 col-form-label",
-                attrs: { for: "inputEmail" }
-              },
-              [_vm._v("Email")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-10" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "email", id: "inputEmail", placeholder: "Email" }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-sm-2 col-form-label",
-                attrs: { for: "inputName2" }
-              },
-              [_vm._v("Name")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-10" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "text", id: "inputName2", placeholder: "Name" }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-sm-2 col-form-label",
-                attrs: { for: "inputExperience" }
-              },
-              [_vm._v("Experience")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-10" }, [
-              _c("textarea", {
-                staticClass: "form-control",
-                attrs: { id: "inputExperience", placeholder: "Experience" }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c(
-              "label",
-              {
-                staticClass: "col-sm-2 col-form-label",
-                attrs: { for: "inputSkills" }
-              },
-              [_vm._v("Skills")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-10" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  id: "inputSkills",
-                  placeholder: "Skills"
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c("div", { staticClass: "offset-sm-2 col-sm-10" }, [
-              _c("div", { staticClass: "checkbox" }, [
-                _c("label", [
-                  _c("input", { attrs: { type: "checkbox" } }),
-                  _vm._v(" I agree to the "),
-                  _c("a", { attrs: { href: "#" } }, [
-                    _vm._v("terms and conditions")
-                  ])
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group row" }, [
-            _c("div", { staticClass: "offset-sm-2 col-sm-10" }, [
-              _c(
-                "button",
-                { staticClass: "btn btn-danger", attrs: { type: "submit" } },
-                [_vm._v("Submit")]
-              )
-            ])
-          ])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticStyle: { width: "100%" } }, [
+          _vm._v(
+            "\n                                                Name\n                                            "
+          )
         ])
-      ]
-    )
+      ])
+    ])
   }
 ]
 render._withStripped = true

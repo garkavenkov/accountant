@@ -53,7 +53,7 @@ class BranchController extends Controller
      */
     public function show($id)
     {
-        $branch = Branch::with('departments', 'employees.department', 'employees.position')->findOrFail($id);        
+        $branch = Branch::with('departments', 'cashes', 'employees.department', 'employees.position')->findOrFail($id);        
 
         // return response()->json($branch);            
         return new BranchResource($branch);

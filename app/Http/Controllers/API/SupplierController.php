@@ -7,6 +7,7 @@ use App\Models\Branch;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\SupplierRequest;
 use App\Http\Resources\API\Supplier\SupplierResource;
 use App\Http\Resources\API\Supplier\SupplierResourceCollection;
 use App\Http\Resources\API\IncomeDocument\IncomeDocumentResource;
@@ -27,24 +28,16 @@ class SupplierController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SupplierRequest $request)
     {
-        //
+        $supplier = Supplier::create($request->validated());
+
+        return new SupplierResource($supplier);
     }
 
     /**

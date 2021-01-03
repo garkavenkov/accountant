@@ -16,8 +16,8 @@ class CreateLinkedDocumentsTable extends Migration
         Schema::create('linked_documents', function (Blueprint $table) {
             $table->id();
             $table->smallInteger('type_id');
-            $table->string('cash_document_id');
-            $table->string('owner_id');
+            $table->integer('cash_document_id');
+            $table->integer('owner_id');
             $table->timestamps();
         });
     }

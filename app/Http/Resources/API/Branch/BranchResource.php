@@ -27,6 +27,7 @@ class BranchResource extends JsonResource
             // 'employees'     =>  BranchWithEmployeesResource::collection($this->whenLoaded('employees')),
             'employees'     =>  BranchWithEmployeesResource::collection($this->employees),
             // 'employees'     =>  $this->employees,
+            'cashes'        =>  $this->cashes,
             'opened'        =>  Carbon::parse($this->opened)->formatLocalized('%d.%m.%Y'),
             'closed'        =>  $this->closed ? Carbon::parse($this->closed)->formatLocalized('%d.%m.%Y') : null,
         ];
