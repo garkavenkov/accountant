@@ -20,6 +20,17 @@ class Employee extends Model
 
     protected $appends = ['full_name'];
 
+    protected $fillable = [
+        'surname',
+        'name',
+        'patronymic',
+        'address',
+        'position_id',
+        'department_id',
+        'birthdate',
+        'hired',
+        'fired'
+    ];
 
     public function position()
     {

@@ -1,8 +1,6 @@
-// const  Vue = require('vue');
-
-
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Vuex from 'vuex'
 
 Vue.use(VueRouter)
 
@@ -11,8 +9,8 @@ import EmployeesShow from './Show.vue';
 
 
 const routes = [
-    {path: '/', name: 'EmployeesMain', component: EmployeesMain},
-    {path: '/:id', name: 'EmployeesShow', component: EmployeesShow, props: true} 
+    {path: '/',     name: 'EmployeesMain', component: EmployeesMain},
+    {path: '/:id',  name: 'EmployeesShow', component: EmployeesShow, props: true} 
 ];
 
 const router = new VueRouter({
@@ -21,10 +19,14 @@ const router = new VueRouter({
 });
 
 
-Vue.filter('formatNumber', function(value, precision = 0) {
-    let formatedNumber = value.toLocaleString('ru-RU', { minimumFractionDigits: precision });
-    return formatedNumber;
-})
+Vue.use(Vuex);
+import {Employee} from '../../stores/Employee';
+const store = new Vuex.Store(Employee);
+
+// Vue.filter('formatNumber', function(value, precision = 0) {
+//     let formatedNumber = value.toLocaleString('ru-RU', { minimumFractionDigits: precision });
+//     return formatedNumber;
+// })
 
 import moment from 'moment'
 
@@ -40,6 +42,7 @@ new Vue({
         EmployeesMain,
         EmployeesShow
     },
-    router
+    router,
+    store
 });
 

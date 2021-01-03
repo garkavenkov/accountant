@@ -22,17 +22,7 @@ class EmployeeController extends Controller
         
         return new EmployeeResourceCollection($employees);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -41,7 +31,9 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $employee = Employee::create($request->all());
+
+        return new EmployeeResource($employee);
     }
 
     /**
@@ -52,7 +44,8 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        $employee = Employee::with('department', 'position','tariffRates')->findOrFail($id);
+        // $employee = Employee::with('department', 'position','tariffRates')->findOrFail($id);
+        $employee = Employee::findOrFail($id);
         // $employee = Employee::findOrFail($id);
         // return response()->json($employee);
         return new EmployeeResource($employee);

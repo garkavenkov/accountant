@@ -8,13 +8,13 @@
 
         <template v-slot:title>
             <h3 class="card-title">Сотрудники
-                <!-- <button class="btn btn-primary"
+                <button class="btn btn-primary"
                         data-toggle="modal" 
-                        data-target="#modal-new-document"
+                        data-target="#modal-new-employee"
                         data-backdrop="static" 
                         data-keyboard="true">
                     <i class="fas fa-plus"></i>
-                </button> -->
+                </button>
                 <button type="button" 
                         class="btn btn-info" 
                         v-on:click="fetchData"
@@ -68,40 +68,36 @@
         </template>       
     </grid>
 
+    <employee-form></employee-form>
+
 </div>
 
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import Grid from '../../components/Grid';
+import EmployeeForm from './Form.vue';
 
 export default {
     name: 'EmployeesMain',
     data() {
         return {
-            employees: []
+            pagination: {}
         }
     },
     methods: {
-        fetchData() {               
-            axios.get('/api/employees', 
-                    {
-                        'headers': {
-                            'Authorization': 'Bearer ' + window.api_token,
-                            'Accept': 'application/json',
-                        } 
-                    }
-                )
-                .then(res => this.employees = res.data.data)
-                .catch(err => console.log(err));
-                
-        }
+        ...mapActions(['fetchData'])
+    },
+    computed: {
+        ...mapGetters(['employees'])
     },
     created() {
         this.fetchData();
-    },
+    },    
     components: {
-        Grid
+        Grid,
+        EmployeeForm
     }
 }    
 </script>

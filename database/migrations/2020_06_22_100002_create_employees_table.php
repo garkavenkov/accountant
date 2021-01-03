@@ -18,8 +18,8 @@ class CreateEmployeesTable extends Migration
             $table->string('surname');
             $table->string('name', 50);
             $table->string('patronymic');            
-            $table->string('address');
-            $table->date('birthdate');
+            $table->string('address')->nullable();
+            $table->date('birthdate')->nullable();
             $table->smallInteger('department_id');
             $table->smallInteger('position_id');
             $table->date('hired');

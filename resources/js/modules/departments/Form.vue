@@ -88,7 +88,7 @@
                                 <span   id="description-error"
                                         class="error invalid-feedback">
                                         {{getError('description')}}
-                            </span>
+                                </span>
                             </div>
                         </div>
                     </div>
