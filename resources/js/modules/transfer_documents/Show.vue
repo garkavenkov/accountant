@@ -120,6 +120,14 @@
                         </table>
                     </div>
                 </div>
+                 <div class="row no-print">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-danger float-right" @click="deleteDoc(document.id)" v-if="document.status == 0">
+                            <i class="far fa-credit-card"></i> 
+                            Delete
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>        
     </div>      
@@ -188,7 +196,7 @@ export default {
                         toast: true,
                         position: 'top-end',
                         showConfirmButton: false,
-                        timer: 3000,
+                        timer: 2000,
                         // title:'Good job!',
                         text:'Документ успешно удален',
                         icon:'success',

@@ -110,6 +110,11 @@ class TransferDocumentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $document = TransferDocument::findOrFail($id);
+           
+        $document->delete();
+
+        return response()->json(['message' => 'Document has been successfully deleted!'], 200);
+
     }
 }

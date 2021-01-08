@@ -29,6 +29,7 @@ trait WhereTrait
                 } else {
                     $where = "{$prop}='$keys[0]'";
                 }
+                
                 if ($whereClause) {
                     $whereClause = $whereClause . ' and ' . $where;
                 } else {

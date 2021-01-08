@@ -7,7 +7,7 @@
       <form action="{{ route('login') }}" method="POST">
         @csrf
         <div class="card-body">
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
                     <input type="email" name="email" class="form-control  @error('email') is-invalid @enderror" id="email"   value="{{ old('email') }}" placeholder="Enter email" required autocomplete="email" autofocus>
                     @error('email')
@@ -15,7 +15,20 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                     @enderror
-                  </div>
+                  </div> -->
+                  <div class="form-group">
+                    <label for="username">{{__('Username') }}</label>
+
+                            <!-- <div class="col-md-6"> -->
+                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" placeholder="Username" required autocomplete="username" autofocus>
+
+                                @error('username')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            <!-- </div> -->
+                        </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
                     <input type="password" name="password" class="form-control  @error('password') is-invalid @enderror" id="password" placeholder="Password" required autocomplete="current-password">

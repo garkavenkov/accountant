@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Department;
 use App\Models\CashDocument;
 use App\Models\SalesRevenue;
 use Illuminate\Http\Request;
@@ -69,7 +70,8 @@ class SalesRevenueController extends Controller
         // dd($request->all());
         $validated = $request->validated();
         // dd($validated);
-        
+        $department = Department::findOrFail($validated['debet_id']);
+
         $document = SalesRevenue::create([
             'date'              =>  $validated['date'],
             // 'operation_id'      =>  1, //CashOperation::where('code', 'sales_revenue')->first()->id,
@@ -78,6 +80,7 @@ class SalesRevenueController extends Controller
             'credit_id'         =>  $validated['credit_id'],
             // 'debet'             =>  0,
             'credit'            =>  $validated['credit'],
+            'purpose'           =>  'Сдача торговой выручки от торговой точки "' . $department->name . '"',
             'status'            =>  0,
             // 'user_id'           =>  1
         ]);    

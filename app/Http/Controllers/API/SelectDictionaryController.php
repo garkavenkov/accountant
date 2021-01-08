@@ -15,6 +15,7 @@ class SelectDictionaryController extends Controller
     protected $whereClauses = [
         // 'date'      =>  'between',
         'branch_id'  =>  'in',
+        'owner_id'   =>  'in',
         // 'credit_id' =>  'in',
         // 'sum1'      =>  'between',
         // 'sum2'      =>  'between'
@@ -29,7 +30,7 @@ class SelectDictionaryController extends Controller
     public function __invoke($model)
     {
         $parameters =  request()->input();
-        
+        // dd($parameters);
         $model = 'App\\Models\\' . \Str::studly(\Str::singular($model));
         
         // $fields = ['id', 'name'];
@@ -46,7 +47,12 @@ class SelectDictionaryController extends Controller
             }
         } else {
             // $fields = ['id', 'full_name'];
-            $data = $model::get($fields);
+            if ($where) {
+                $data = $model::whereRaw($where)->get($fields);
+            } else {
+                $data = $model::get($fields);
+            }
+            
             // $data = $model::get()->pluck(array_values($fields));
         }
 

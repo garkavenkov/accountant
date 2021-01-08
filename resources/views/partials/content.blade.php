@@ -22,7 +22,7 @@
 
     <!-- Main content -->
     <div class="content">
-        <div class="container-fluid">
+        <div class="container-fluid">        
             @yield('content')
         </div><!-- /.container-fluid -->
     </div>

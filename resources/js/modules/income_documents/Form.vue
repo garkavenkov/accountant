@@ -18,7 +18,8 @@
                                         id="date" 
                                         class="form-control datetimepicker-input" 
                                         v-bind:class="{'is-invalid' : hasError('date')}"
-                                        v-model="document.date">                                
+                                        v-model="document.date" 
+                                        tabindex="1">
                                 <span   id="date-error" 
                                         class="error invalid-feedback">
                                             {{getError('date')}}
@@ -32,29 +33,7 @@
                                     :options="suppliers"                            
                                     v-model="document.supplierId"
                                     :error="errors['debet_id']">
-                            </select-field>
-                            <!-- <div class="form-group">
-                                <label>Поставщик</label>
-                                <select class="form-control select2" 
-                                        style="width: 100%;" 
-                                        v-bind:class="{'is-invalid' : hasError('debit_id')}"
-                                        v-model="newDocument.supplierId">
-                                    <option selected="selected" 
-                                            disabled 
-                                            value="0">
-                                        Выберите поставщика
-                                    </option>
-                                    <option v-for="supplier in suppliers" 
-                                            :value="supplier.id" 
-                                            :key="supplier.id">
-                                                {{supplier.name}}
-                                    </option>                          
-                                </select>
-                                <span   id="supplier-error" 
-                                        class="error invalid-feedback">
-                                            {{getError('debit_id')}}
-                                </span>
-                            </div>-->
+                            </select-field>                           
                         </div> 
                     </div>
                     <div class="row">
@@ -97,12 +76,12 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" @click="closeModal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" @click="closeModal" tabindex="8">Close</button>
                     <div class="custom-control custom-switch" v-if="filter.isFiltered">
-                        <input type="checkbox" id="useFilter" class="custom-control-input" v-model="useFilter">
+                        <input type="checkbox" id="useFilter" class="custom-control-input" v-model="useFilter" tabindex="9">
                         <label for="useFilter" class="custom-control-label">Use filter</label>
                     </div>
-                    <button type="button" class="btn btn-primary" @click="saveDoc">Сохранить</button>
+                    <button type="button" class="btn btn-primary" @click="saveDoc" tabindex="7">Сохранить</button>
                 </div>
             </div>        
         </div>        
@@ -163,23 +142,32 @@ export default {
                         position: 'top-end',
                         showConfirmButton: false,
                         timer: 2000,
-                        title:'Good job!',
+                        // title:'Good job!',
                         text:'Документ успешно создан',
                         icon:'success',
                     });
                 })
-                .catch(err => this.errors = err.response.data.errors);            
+                .catch(err => {
+                    this.errors = err.response.data.errors
+                });
         },
         closeModal() {
             this.clearForm();
+            this.useFilter = false;
         },         
         clearForm() {
-            this.document.date = null;
-            this.document.departmentId  = 0;            
-            this.document.employeeId    = 0;            
+            if (this.useFilter) {
+                // this.document.date = null;
+                this.document.supplierId    = this.filter.debetId   ? this.filter.debetId   : 0;
+                this.document.departmentId  = this.filter.creditId  ? this.filter.creditId  : 0;
+            } else {
+                this.document.date = new Date().toISOString().slice(0,10);
+                this.document.departmentId  = 0;            
+                this.document.employeeId    = 0;        
+                this.employees = [];
+            }            
             this.document.purchaseSum   = 0;
             this.document.retailSum     = 0;            
-            this.employees = [];
             this.errors = [];
         },
         getEmployeesInChargeOfDepartment(departmentId, date) {
@@ -252,7 +240,21 @@ export default {
             if (this.hasError('sum2')) {
                 delete this.errors.sum2;
             }
-        },        
+        }, 
+        useFilter() {
+            if (this.useFilter) {
+                if (this.filter.dateBegin) {
+                    document.getElementById('date').setAttribute("min", this.filter.dateBegin)
+                    this.document.date = this.filter.dateBegin;
+                }
+                if (this.filter.dateEnd) {
+                    document.getElementById('date').setAttribute("max", this.filter.dateEnd)
+                    this.document.date = this.filter.dateBegin;
+                }
+                this.document.supplierId     = this.filter.debetId ? this.filter.debetId : 0;
+                this.document.departmentId   = this.filter.creditId ? this.filter.creditId : 0;
+            }
+        }
     }
 }
 </script>

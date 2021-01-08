@@ -13,7 +13,6 @@ class CashDocument extends Model
     use PathTrait;
     
     private $api_path="/api/cash-documents";    
-       
 
     protected $fillable = [
         'date',
@@ -55,6 +54,11 @@ class CashDocument extends Model
     public function cash_debet()
     {
         return $this->belongsTo(Cash::class, 'debet_id', 'id');
+    }
+
+    public function expense()
+    {
+        return $this->belongsTo(ExpenseItem::class, 'credit_id', 'id');
     }
 
     public function approve()

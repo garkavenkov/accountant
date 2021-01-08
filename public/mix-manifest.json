@@ -3,6 +3,7 @@
     "/css/app.css": "/css/app.css",
     "/js/modules/branches.js": "/js/modules/branches.js",
     "/js/modules/cash_documents.js": "/js/modules/cash_documents.js",
+    "/js/modules/cash_expense_documents.js": "/js/modules/cash_expense_documents.js",
     "/js/modules/department_turns.js": "/js/modules/department_turns.js",
     "/js/modules/departments.js": "/js/modules/departments.js",
     "/js/modules/employees.js": "/js/modules/employees.js",

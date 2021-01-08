@@ -42,6 +42,10 @@ class CashOperationSeeder extends Seeder
                 'code'      =>  'loan_repayment',
                 'name'      =>  'Погашение долга'
             ],
+            [
+                'code'      =>  'expense',
+                'name'      =>  'Расход кассы'
+            ],
         ]);
     }
 }

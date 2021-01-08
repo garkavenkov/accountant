@@ -3431,6 +3431,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3460,7 +3468,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           toast: true,
           position: 'top-end',
           showConfirmButton: false,
-          timer: 3000,
+          timer: 2000,
           // title:'Good job!',
           text: 'Документ успешно удален',
           icon: 'success'
@@ -28113,6 +28121,31 @@ var render = function() {
                     ])
                   ])
                 : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row no-print" }, [
+              _c("div", { staticClass: "col-12" }, [
+                _vm.document.status == 0
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger float-right",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteDoc(_vm.document.id)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "far fa-credit-card" }),
+                        _vm._v(
+                          " \n                            Delete\n                        "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ])
             ])
           ])
         ])

@@ -22,7 +22,7 @@ class SupplierController extends Controller
      */
     public function index()
     {        
-        $data = Supplier::paginate(15);
+        $data = Supplier::all();
                 
         return new SupplierResourceCollection($data);
     }

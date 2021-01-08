@@ -93,6 +93,12 @@
                                 <i class="fas fa-coins"></i>
                                 <p>Зарплата</p>
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="cash-expense-documents" class="nav-link">
+                                <i class="fas fa-coins"></i>
+                                <p>Расходные кассовые документы</p>
+                            </a>
                         </li>                       
                     </ul>
                 </li>
