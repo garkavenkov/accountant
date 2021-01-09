@@ -101,6 +101,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="accountabilities" class="nav-link">
+                                <i class="fas fa-coins"></i>
+                                <p>Подотчетные документы</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="cash-expense-documents" class="nav-link">
                                 <i class="fas fa-coins"></i>
                                 <p>Расходные кассовые документы</p>

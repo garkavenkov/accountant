@@ -102,4 +102,8 @@ Route::group(['middleware' => ['auth']], function () {
         return view('return_documents');
     });
 
+    Route::get('accountabilities', function() {
+        return view('accountabilities');
+    });
+
 });

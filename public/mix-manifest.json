@@ -1,6 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/js/modules/accountabilities.js": "/js/modules/accountabilities.js",
     "/js/modules/branches.js": "/js/modules/branches.js",
     "/js/modules/cash_documents.js": "/js/modules/cash_documents.js",
     "/js/modules/cash_expense_documents.js": "/js/modules/cash_expense_documents.js",

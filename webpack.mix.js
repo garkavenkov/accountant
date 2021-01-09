@@ -30,6 +30,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/modules/department_turns/department_turns.js',                'public/js/modules')
     .js('resources/js/modules/salaries/salaries.js',                                'public/js/modules')
     .js('resources/js/modules/cash_expense_documents/cash_expense_documents.js',    'public/js/modules')
-    .js('resources/js/modules/return_documents/return_documents.js',                'public/js/modules');
+    .js('resources/js/modules/return_documents/return_documents.js',                'public/js/modules')
+    .js('resources/js/modules/accountabilities/accountabilities.js',                'public/js/modules');
     
 mix.sass('resources/sass/app.scss', 'public/css');
