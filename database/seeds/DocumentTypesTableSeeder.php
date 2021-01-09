@@ -39,6 +39,10 @@ class DocumentTypesTableSeeder extends Seeder
                 'code'  =>  'markup',
                 'name'  =>  'Дооценка товара'
             ],
+            [            
+                'code'  =>  'return',
+                'name'  =>  'Возврат товара'
+            ],
         ]);        
     }
 }

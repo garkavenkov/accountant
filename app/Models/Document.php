@@ -77,6 +77,11 @@ class Document extends Model
         return $query->where('operation_id', DocumentType::where('code', 'writedown')->first()->id);
     }    
 
+    public function scopeReturn($query)
+    {        
+        return $query->where('operation_id', DocumentType::where('code', 'return')->first()->id);
+    }    
+
     public function items()
     {
         return $this->hasMany(DocumentItem::class, 'document_id', 'id');
@@ -86,5 +91,5 @@ class Document extends Model
     {
         return $this->hasOne(DocumentType::class, 'id', 'document_type_id');
     }
-
+    
 }

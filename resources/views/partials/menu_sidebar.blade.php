@@ -54,6 +54,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="return-documents" class="nav-link">
+                                <i class="fas fa-file-prescription nav-icon"></i>
+                                <p>Возврат товара</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="markup-documents" class="nav-link">
                                 <i class="fas fa-file-upload nav-icon"></i>
                                 <p>Дооценка товара</p>

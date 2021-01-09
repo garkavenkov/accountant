@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth:api'], function() {
         'salaries'                  =>  'API\SalaryController',
         'expense-items'             =>  'API\ExpenseItemController',
         'cash-expense-documents'    =>  'API\CashExpenseDocumentController',
+        'return-documents'          =>  'API\ReturnDocumentController'
     ]);
 
     
