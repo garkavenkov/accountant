@@ -12,6 +12,8 @@ class CashDocument extends Model
 {
     use PathTrait;
     
+    protected $table = 'cash_documents';
+
     private $api_path="/api/cash-documents";    
 
     protected $fillable = [
@@ -20,6 +22,7 @@ class CashDocument extends Model
         'number',
         'debet_id',        
         'credit_id',
+        'purpose',
         'debet',
         'credit',
         'status',

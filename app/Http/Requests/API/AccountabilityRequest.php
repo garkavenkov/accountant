@@ -4,7 +4,7 @@ namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SalaryRequest extends FormRequest
+class AccountabilityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
