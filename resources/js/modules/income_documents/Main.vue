@@ -5,7 +5,8 @@
     <grid   :dataTable="documents"
             :pagination="pagination"
             filteredField="supplier"
-            @fetchData="fetchData"> 
+            @fetchData="fetchData"
+            v-model="selectedRecords"> 
 
         <template v-slot:title>
             <h3 class="card-title">Товарные накладные
@@ -29,11 +30,30 @@
                         data-keyboard="true">
                     <i class="fas fa-filter"></i>
                 </button>
+                <button type="button" 
+                        class="btn btn-info" 
+                        v-on:click="selectMode"
+                        title="Выбрать записи"
+                        v-if="documents.length > 0">
+                    <i class="fas fa-tasks"></i>
+                    <span class="float-right badge bg-primary" v-if="selectedRecords.length > 0">{{selectedRecords.length}}</span>
+                </button>
+                <button class="btn btn-info "
+                        data-toggle="modal" 
+                        data-target="#modal-tag-form"
+                        data-backdrop="static" 
+                        data-keyboard="true"
+                        v-if="selectedRecords.length > 0">
+                    <i class="fas fa-tags"></i>
+                </button>
             </h3>
         </template>           
         <template v-slot:header>
             <tr>
-                <td></td>
+                <td v-if="inSelectMode">
+                    <input type="checkbox" name="selectAll" id="selectAll" @change="selectAll($event)">
+                </td>
+                <td v-else></td>
                 <td class="text-center">Дата</td>
                 <td class="text-center">№</td>
                 <td>Поставщик</td>
@@ -46,11 +66,14 @@
             </tr>
         </template>
         <template v-slot:default="slotProps">
-            <tr v-for="data in slotProps.paginatedData" :key="data.id">
-                <td class="text-center">
+            <tr v-for="data in slotProps.paginatedData" :key="data.id" :class="{ selected: data.selected }">
+                <td class="text-center" v-if="!inSelectMode">
                     <router-link :to="{name: 'IncomeDocumentsShow', params: {id: data.id}}">
                         <i class="far fa-eye"></i>
                     </router-link>
+                </td>
+                <td v-else>
+                    <input type="checkbox" v-model="data.selected" @change="handleClick(data)">
                 </td>
                 <td class="text-center">{{data.date}}</td>
                 <td>{{data.number}}</td>
@@ -62,16 +85,26 @@
                 <td class="text-right">{{data.gain | formatNumber(2)}}</td>
                 <td class="text-center">
                     <document-paid v-if="data.isPaid" :payments="data.payments"></document-paid>
-                    <!-- <template v-if="data.isPaid">
-                        <abbr :title="Oплата произведена ${data.supplier}">
-                            <i class="fas fa-donate"></i>
-                        </abbr>
-                    </template> -->                   
+                    <template v-if="data.firstForm">
+                        <abbr title="Первая форма">
+                            <i class="fab fa-wpforms first-form"></i>
+                        </abbr>                        
+                    </template>
+                    <abbr title="Бонус" v-if="data.bonus == 1">
+                        <i class="fas fa-gift gift"></i>
+                    </abbr>
                     <!-- <i class="fas fa-file-invoice-dollar"></i> -->
                 </td>         
             </tr>     
         </template>
         <template v-slot:footer>
+            <tr v-if="selectedRecords.length>0">
+                <td colspan="6" class="font-weight-italic">Выделено документов: {{selectedRecords.length}}</td>
+                <td class="text-right font-weight-italic">{{totalSelectedPurchaseSum | formatNumber(2)}}</td>
+                <td class="text-right font-weight-italic">{{totalSelectedRetailSum | formatNumber(2)}}</td>                
+                <td class="text-right font-weight-italic">{{totalSelectedRetailSum - totalSelectedPurchaseSum | formatNumber(2)}}</td>
+                <td></td>
+            </tr>
             <tr>
                 <td colspan="6" class="font-weight-bold">Итого документов: {{documents.length}}</td>
                 <td class="text-right font-weight-bold">{{totalPurchaseSum | formatNumber(2)}}</td>
@@ -82,8 +115,9 @@
         </template>       
     </grid>
 
-    <document-form></document-form>
+    <document-form></document-form>    
     <document-filter></document-filter>
+    <flag-form :documents="selectedRecords"></flag-form>
 
 </div>
 
@@ -95,6 +129,8 @@ import Grid             from '../../components/Grid';
 import DocumentPaid     from '../../components/DocumentPaid';
 import DocumentForm     from './Form';
 import DocumentFilter   from './Filter';
+import FlagForm         from './FlagForm'
+
 
 import { mapGetters, mapActions } from 'vuex';
 
@@ -105,7 +141,9 @@ export default {
         return {            
             pagination: {},            
             url: '/api/income-documents',            
-            useFilter: false
+            useFilter: false,
+            inSelectMode: false,
+            selectedRecords: [],
         }
     },
     methods: {
@@ -125,8 +163,33 @@ export default {
             this.filter.queryStr        =   '';
             document.getElementById('dateBegin').value = new Date().toISOString().slice(0,10);
             document.getElementById('dateEnd').value = "";
+        },
+        selectMode() {
+            if (this.inSelectMode) {
+                this.inSelectMode = false;
+                this.selectedRecords = [];
+                this.documents.forEach(document => delete document.selected);
+            } else {
+                this.inSelectMode = true;
+            }
+        },
+        selectAll(e) {
+            if (e.target.checked) {
+                this.selectedRecords = this.documents
+                this.documents.map(document => document.selected = true);
+            } else {
+                this.selectedRecords = [];
+                this.documents.map(document => delete document.selected);
+            }
+        },
+        handleClick(record) {
+            this.selectedRecords = this.documents.filter(document => document.selected);
+            // if (record.selected) {
+            //     this.selectedRecords.push(record);
+            // } else {
+            //     this.selectedRecords = this.selectedRecords.filter(item => item.id != record.id);
+            // }
         }
-
     },
     computed: {
         ...mapGetters(['documents', 'filter']),
@@ -137,7 +200,16 @@ export default {
         totalRetailSum() {
             let total =  this.documents.reduce((a, b) => a + b.sum2*1, 0.00);
             return total;
-        },        
+        },  
+        totalSelectedPurchaseSum() {
+            let total =  this.selectedRecords.reduce((a, b) => a + b.sum1*1, 0.00);
+            return total;
+        },
+        totalSelectedRetailSum() {
+            let total =  this.selectedRecords.reduce((a, b) => a + b.sum2*1, 0.00);
+            return total;
+        },  
+        
     },
     created() {
         this.fetchData();
@@ -145,6 +217,7 @@ export default {
         this.getDepartmentsDictionary();
     },
     watch: {
+        
         // 'newDocument.date'(newValue, oldValue) {            
         //     this.getEmployeesInChargeOfDepartment();
         //     if (this.hasError('date')) {
@@ -190,7 +263,8 @@ export default {
         Grid,
         DocumentPaid,
         DocumentForm,
-        DocumentFilter
+        DocumentFilter,
+        FlagForm
     }
 }    
 </script>
@@ -207,5 +281,18 @@ export default {
     }
     abbr:hover {
         cursor: default;
+    }
+    tr.selected {
+        background-color: cadetblue !important;
+    }
+
+    i.first-form {
+        color: green;
+        font-weight: bold;
+    }
+
+    i.gift {
+        color: blue;
+        font-weight: bold;
     }
 </style>

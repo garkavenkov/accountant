@@ -91,13 +91,11 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal" @click="closeModal">Close</button>
-                    
                     <div class="custom-control custom-switch" v-if="filter.isFiltered">
                         <input type="checkbox" id="useFilter" class="custom-control-input" v-model="useFilter">
                         <label for="useFilter" class="custom-control-label">Use filter</label>
                     </div>
-                    
-                    <button type="button" class="btn btn-primary" @click="saveDoc">Сохранить</button>
+                    <button type="button" class="btn btn-primary" @click="saveDoc">Сохранить</button>                    
                 </div>
             </div>
         <!-- /.modal-content -->
@@ -170,18 +168,19 @@ export default {
             this.clearForm();
         },
         clearForm() {
-            this.document.date = null;
-            this.document.departmentGivesId = 0;
-            this.document.departmentTakesId = 0;
-            this.document.employeeGivesId = 0;            
-            this.document.employeeTakesId = 0;            
-            this.document.givenSum = 0;
-            this.document.takenSum = 0;
-            this.employees = [];
-            this.errors = [];
+            this.document.date              = this.filter.dateBegin ? this.filter.dateBegin         : new Date().toISOString().slice(0,10) ;
+            this.document.departmentGivesId = this.filter.debetId   ? this.filter.debetId           : 0;
+            this.document.departmentTakesId = this.filter.creditId  ? this.filter.creditId          : 0;
+            this.document.employeeGivesId   = this.filter.debetId   ? this.document.employeeGivesId : 0;            
+            this.document.employeeTakesId   = this.filter.creditId  ? this.document.employeeTakesId : 0;
+            this.document.givenSum          = 0;
+            this.document.takenSum          = 0;
+            
             this.employeesGive = [];
             this.employeesTake = [];
             this.departmentsTake = [];
+
+            this.errors = [];
         },
         getEmployeesInChargeOfDepartment(departmentId, date) {
             if (date && departmentId != 0) {
@@ -200,6 +199,9 @@ export default {
                 });                 
             }
         },
+        saveAndFillItems() {
+            console.log('saveAndFillItems');
+        }
     },
     computed: {
         ...mapGetters(['departmentsGive', 'filter']),

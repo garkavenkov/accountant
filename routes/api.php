@@ -69,5 +69,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     
     Route::post('add-employee-into-shift',                                  'API\ShiftController@addEmployee');
     Route::delete('remove-employee-from-shift/{shift_id}/{employee_id}',    'API\ShiftController@removeEmployee');
+
+    Route::get('income-document-set-flag',      'API\IncomeDocumentController@setFlag');
     
 });

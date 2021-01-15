@@ -141,4 +141,33 @@ class IncomeDocumentController extends Controller
             return response()->json(['message' => $e->getMessage()], 400);
         }
     }
+
+    public function setFlag()
+    {
+        $parameters = request()->input();
+        
+        if (isset($parameters['ids'])) {
+            $ids = explode(',', $parameters['ids']);
+        }
+        
+        if (isset($parameters['flags'])) {
+            $flags = explode(',', $parameters['flags']);
+        }
+
+        $documents = IncomeDocument::find($ids);
+
+        try {
+            foreach ($documents as $document) {            
+                foreach ($flags as $flag) {
+                    $document->setFlag($flag);
+                }
+            }
+            return response()->json(['message' => 'Flag has been successfully settled'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
+        }
+        
+        
+
+    }
 }

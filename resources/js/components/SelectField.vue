@@ -7,7 +7,7 @@
                 v-bind:class="{'is-invalid' : error.length > 0}">
             <option 
                     :selected="value == 0"
-                    disabled 
+                    :disabled="disabledHint"
                     value="0"
                     v-if="hint.length > 0">
                 {{hint}}
@@ -40,6 +40,11 @@
             hint: {
                 type: String,
                 default: '',
+                required: false
+            },
+            disabledHint: {
+                type: Boolean,
+                default: true,
                 required: false
             },
             options: {

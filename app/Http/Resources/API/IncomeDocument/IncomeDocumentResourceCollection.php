@@ -34,6 +34,8 @@ class IncomeDocumentResourceCollection extends ResourceCollection
                 'gain'                  =>  (float) ($doc->sum2 - $doc->sum1),
                 'isPaid'                =>  (boolean) $doc->isPaid,
                 'status'                =>  $doc->status,
+                'firstForm'             =>  $doc->firstForm,
+                'bonus'                 =>  $doc->bonus
                 // 'payments'              =>  PaymentResource::collection($doc->payments)
                 // 'payments'              =>  PaymentResource::collection($doc->whenLoaded('payments'))
             ];

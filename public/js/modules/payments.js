@@ -2561,18 +2561,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     closeModal: function closeModal() {
       this.clearForm();
+      this.useFilter = false;
     },
     clearForm: function clearForm() {
       this.errors = [];
       this.newDocument.amount = 0;
-      this.newDocument.cashId = 0;
-      this.newDocument.date = null;
-      this.newDocument.supplierId = 0;
+      this.newDocument.cashId = this.filter.debetId ? this.filter.debetId : 0;
+      this.newDocument.date = this.filter.dateBegin ? this.filter.dateBegin : new Date().toISOString().slice(0, 10);
+      this.newDocument.supplierId = this.filter.creditId ? this.filter.creditId : 0;
       this.newDocument.purpose = '';
       this.newDocument.ids = '';
       this.newDocument.basis = 'reciept';
       this.selectedDocuments = [];
-      this.useFilter = false;
     },
     supplierHasBeenChanged: function supplierHasBeenChanged(e) {
       var _this2 = this;
@@ -2607,6 +2607,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.useFilter) {
         // Use filter date if set
         if (this.filter.dateBegin) {
+          document.getElementById('date').value = this.filter.dateBegin;
           document.getElementById('date').setAttribute("min", this.filter.dateBegin);
         }
 
@@ -22804,7 +22805,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /mnt/Education/Projects/Laravel/accountant/resources/js/modules/payments/payments.js */"./resources/js/modules/payments/payments.js");
+module.exports = __webpack_require__(/*! /mnt/Work/Projects/Laravel/accountant/resources/js/modules/payments/payments.js */"./resources/js/modules/payments/payments.js");
 
 
 /***/ })

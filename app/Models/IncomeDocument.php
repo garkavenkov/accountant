@@ -16,7 +16,12 @@ class IncomeDocument extends Document
     use PathTrait;
     
     private $api_path="/api/income-documents";    
-    
+
+    const FLAGS = [
+        'firstForm' =>  1,
+        'bonus'     =>  2
+    ];
+
     // protected $table = 'documents';
 
     // protected $fillable = [
@@ -69,11 +74,6 @@ class IncomeDocument extends Document
     {
         return $this->hasOne(Employee::class, 'id', 'credit_person_id');
     }
-
-    // public function items()
-    // {
-    //     return $this->hasMany(DocumentItem::class, 'document_id', 'id');
-    // }
    
     public function scopeUnpaid($query)
     {        
@@ -101,4 +101,49 @@ class IncomeDocument extends Document
         $this->status = 0;
         $this->save();
     }
+
+    public function getFirstFormAttribute()
+    {
+        $flag = self::FLAGS['firstForm'];
+        
+        if ( ($this->flag & $flag) == $flag) {
+            return 1;
+        } 
+        return 0;
+    }
+
+    public function getBonusAttribute()
+    {
+        $flag = self::FLAGS['bonus'];      
+
+        if ( ($this->flag & $flag ) == $flag) {
+            return 1;
+        } 
+        return 0;
+    }
+
+    public function setFlag($flag)
+    {
+        $flag = self::FLAGS[$flag];
+        
+        if ( ($this->flag & $flag) != $flag) {
+            $this->flag += $flag;
+            $this->save();
+            return true;
+        } 
+        return false;
+    }
+    
+    public function unsetFlag($flag)
+    {
+        $flag = self::FLAGS[$flag];
+
+        if ( ($this->flag & $flag) == $flag) {
+            $this->flag -= $flag;
+            $this->save();
+            return true;
+        } 
+        return false;
+    }
+
 }

@@ -7,6 +7,7 @@ use App\Models\SalesRevenue;
 use Illuminate\Http\Request;
 use App\Models\IncomeDocument;
 use App\Models\MarkupDocument;
+use App\Models\ReturnDocument;
 use App\Models\ExpenseDocument;
 use App\Models\MarkdownDocument;
 use App\Models\TransferDocument;
@@ -97,7 +98,7 @@ class DepartmentController extends Controller
     {
         // dd(request()->input('id'));
         $parameters = request()->input();
-
+        // dd(request()->input());
         if ( isset($parameters['id']) ) {
             $id = $parameters['id'];
         } else {
@@ -111,27 +112,37 @@ class DepartmentController extends Controller
         }
 
         if ( isset($parameters['date_end']) ) {
+            // dd($parameters['date_end']);
             $date_end = $parameters['date_end'];
         } else {
             $date_end = $date_begin;
         }
 
+        if (isset($parameters['set_rest'])) {
+            
+            $set_rest = $parameters['set_rest'];
+        } else {
+            $set_rest = 0;
+        }
+        
         // dd($id, $date_begin, $date_end);
 
-        if ($id == 0) {
-            $departments = Department::goods()->get();    
-        } else {
-            $ids = explode(',', $id);
-            $departments = Department::goods()->whereIn('id', $ids)->get();
-            // $departments[0]->incomeRest($date_begin);
-        }                    
+        // if ($id == 0) {
+        //     $departments = Department::goods()->get();    
+        // } else {
+        //     $ids = explode(',', $id);
+        //     $departments = Department::goods()->whereIn('id', $ids)->get();
+        //     // $departments[0]->incomeRest($date_begin);
+        // }                    
+        $department = Department::goods()->where('id', $id)->first();
 
         $turns = [];
         
         // $date = $date_begin;
+        // dd($department->incomeRest($date_begin));
 
-        foreach ($departments as $department) {
-        
+        // foreach ($departments as $department) {
+            // dd($department);
             $income_rest            = $department->incomeRest($date_begin);
             $income_sum             = IncomeDocument::where('credit_id', $department->id)->whereBetween('date', [$date_begin, $date_end])->get()->sum('sum2');
             $transfer_income_sum    = TransferDocument::where('credit_id', $department->id)->whereBetween('date', [$date_begin, $date_end])->get()->sum('sum2');
@@ -144,31 +155,38 @@ class DepartmentController extends Controller
             $markdown_sum           = MarkdownDocument::where('debet_id', $department->id)->whereBetween('date', [$date_begin, $date_end])->get()->sum('sum2');
             $writedown_sum          = WritedownDocument::where('debet_id', $department->id)->whereBetween('date', [$date_begin, $date_end])->get()->sum('sum2');
             $expense_sum            = ExpenseDocument::where('debet_id', $department->id)->whereBetween('date', [$date_begin, $date_end])->get()->sum('sum2');  
+            $return_sum             = ReturnDocument::where('debet_id', $department->id)->whereBetween('date', [$date_begin, $date_end])->get()->sum('sum1');
         
             $total_outcome          = $sales_revenue_sum + $transfer_outcome_sum + $markdown_sum + $writedown_sum + $expense_sum;
+            $outcome_rest           = $income_rest + $total_income - $total_outcome;
 
-            $turns[$department->id]['departmentId']          =   $department->id;
-            $turns[$department->id]['department']            =   $department->name;
-            $turns[$department->id]['date']                  =   $date_begin;
-            $turns[$department->id]['incomeRest']            =   $income_rest;
+            $turns['departmentId']          =   $department->id;
+            $turns['department']            =   $department->name;
+            $turns['date']                  =   $date_begin;
+            $turns['incomeRest']            =   $income_rest;
 
-            $turns[$department->id]['credit']['total']       =   $total_income;
-            $turns[$department->id]['credit']['income']      =   $income_sum;
-            $turns[$department->id]['credit']['transfer']    =   $transfer_income_sum;
-            $turns[$department->id]['credit']['markup']      =   $markup_sum;
+            $turns['credit']['total']       =   $total_income;
+            $turns['credit']['income']      =   $income_sum;
+            $turns['credit']['transfer']    =   $transfer_income_sum;
+            $turns['credit']['markup']      =   $markup_sum;
 
-            $turns[$department->id]['debet']['total']        =   $total_outcome;
-            $turns[$department->id]['debet']['sales']        =   $sales_revenue_sum;
-            $turns[$department->id]['debet']['transfer']     =   $transfer_outcome_sum;
-            $turns[$department->id]['debet']['markdown']     =   $markdown_sum;
-            $turns[$department->id]['debet']['writedown']    =   $writedown_sum;
-            $turns[$department->id]['debet']['expense']      =   $expense_sum;
+            $turns['debet']['total']        =   $total_outcome;
+            $turns['debet']['sales']        =   $sales_revenue_sum;
+            $turns['debet']['transfer']     =   $transfer_outcome_sum;
+            $turns['debet']['markdown']     =   $markdown_sum;
+            $turns['debet']['writedown']    =   $writedown_sum;
+            $turns['debet']['expense']      =   $expense_sum;
+            $turns['debet']['return']       =   $return_sum;
 
-            $turns[$department->id]['outcomeRest']           =   $income_rest + $total_income - $total_outcome;
-
-        }       
-       
+            $turns['outcomeRest']           =   $outcome_rest; 
+            
+            if ($set_rest == 1) {
+                $department->setRest($date_begin, $outcome_rest);
+            }
+        // }       
         
-        return DepartmentTurnsResource::collection($turns);
+       return $turns;
+            
+        // return new DepartmentTurnsResource($turns);
     }
 }

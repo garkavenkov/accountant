@@ -37,6 +37,7 @@
                         <div class="col-md-12">
                             <select-field caption="Отдел передает"
                                     hint="Все отделы"
+                                    :disabledHint=false
                                     :options="departmentsGive"
                                     v-model="filter.debetId"
                                     name="name">

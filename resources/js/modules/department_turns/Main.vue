@@ -1,131 +1,153 @@
 <template>
 <div>
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="card">
 
-     <grid  :dataTable="data"
-            :pagination="pagination"
-            filteredField="department"
-            @fetchData="fetchData"> 
+                <div class="card-header">
+                    <h3 class="card-title">Движение средств на отделе</h3>
+                </div>                
 
-        <template v-slot:title>
-            <h3 class="card-title">Обороты на отделах
-                <!-- <button class="btn btn-primary"
-                        data-toggle="modal" 
-                        data-target="#modal-new-document"
-                        data-backdrop="static" 
-                        data-keyboard="true">
-                    <i class="fas fa-plus"></i>
-                </button> -->
-                <button type="button" 
-                        class="btn btn-info" 
-                        v-on:click="fetchData"
-                        title="Обновить данные">
-                    <i class="fas fa-sync-alt"></i>
-                </button>                
-                <!-- <button class="btn btn-info "
-                        data-toggle="modal" 
-                        data-target="#modal-filter-document"
-                        data-backdrop="static" 
-                        data-keyboard="true">
-                    <i class="fas fa-filter"></i>
-                </button> -->
-            </h3>
-        </template>           
-        <template v-slot:header>
-            <tr>                
-                <th rowspan="2" class="align-middle">Отдел</th>
-                <th rowspan="2" class="text-center align-middle">Входящий остаток на {{data.date_begin}}</th>
-                <th colspan="4" class="text-center">Приход</th>
-                <th colspan="6" class="text-center">Расход</th>
-                <th rowspan="2" class="text-center align-middle">Исходящий остаток на {{data.date_end}}</th>
-            </tr>
-            <tr>
-                <th class="text-center">Поставщики</th>
-                <th class="text-center">Отделы</th>
-                <th class="text-center">Дооценка</th>
-                <th class="text-center">Итого</th>
-               
-                <th class="text-center">Торговая выручка</th>
-                <th class="text-center">Отделы</th>
-                <th class="text-center">Списание</th>
-                <th class="text-center">Уценка</th>
-                <th class="text-center">Расход</th>
-                <th class="text-center">Итого</th>
-            </tr>
-        </template>
-        <template v-slot:default="slotProps">
-            <tr v-for="data in slotProps.paginatedData" :key="data.departmentId">
-                <td class="text-left">
-                    <router-link :to="{name: 'DepartmentTurnsShow', params: {id: data.departmentId, date_begin: data.date}}">
-                        <!-- <i class="far fa-eye"></i> -->
-                        {{data.department}}
-                    </router-link>
-                </td>
-                <!-- <td>{{data.department}}</td> -->
-                <td class="text-right">{{data.incomeRest | formatNumber(2)}}</td>
-                <td class="text-right">{{data.credit.income | formatNumber(2)}}</td>
-                <td class="text-right">{{data.credit.transfer | formatNumber(2)}}</td>
-                <td class="text-right">{{data.credit.markup | formatNumber(2)}}</td>
-                <td class="text-right">{{data.credit.total | formatNumber(2)}}</td>
-                <td class="text-right">{{data.debet.sales | formatNumber(2)}}</td>
-                <td class="text-right">{{data.debet.transfer | formatNumber(2)}}</td>
-                <td class="text-right">{{data.debet.writedown | formatNumber(2)}}</td>
-                <td class="text-right">{{data.debet.markdown | formatNumber(2)}}</td>
-                <td class="text-right">{{data.debet.expense | formatNumber(2)}}</td>
-                <td class="text-right">{{data.debet.total | formatNumber(2)}}</td>
-                <td class="text-right">{{data.outcomeRest | formatNumber(2)}}</td>
-            </tr>     
-        </template>
-        <template v-slot:footer>
-            <tr>
-                <!-- <td colspan="5" class="font-weight-bold">Итого документов: {{documents.length}}</td>
-                <td class="text-right font-weight-bold">{{totalMarkdownSum | formatNumber(2)}}</td>
-                <td></td> -->
-            </tr>
-        </template>       
-    </grid>
+                <div class="card-body">                    
+                    <div class="row">
+                        <!-- <form class="form-inline">
+                            <label class="sr-only" for="inlineFormInputName2">Name</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe">
 
+                            <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">@</div>
+                                </div>
+                                <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
+                            </div>
+
+                            <div class="form-check mb-2 mr-sm-2">
+                                <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                                <label class="form-check-label" for="inlineFormCheck">
+                                    Remember me
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                        </form> -->
+                        <div class="col-md-3">
+                            <select-field 
+                                caption="Отдел"
+                                hint="Выберите отдел"
+                                :options="departments"
+                                v-model="turns.departmentId"
+                                name="name">
+                            </select-field>
+
+                            <div class="form-group">
+                                <label>Дата</label>                                
+                                <input  type="date" 
+                                        name="date" 
+                                        id="date" 
+                                        class="form-control datetimepicker-input" 
+                                        v-model="turns.dateBegin">                                
+                            </div>
+                            <button type="button" class="btn btn-primary" @click="getTurns">Расчитать</button>
+                        </div>
+                        <div class="col-md-9" v-if="data.incomeRest">
+                            <div class="row">
+                                <h3>Входящий остаток на утро {{data.date | formatDate }} <span>{{data.incomeRest | formatNumber(2)}}</span></h3>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div v-for="(value, name, index) in data.credit" :key="index" >
+                                        {{name}} - {{value}}
+                                    </div>
+                                </div>
+        
+                                <div class="col-md-6">
+                                    <div v-for="(value,name,index) in data.debet" :key="index" >
+                                        {{name}} - {{value}}
+                                    </div>
+                                </div>                  
+                            </div>
+                            <div class="row" style="justify-content: space-between">
+                                <h3>Исходящий остаток на вечер {{data.date | formatDate }} <span>{{data.outcomeRest | formatNumber(2)}}</span></h3>
+                                <button class="btn btn-info" title="Установить остаток" @click="setRest">Установить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer">
+                    <div class="row">
+                        <!-- <div class="col-sm-3 col-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                                <h5 class="description-header">$35,210.43</h5>
+                                <span class="description-text">TOTAL REVENUE</span>
+                            </div>
+                        </div>                    
+                        <div class="col-sm-3 col-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
+                                <h5 class="description-header">$10,390.90</h5>
+                                <span class="description-text">TOTAL COST</span>
+                            </div>
+                        </div>
+                  
+                        <div class="col-sm-3 col-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+                                <h5 class="description-header">$24,813.53</h5>
+                                <span class="description-text">TOTAL PROFIT</span>
+                            </div>
+                        </div>                  
+                        <div class="col-sm-3 col-6">
+                            <div class="description-block">
+                                <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                                <h5 class="description-header">1200</h5>
+                                <span class="description-text">GOAL COMPLETIONS</span>
+                            </div>                        
+                        </div> -->
+                    </div>                
+                </div>              
+
+            </div>            
+        </div>
+    </div>
+     
 </div>
 </template>
 
 <script>
 
-import Grid             from '../../components/Grid';
+import SelectField from '../../components/SelectField';
 
 export default {
-    name: 'DepartmentRestsMain',    
+    name: 'DepartmentTurnsMain',    
     data() {
         return {
-            date_begin: "2020-11-01", //new Date().toISOString().slice(0,10),
-            date_end: new Date().toISOString().slice(0,10),
-            data: [ 
-
-                // {
-                //     "departmentId" : 1,
-                //     "department" : "Вино-водочный",
-                //     "date" : "2020-11-01",
-                //     "incomeRest" : 100000,
-                //     "credit" : {
-                //         "total"     : 1952,
-                //         "income"    : 0,
-                //         "transfer"  : 1952,
-                //         "markup"    : 0,
-                //     },
-                //     "debet" : {
-                //         "total" : 167,
-                //         "sales" : 0,
-                //         "transfer" : 0,
-                //         "markdown" : 0,
-                //         "writedown" : 0,
-                //         "expense" : 167,
-                //     },
-                //     "outcomeRest" : 101785,   
-                // }
-            ]
+            departments: [],
+            turns: {
+                departmentId: 0,
+                dateBegin:  moment().format('YYYY-MM-DD'),
+            },
+            data: {}
         }
     },
-    methods: {        
-        fetchData() {
-            axios.get(`api/department-turns?id=0&date_begin=${this.date_begin}&date_end=${this.date_end}`, {
+    methods: {
+        getDepartmentsDictionary() {
+            axios.get("/api/select-dictionary/department?type='goods'", 
+                        {
+                            'headers': {
+                                'Authorization': 'Bearer ' + window.api_token,
+                                'Accept': 'application/json',
+                            } 
+                        }
+                    )
+                    .then(res => {
+                        this.departments = res.data
+                    })               
+        },
+        getTurns() {
+            axios.get(`api/department-turns?id=${this.turns.departmentId}&date_begin=${this.turns.dateBegin}&date_end=${this.turns.dateBegin}&set_rest=1`, {
                     'headers': {
                         'Authorization': 'Bearer ' + window.api_token,
                         'Accept': 'application/json',
@@ -134,15 +156,19 @@ export default {
                 .then(res => {
                     console.log(res);
 
-                    this.data = res.data.data;
+                    this.data = res.data;
                 });
+        },
+        setRest() {
+            // axios.get(`api/department-set-rest-on-date?id=${this.turns.departmentId}`)
         }
+
     },
     created() {
-        this.fetchData();
+        this.getDepartmentsDictionary();
     },
     components: {
-        Grid
+        SelectField
     },
 }
 </script>

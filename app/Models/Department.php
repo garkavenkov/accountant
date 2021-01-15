@@ -110,6 +110,27 @@ class Department extends Model
         return (float) $rest; //Rest::where('date', $date)->where(['rest_type_id' => $rest_type->id, 'owner_id' => $this->id])->first()->rest;
     }
 
+    public function rests()
+    {
+        return $this->hasMany(DepartmentRest::class, 'owner_id', 'id');
+    }
+
+    public function setRest($date, $rest)
+    {
+        $rest = DepartmentRest::updateOrCreate(
+            [
+                'owner_id'  =>  $this->id,
+                'date'      =>  $date,
+            ],
+            [
+                'owner_id'  =>  $this->id,
+                'date'      =>  $date,
+                'rest'      =>  $rest
+            ]
+        );
+
+        return $rest;
+    }
     
     public function turns($date)
     {
@@ -125,13 +146,14 @@ class Department extends Model
         $markdown_sum           = MarkdownDocument::where('debet_id', $this->id)->where('date', $date)->get()->sum('sum2');
         $writedown_sum          = WritedownDocument::where('debet_id', $this->id)->where('date', $date)->get()->sum('sum2');
         $expense_sum            = ExpenseDocument::where('debet_id', $this->id)->where('date', $date)->get()->sum('sum2');  
+        $return_sum             = ReturnDocument::where('debebt_id', $this->id)->where('date', $date)->get()->sum2('sum1');
         
-        $total_outcome          = $sales_revenue_sum + $transfer_outcome_sum + $markdown_sum + $writedown_sum + $expense_sum;
+        $total_outcome          = $sales_revenue_sum + $transfer_outcome_sum + $markdown_sum + $writedown_sum + $expense_sum + $return_sum;
 
         $turns['departmentId']          =   $this->id;
         $turns['department']            =   $this->name;
         $turns['date']                  =   $date;
-        $turns['incomeRest']            =   $this->incomeRest($date);
+        $turns['incomeRest']            =   $income_rest;
 
         $turns['credit']['total']       =   $total_income;
         $turns['credit']['income']      =   $income_sum;
@@ -144,6 +166,7 @@ class Department extends Model
         $turns['debet']['markdown']     =   $markdown_sum;
         $turns['debet']['writedown']    =   $writedown_sum;
         $turns['debet']['expense']      =   $expense_sum;
+        $turns['debet']['return']       =   $return_sum;
 
         $turns['outcomeRest']           =   $income_rest + $total_income - $total_outcome;
 

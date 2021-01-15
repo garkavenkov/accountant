@@ -46,7 +46,7 @@ class DocumentService
         if ($per_page > 0) {
             $data = $data->paginate($per_page)->appends(request()->query());
         } else {
-            $data = $data->orderBy('date', 'asc')->get();
+            $data = $data->orderBy('date', 'asc')->orderBy('number', 'asc')->get();
         }
         // dd($data);
         return $data;

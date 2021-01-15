@@ -2347,6 +2347,11 @@ __webpack_require__.r(__webpack_exports__);
       "default": '',
       required: false
     },
+    disabledHint: {
+      type: Boolean,
+      "default": true,
+      required: false
+    },
     options: {
       type: Array,
       required: true
@@ -26559,7 +26564,7 @@ var render = function() {
           ? _c(
               "option",
               {
-                attrs: { disabled: "", value: "0" },
+                attrs: { disabled: _vm.disabledHint, value: "0" },
                 domProps: { selected: _vm.value == 0 }
               },
               [_vm._v("\n            " + _vm._s(_vm.hint) + "\n        ")]
@@ -45322,7 +45327,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /mnt/Education/Projects/Laravel/accountant/resources/js/modules/expense_documents/expense_documents.js */"./resources/js/modules/expense_documents/expense_documents.js");
+module.exports = __webpack_require__(/*! /mnt/Work/Projects/Laravel/accountant/resources/js/modules/expense_documents/expense_documents.js */"./resources/js/modules/expense_documents/expense_documents.js");
 
 
 /***/ })

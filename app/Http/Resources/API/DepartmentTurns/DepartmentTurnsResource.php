@@ -14,10 +14,11 @@ class DepartmentTurnsResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        // return parent::toArray($request);
+        dd($this);
         return [
             // 'id'            =>  (int)   $this->id,
-            'departmentId'  =>  (int)   $this->departmentId,
+            // 'departmentId'  =>  (int)   $this->departmentId,
             'department'    =>  $this->department,
             'date'          =>  $this->date,
             'incomeRest'    =>  (float) $this->incomeRest,
@@ -34,8 +35,9 @@ class DepartmentTurnsResource extends JsonResource
                 'markdown'  =>  (float) $this->debet->markdown,
                 'writedown' =>  (float) $this->debet->writedown,
                 'expense'   =>  (float) $this->debet->expense,
+                'return'    =>  (float) $this->debet->return,
             ],
-            'outcomeRest'   =>  (float) $this->outcomeRest
+            'outcomeRest'   =>  (float) $this->restOutcome
         ];
     }
 }

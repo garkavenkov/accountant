@@ -2347,6 +2347,11 @@ __webpack_require__.r(__webpack_exports__);
       "default": '',
       required: false
     },
+    disabledHint: {
+      type: Boolean,
+      "default": true,
+      required: false
+    },
     options: {
       type: Array,
       required: true
@@ -2725,6 +2730,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2897,8 +2903,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 
@@ -2959,18 +2963,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.clearForm();
     },
     clearForm: function clearForm() {
-      this.document.date = null;
-      this.document.departmentGivesId = 0;
-      this.document.departmentTakesId = 0;
-      this.document.employeeGivesId = 0;
-      this.document.employeeTakesId = 0;
+      this.document.date = this.filter.dateBegin ? this.filter.dateBegin : new Date().toISOString().slice(0, 10);
+      this.document.departmentGivesId = this.filter.debetId ? this.filter.debetId : 0;
+      this.document.departmentTakesId = this.filter.creditId ? this.filter.creditId : 0;
+      this.document.employeeGivesId = this.filter.debetId ? this.document.employeeGivesId : 0;
+      this.document.employeeTakesId = this.filter.creditId ? this.document.employeeTakesId : 0;
       this.document.givenSum = 0;
       this.document.takenSum = 0;
-      this.employees = [];
-      this.errors = [];
       this.employeesGive = [];
       this.employeesTake = [];
       this.departmentsTake = [];
+      this.errors = [];
     },
     getEmployeesInChargeOfDepartment: function getEmployeesInChargeOfDepartment(departmentId, date) {
       if (date && departmentId != 0) {
@@ -2988,6 +2991,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           });
         });
       }
+    },
+    saveAndFillItems: function saveAndFillItems() {
+      console.log('saveAndFillItems');
     }
   }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['departmentsGive', 'filter'])),
@@ -26750,7 +26756,7 @@ var render = function() {
           ? _c(
               "option",
               {
-                attrs: { disabled: "", value: "0" },
+                attrs: { disabled: _vm.disabledHint, value: "0" },
                 domProps: { selected: _vm.value == 0 }
               },
               [_vm._v("\n            " + _vm._s(_vm.hint) + "\n        ")]
@@ -27085,6 +27091,7 @@ var render = function() {
                     attrs: {
                       caption: "Отдел передает",
                       hint: "Все отделы",
+                      disabledHint: false,
                       options: _vm.departmentsGive,
                       name: "name"
                     },
@@ -45812,7 +45819,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /mnt/Education/Projects/Laravel/accountant/resources/js/modules/transfer_documents/transfer_documents.js */"./resources/js/modules/transfer_documents/transfer_documents.js");
+module.exports = __webpack_require__(/*! /mnt/Work/Projects/Laravel/accountant/resources/js/modules/transfer_documents/transfer_documents.js */"./resources/js/modules/transfer_documents/transfer_documents.js");
 
 
 /***/ })

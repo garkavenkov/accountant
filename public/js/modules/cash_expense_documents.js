@@ -22520,7 +22520,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /mnt/Education/Projects/Laravel/accountant/resources/js/modules/cash_expense_documents/cash_expense_documents.js */"./resources/js/modules/cash_expense_documents/cash_expense_documents.js");
+module.exports = __webpack_require__(/*! /mnt/Work/Projects/Laravel/accountant/resources/js/modules/cash_expense_documents/cash_expense_documents.js */"./resources/js/modules/cash_expense_documents/cash_expense_documents.js");
 
 
 /***/ })

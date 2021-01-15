@@ -44,6 +44,12 @@ class CashDocumentResource extends JsonResource
                 $this->links['original'] = "cash-expense-documents/{$this->id}";
                 break;
 
+            case 'accountability':
+                $debet_name     = $this->cash_debet->name;
+                $credit_name    = $this->employee->full_name;
+                $this->links['original'] = "accountabilities/{$this->id}";
+                break;
+
             default:
                 $debet_name     = 'undefined';
                 $credit_name    = 'undefined';

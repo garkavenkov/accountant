@@ -17009,7 +17009,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /mnt/Education/Projects/Laravel/accountant/resources/js/modules/positions/positions.js */"./resources/js/modules/positions/positions.js");
+module.exports = __webpack_require__(/*! /mnt/Work/Projects/Laravel/accountant/resources/js/modules/positions/positions.js */"./resources/js/modules/positions/positions.js");
 
 
 /***/ })

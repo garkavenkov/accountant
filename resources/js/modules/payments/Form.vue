@@ -224,20 +224,20 @@ export default {
                 })
                 .catch(err => this.errors = err.response.data.errors);     
         },
-        closeModal() {        
+        closeModal() {            
             this.clearForm();
+            this.useFilter = false;
         },
         clearForm() {
-            this.errors = [];
+            this.errors = [];            
             this.newDocument.amount         = 0;
-            this.newDocument.cashId         = 0;
-            this.newDocument.date           = null;
-            this.newDocument.supplierId     = 0;
+            this.newDocument.cashId         = this.filter.debetId   ? this.filter.debetId   : 0;
+            this.newDocument.date           = this.filter.dateBegin ? this.filter.dateBegin : new Date().toISOString().slice(0,10);            
+            this.newDocument.supplierId     = this.filter.creditId  ? this.filter.creditId  : 0;
             this.newDocument.purpose        = '';
             this.newDocument.ids            = '';
             this.newDocument.basis          = 'reciept';
             this.selectedDocuments          = [];
-            this.useFilter                  = false;
         },
         supplierHasBeenChanged(e) {
             if (this.newDocument.supplierId > 0) {                
@@ -271,6 +271,7 @@ export default {
              if (this.useFilter) {
                  // Use filter date if set
                 if (this.filter.dateBegin) {
+                    document.getElementById('date').value = this.filter.dateBegin;
                     document.getElementById('date').setAttribute("min", this.filter.dateBegin)
                 }
                 if (this.filter.dateEnd) {
