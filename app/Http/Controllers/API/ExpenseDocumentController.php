@@ -113,6 +113,10 @@ class ExpenseDocumentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $document = ExpenseDocument::findOrFail($id);
+
+        if ($document->delete()) {
+            return response()->json(['message' => 'Document has been successfully deleted!'], 200);
+        }
     }
 }

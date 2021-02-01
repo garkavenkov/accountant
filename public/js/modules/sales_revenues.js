@@ -2457,6 +2457,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2474,7 +2475,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['getCashesDictionary', 'getDepartmentsDictionary', 'saveDocument'])), {}, {
-    saveDoc: function saveDoc() {
+    saveDoc: function saveDoc(e) {
       var _this = this;
 
       var doc = {
@@ -2484,7 +2485,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         credit: parseFloat(this.newDocument.amount.replace(",", "."))
       };
       this.saveDocument(doc).then(function (res) {
-        _this.clearForm();
+        _this.clearForm(e.ctrlKey);
 
         Swal.fire({
           toast: true,
@@ -2503,12 +2504,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.clearForm();
       this.useFilter = false;
     },
-    clearForm: function clearForm() {
+    clearForm: function clearForm(ctrlIsPressed) {
       this.errors = [];
       this.newDocument.amount = 0;
-      this.newDocument.cashId = this.filter.creditId ? this.filter.creditId : 0;
-      this.newDocument.date = this.filter.dateBegin ? this.filter.dateBegin : null;
-      this.newDocument.departmentId = this.filter.debetId ? this.filter.debetId : 0;
+
+      if (!ctrlIsPressed) {
+        this.newDocument.cashId = this.filter.creditId ? this.filter.creditId : 0;
+        this.newDocument.date = this.filter.dateBegin ? this.filter.dateBegin : null;
+        this.newDocument.departmentId = this.filter.debetId ? this.filter.debetId : 0;
+      }
     }
   }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['cashes', 'departments', 'filter'])),
@@ -4742,7 +4746,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                                    Выбирите отдел\n                                "
+                          "\n                                    Выберите отдел\n                                "
                         )
                       ]
                     ),
@@ -4799,7 +4803,12 @@ var render = function() {
                   ],
                   staticClass: "form-control",
                   class: { "is-invalid": _vm.hasError("credit") },
-                  attrs: { type: "text", name: "amount", id: "amount" },
+                  attrs: {
+                    type: "text",
+                    name: "amount",
+                    id: "amount",
+                    autocomplete: "off"
+                  },
                   domProps: { value: _vm.newDocument.amount },
                   on: {
                     input: function($event) {
@@ -4897,7 +4906,11 @@ var render = function() {
               {
                 staticClass: "btn btn-primary",
                 attrs: { type: "button" },
-                on: { click: _vm.saveDoc }
+                on: {
+                  click: function($event) {
+                    return _vm.saveDoc($event)
+                  }
+                }
               },
               [_vm._v("Сохранить")]
             )
@@ -22155,10 +22168,10 @@ var SalesRevenue = {
     getDepartmentsDictionary: function getDepartmentsDictionary(_ref2, cashId) {
       var dispatch = _ref2.dispatch,
           state = _ref2.state;
-      var dictionary = 'department';
+      var dictionary = 'department?type=goods';
 
       if (cashId != 0) {
-        dictionary = 'department?branch_id=' + cashId;
+        dictionary += '&branch_id=' + cashId;
       }
 
       dispatch('getDictionary', dictionary).then(function (res) {
@@ -22292,6 +22305,11 @@ __webpack_require__.r(__webpack_exports__);
 
     if (state.filter.operationId > 0) {
       state.filter.queryStr = state.filter.queryStr + "&operation_id=".concat(payload.operationId);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.cashId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&cash_id=".concat(payload.cashId);
       state.filter.isFiltered = true;
     }
 

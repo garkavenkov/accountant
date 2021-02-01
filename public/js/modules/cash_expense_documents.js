@@ -2652,9 +2652,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     clearForm: function clearForm() {
       this.errors = [];
       this.newDocument.amount = 0;
-      this.newDocument.cashId = this.filter.creditId ? this.filter.creditId : 0;
-      this.newDocument.date = this.filter.dateBegin ? this.filter.dateBegin : null;
-      this.newDocument.departmentId = this.filter.debetId ? this.filter.debetId : 0;
+      this.newDocument.cashId = this.filter.debetId ? this.filter.debetId : 0;
+      this.newDocument.date = this.filter.dateBegin ? this.filter.dateBegin : null; // this.newDocument.departmentId   = this.filter.debetId   ? this.filter.debetId   : 0;            
     },
     getExpenseCaterogories: function getExpenseCaterogories() {
       var _this2 = this;
@@ -22492,6 +22491,11 @@ __webpack_require__.r(__webpack_exports__);
 
     if (state.filter.operationId > 0) {
       state.filter.queryStr = state.filter.queryStr + "&operation_id=".concat(payload.operationId);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.cashId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&cash_id=".concat(payload.cashId);
       state.filter.isFiltered = true;
     }
 

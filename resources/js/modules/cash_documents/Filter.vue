@@ -37,6 +37,25 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
+                            <label>Касса</label>                                
+                            <select class="form-control select2" 
+                                    style="width: 100%;"
+                                    v-model="filter.cashId">
+                                <option selected="selected" value="0">
+                                    Все кассы
+                                </option>
+                                <option v-for="cash in cashes" 
+                                        :value="cash.id" 
+                                        :key="cash.id">
+                                            {{cash.name}}
+                                </option>                          
+                            </select>                                
+                        </div>
+                    </div>
+                </div>                    
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <label>Тип операции</label>                                
                             <select class="form-control select2" 
                                     style="width: 100%;"
@@ -53,11 +72,11 @@
                         </div>
                     </div>
                 </div>                    
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-12">
                          <div class="form-group">
                             <label>Дебет</label>
-                            <!-- <select class="form-control select2" 
+                            <select class="form-control select2" 
                                     style="width: 100%;"
                                     v-model="filter.departmentId">
                                 <option selected="selected"
@@ -69,10 +88,10 @@
                                         :key="department.id">
                                             {{department.name}}
                                 </option>                          
-                            </select> -->
+                            </select>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -127,7 +146,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions('CashDocument',   ['applyFilter']),
+        ...mapActions('CashDocument',   ['applyFilter', 'getCashesDictionary']),
         
         resetFilter() {
 
@@ -146,10 +165,11 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('CashDocument', ['filter'])
+        ...mapGetters('CashDocument', ['filter', 'cashes'])
     },
     created() {
         this.getOperationTypes();
+        this.getCashesDictionary();
     }
 }
 </script>

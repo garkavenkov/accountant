@@ -64,6 +64,11 @@ class CashDocument extends Model
         return $this->belongsTo(ExpenseItem::class, 'credit_id', 'id');
     }
 
+    public function profit()
+    {
+        return $this->belongsTo(ProfitItem::class, 'debet_id', 'id');
+    }
+   
     public function approve()
     {
         if ($this->status == 0) {

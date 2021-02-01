@@ -19,16 +19,18 @@ class PaymentResource extends JsonResource
         return [
             'id'            =>  (int)   $this->id,
             'date'          =>  Carbon::parse($this->date)->formatLocalized('%d.%m.%Y'),
-            'operation_id'  =>  (int)   $this->operation_id,
+            'operationId'   =>  (int)   $this->operation_id,
             'number'        =>  $this->number,
-            'cash_id'       =>  (int)   $this->cash->id,
+            'branchId'      =>  (int)  $this->cash->branch->id,
+            'branch'        =>  $this->cash->branch->name,
+            'cashId'        =>  (int)   $this->cash->id,
             'cash'          =>  $this->cash->name,
-            'supplier_id'   =>  (int)   $this->supplier->id,
+            'supplierId'    =>  (int)   $this->supplier->id,
             'supplier'      =>  $this->supplier->name,
             'purpose'       =>  $this->purpose,
             'amount'        =>  (float) $this->debet,            
-            'status_code'   =>  (int)   $this->status,
-            'user_id'       =>  (int)   $this->user_id,
+            'statusCode'    =>  (int)   $this->status,
+            'userId'        =>  (int)   $this->user_id,
             'documents'     =>  new PaymentIncomeDocumentResourceCollection($this->whenLoaded('documents'))
         ];
     }

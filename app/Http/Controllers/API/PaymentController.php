@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Cash;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Models\IncomeDocument;
@@ -165,10 +166,55 @@ class PaymentController extends Controller
             DB::rollback();
             return response()->json(['message' => $e->getMessage()], 404);
         }
+       
+    }
 
+    public function getUnlinkedPayments()
+    {
+        $parameters = request()->input();
         
-                
+        if (isset($parameters['cash_id'])) {
+            $cash_id = $parameters['cash_id'];
+        } else {
+            $cash_id = 0;
+        }
         
+        if (isset($parameters['date_begin'])) {
+            $date_begin = $parameters['date_begin'];
+        } else {
+            $date_begin = Carbon::now()->formatLocalized('%Y-%m-%d');
+        }
+
+        if (isset($parameters['date_end'])) {
+            $date_end = $parameters['date_end'];
+        } else {
+            $date_end = $date_begin;
+        }
+
+        if (isset($parameters['supplier_id'])) {
+            $supplier_id = $parameters['supplier_id'];
+        } else {
+            $supplier_id = 0;
+        }
+
+        if ($cash_id != 0) {
+            $cash = Cash::findOrFail($cash_id);
+        }
+     
         
+        $payments = Payment::with('cash.branch', 'supplier')
+                            ->whereBetween('date',[$date_begin, $date_end])
+                            ->where(function($query) use($cash_id) {
+                                    $query->where('debet_id', $cash_id)
+                                            ->orWhereRaw("0 = $cash_id");
+                            })
+                            ->where(function($query) use($supplier_id) {
+                                $query->where('credit_id', $supplier_id)
+                                        ->orWhereRaw("0 = $supplier_id");
+                            })
+                            ->whereDoesntHave('links')
+                            ->get();
+
+        return new PaymentResourceCollection($payments);
     }
 }

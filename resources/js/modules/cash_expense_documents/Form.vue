@@ -229,9 +229,9 @@ export default {
             this.errors = [];
             this.newDocument.amount         = 0;
             
-            this.newDocument.cashId         = this.filter.creditId  ? this.filter.creditId  : 0 ;
+            this.newDocument.cashId         = this.filter.debetId   ? this.filter.debetId  : 0 ;
             this.newDocument.date           = this.filter.dateBegin ? this.filter.dateBegin : null;
-            this.newDocument.departmentId   = this.filter.debetId   ? this.filter.debetId   : 0;            
+            // this.newDocument.departmentId   = this.filter.debetId   ? this.filter.debetId   : 0;            
         },
         getExpenseCaterogories() {
             this.getDictionary(`ExpenseItem?owner_id=${this.groupId}`)

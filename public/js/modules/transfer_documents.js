@@ -2731,13 +2731,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'TransferDocumentFilterForm',
   data: function data() {
     return {
-      departmentsTake: []
+      departmentsTake: this.departmentsGive
     };
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['getDepartmentsDictionary', 'applyFilter'])), {}, {
@@ -2766,6 +2767,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.departmentsTake = this.departmentsGive.filter(function (department) {
           return department.id != _this.filter.debetId;
         });
+      } else {
+        this.departmentsTake = this.departmentsGive;
       }
     }
   },
@@ -3445,6 +3448,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3561,6 +3569,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       })["catch"](function (err) {
         return console.log(err);
+      });
+    },
+    makeExpenseDocument: function makeExpenseDocument() {
+      var _this4 = this;
+
+      var doc = {
+        date: this.document.date,
+        debet_id: this.document.department_takes_id,
+        debet_person_id: this.document.employee_takes_id,
+        sum2: parseFloat(this.totalTakenSum)
+      };
+      axios.post('api/expense-documents', doc, {
+        'headers': {
+          'Authorization': 'Bearer ' + window.api_token,
+          'Accept': 'application/json'
+        }
+      }).then(function (res) {
+        var data = {
+          from: _this4.id,
+          to: res.data.data.id,
+          ids: _this4.document.items.map(function (item) {
+            return item.id;
+          }) //.join(',')
+
+        };
+        axios.post('api/clone-document-items', data, {
+          'headers': {
+            'Authorization': 'Bearer ' + window.api_token,
+            'Accept': 'application/json'
+          }
+        }).then(function (res) {
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            text: 'Документ успешно создан',
+            icon: 'success'
+          });
+        });
       });
     }
   }),
@@ -27117,6 +27165,7 @@ var render = function() {
                     attrs: {
                       caption: "Отдел принимает",
                       hint: "Все отделы",
+                      disabledHint: false,
                       options: _vm.departmentsTake,
                       name: "name"
                     },
@@ -27999,7 +28048,18 @@ var render = function() {
                   on: { click: _vm.newDocumentItemForm }
                 },
                 [_c("i", { staticClass: "fas fa-plus" })]
-              )
+              ),
+              _vm._v(" "),
+              _vm.document.items.length > 0
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      on: { click: _vm.makeExpenseDocument }
+                    },
+                    [_c("i", { staticClass: "fas fa-share-alt" })]
+                  )
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
@@ -45660,7 +45720,7 @@ var TransferDocuments = {
     getDepartmentsDictionary: function getDepartmentsDictionary(_ref5) {
       var dispatch = _ref5.dispatch,
           state = _ref5.state;
-      dispatch('getDictionary', 'department').then(function (res) {
+      dispatch('getDictionary', 'department?type=goods').then(function (res) {
         return state.departmentsGive = res;
       });
     },
@@ -45791,6 +45851,11 @@ __webpack_require__.r(__webpack_exports__);
 
     if (state.filter.operationId > 0) {
       state.filter.queryStr = state.filter.queryStr + "&operation_id=".concat(payload.operationId);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.cashId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&cash_id=".concat(payload.cashId);
       state.filter.isFiltered = true;
     }
 

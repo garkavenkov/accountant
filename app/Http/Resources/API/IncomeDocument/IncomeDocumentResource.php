@@ -40,8 +40,8 @@ class IncomeDocumentResource extends JsonResource
             'isPaid'                =>  (boolean) $this->isPaid,
             'status'                =>  (int) $this->status,
             'firstForm'             =>  (int) $this->firstForm,
-            'bonus'                 =>  (int) $this->bonus
-            // 'payments'              =>  PaymentResource::collection($this->whenLoaded('payments'))
+            'bonus'                 =>  (int) $this->bonus,
+            'payments'              =>  PaymentResource::collection($this->whenLoaded('payments'))
         ];
     }
 }

@@ -81,7 +81,7 @@
                         <input type="checkbox" id="useFilter" class="custom-control-input" v-model="useFilter" tabindex="9">
                         <label for="useFilter" class="custom-control-label">Use filter</label>
                     </div>
-                    <button type="button" class="btn btn-primary" @click="saveDoc" tabindex="7">Сохранить</button>
+                    <button type="button" class="btn btn-primary" @click="saveDoc($event)" tabindex="7">Сохранить</button>
                 </div>
             </div>        
         </div>        
@@ -125,7 +125,7 @@ export default {
     },
     methods: {
         ...mapActions(['saveDocument']),
-        saveDoc() {
+        saveDoc(e) {
             let doc = {
                 date                : this.document.date,
                 debet_id            : this.document.supplierId,
@@ -136,7 +136,7 @@ export default {
             }
             this.saveDocument(doc)
                 .then(res => {
-                    this.clearForm();
+                    this.clearForm(e.ctrlKey);
                     Swal.fire({
                         toast: true,
                         position: 'top-end',
@@ -155,17 +155,24 @@ export default {
             this.clearForm();
             this.useFilter = false;
         },         
-        clearForm() {
-            if (this.useFilter) {
-                // this.document.date = null;
-                this.document.supplierId    = this.filter.debetId   ? this.filter.debetId   : 0;
-                this.document.departmentId  = this.filter.creditId  ? this.filter.creditId  : 0;
+        clearForm(ctrlIsPressed) {
+            
+            if (!ctrlIsPressed) {
+              
+                if (this.useFilter) {
+                    this.document.supplierId    = this.filter.debetId   ? this.filter.debetId   : 0;
+                    this.document.departmentId  = this.filter.creditId  ? this.filter.creditId  : 0;
+                } else {
+                    this.document.date = new Date().toISOString().slice(0,10);
+                    this.document.departmentId  = 0;            
+                    this.document.employeeId    = 0;        
+                    this.employees = [];
+                } 
+
             } else {
-                this.document.date = new Date().toISOString().slice(0,10);
-                this.document.departmentId  = 0;            
-                this.document.employeeId    = 0;        
-                this.employees = [];
-            }            
+                document.querySelector('#purchaseSum').focus();
+            }
+            
             this.document.purchaseSum   = 0;
             this.document.retailSum     = 0;            
             this.errors = [];

@@ -81,45 +81,57 @@
                         <li class="nav-item">
                             <a href="cash-documents" class="nav-link">
                                 <i class="fas fa-file-invoice-dollar"></i>
-                                <!-- <i class="fas fa-coins"></i> -->
                                 <p>Кассовые документы</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="payments" class="nav-link">
                                 <i class="far fa-handshake"></i>
-                                <!-- <i class="fas fa-coins"></i> -->
                                 <p>Расчет с поставщиками</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="sales-revenues" class="nav-link">
                                 <i class="fas fa-cart-plus"></i>
-                                <!-- <i class="fas fa-coins"></i> -->
                                 <p>Торговая выручка</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="salaries" class="nav-link">
                                 <i class="fas fa-hand-holding-usd"></i>
-                                <!-- <i class="fas fa-coins"></i> -->
                                 <p>Зарплата</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="accountabilities" class="nav-link">
                                 <i class="fas fa-receipt"></i>
-                                <!-- <i class="fas fa-coins"></i> -->
                                 <p>Подотчетные документы</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="cash-expense-documents" class="nav-link">
                                 <i class="fas fa-search-dollar"></i>
-                                <!-- <i class="fas fa-coins"></i> -->
                                 <p>Расходные кассовые документы</p>
                             </a>
-                        </li>                       
+                        </li>
+                        <li class="nav-item">
+                            <a href="cash-profit-documents" class="nav-link">
+                                <i class="fas fa-file-medical"></i>
+                                <p>Доход кассы</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="close-cash-day" class="nav-link">
+                                <i class="fas fa-lock"></i>
+                                <p>Закрыть день</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="link-payments" class="nav-link">
+                                <i class="fas fa-link"></i>
+                                <p>Связать кассовый документ</p>
+                            </a>
+                        </li>                  
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">

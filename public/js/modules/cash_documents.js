@@ -2314,6 +2314,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'CashDocumentFilterForm',
@@ -2329,7 +2348,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       types: []
     };
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('CashDocument', ['applyFilter'])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('CashDocument', ['applyFilter', 'getCashesDictionary'])), {}, {
     resetFilter: function resetFilter() {},
     getOperationTypes: function getOperationTypes() {
       var _this = this;
@@ -2344,9 +2363,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('CashDocument', ['filter'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('CashDocument', ['filter', 'cashes'])),
   created: function created() {
     this.getOperationTypes();
+    this.getCashesDictionary();
   }
 });
 
@@ -2714,6 +2734,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2747,6 +2770,138 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   created: function created() {
     this.fetchData();
+    this.getOperationTypeDictionary();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/cash_documents/New.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/modules/cash_documents/New.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_FormValidator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/FormValidator */ "./resources/js/mixins/FormValidator.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'CashDocumentsNew',
+  mixins: [_mixins_FormValidator__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  data: function data() {
+    return {
+      newDocument: {
+        date: moment().format('YYYY-MM-DD'),
+        cashId: 0,
+        operationId: 0
+      }
+    };
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('CashDocument', ['getCashesDictionary', 'getOperationTypeDictionary'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('CashDocument', ['cashes', 'types'])),
+  created: function created() {
+    this.getCashesDictionary();
     this.getOperationTypeDictionary();
   }
 });
@@ -4438,6 +4593,75 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-12" }, [
                 _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Касса")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.filter.cashId,
+                          expression: "filter.cashId"
+                        }
+                      ],
+                      staticClass: "form-control select2",
+                      staticStyle: { width: "100%" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.filter,
+                            "cashId",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "option",
+                        { attrs: { selected: "selected", value: "0" } },
+                        [
+                          _vm._v(
+                            "\n                                    Все кассы\n                                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.cashes, function(cash) {
+                        return _c(
+                          "option",
+                          { key: cash.id, domProps: { value: cash.id } },
+                          [
+                            _vm._v(
+                              "\n                                            " +
+                                _vm._s(cash.name) +
+                                "\n                                "
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", { staticClass: "form-group" }, [
                   _c("label", [_vm._v("Тип операции")]),
                   _vm._v(" "),
                   _c(
@@ -4503,8 +4727,6 @@ var render = function() {
                 ])
               ])
             ]),
-            _vm._v(" "),
-            _vm._m(1),
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-md-6" }, [
@@ -4624,18 +4846,6 @@ var staticRenderFns = [
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", [_vm._v("Дебет")])
-        ])
-      ])
     ])
   }
 ]
@@ -5221,46 +5431,57 @@ var render = function() {
             key: "title",
             fn: function() {
               return [
-                _c("h3", { staticClass: "card-title" }, [
-                  _vm._v("Кассовые документы\n                "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: {
-                        "data-toggle": "modal",
-                        "data-target": "#modal-new-document",
-                        "data-backdrop": "static",
-                        "data-keyboard": "true"
-                      }
-                    },
-                    [_c("i", { staticClass: "fas fa-plus" })]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-info",
-                      attrs: { type: "button", title: "Обновить данные" },
-                      on: { click: _vm.fetchData }
-                    },
-                    [_c("i", { staticClass: "fas fa-sync-alt" })]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-info ",
-                      attrs: {
-                        "data-toggle": "modal",
-                        "data-target": "#modal-filter-document",
-                        "data-backdrop": "static",
-                        "data-keyboard": "true"
-                      }
-                    },
-                    [_c("i", { staticClass: "fas fa-filter" })]
-                  )
-                ])
+                _c(
+                  "h3",
+                  { staticClass: "card-title" },
+                  [
+                    _vm._v("Кассовые документы\n                "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: {
+                          "data-toggle": "modal",
+                          "data-target": "#modal-new-document",
+                          "data-backdrop": "static",
+                          "data-keyboard": "true"
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-plus" })]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-info",
+                        attrs: { type: "button", title: "Обновить данные" },
+                        on: { click: _vm.fetchData }
+                      },
+                      [_c("i", { staticClass: "fas fa-sync-alt" })]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-info ",
+                        attrs: {
+                          "data-toggle": "modal",
+                          "data-target": "#modal-filter-document",
+                          "data-backdrop": "static",
+                          "data-keyboard": "true"
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-filter" })]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      { attrs: { to: { name: "CashDocumentNew" } } },
+                      [_c("i", { staticClass: "fas fa-plus" })]
+                    )
+                  ],
+                  1
+                )
               ]
             },
             proxy: true
@@ -5391,6 +5612,275 @@ var render = function() {
   )
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/cash_documents/New.vue?vue&type=template&id=2d9927a3&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/modules/cash_documents/New.vue?vue&type=template&id=2d9927a3& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-10 offset-md-1" }, [
+        _c("div", { staticClass: "card card-primary" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Дата")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newDocument.date,
+                        expression: "newDocument.date"
+                      }
+                    ],
+                    staticClass: "form-control datetimepicker-input",
+                    class: { "is-invalid": _vm.hasError("date") },
+                    attrs: { type: "date", name: "date", id: "date" },
+                    domProps: { value: _vm.newDocument.date },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.newDocument, "date", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass: "error invalid-feedback",
+                      attrs: { id: "date-error" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                        " +
+                          _vm._s(_vm.getError("date")) +
+                          "\n                            "
+                      )
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Касса")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newDocument.cashId,
+                          expression: "newDocument.cashId"
+                        }
+                      ],
+                      staticClass: "form-control select2",
+                      class: { "is-invalid": _vm.hasError("cash_id") },
+                      staticStyle: { width: "100%" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.newDocument,
+                            "cashId",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "option",
+                        {
+                          attrs: {
+                            selected: "selected",
+                            disabled: "",
+                            value: "0"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                    Выберите кассу\n                                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.cashes, function(cash) {
+                        return _c(
+                          "option",
+                          { key: cash.id, domProps: { value: cash.id } },
+                          [
+                            _vm._v(
+                              "\n                                            " +
+                                _vm._s(cash.name) +
+                                "\n                                "
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass: "error invalid-feedback",
+                      attrs: { id: "supplier-error" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                        " +
+                          _vm._s(_vm.getError("cash_id")) +
+                          "\n                            "
+                      )
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Тип докумена")]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.newDocument.operationId,
+                          expression: "newDocument.operationId"
+                        }
+                      ],
+                      staticClass: "form-control select2",
+                      class: { "is-invalid": _vm.hasError("operation_id") },
+                      staticStyle: { width: "100%" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.newDocument,
+                            "operationId",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "option",
+                        {
+                          attrs: {
+                            selected: "selected",
+                            disabled: "",
+                            value: "0"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                    Выберите тип документа\n                                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.types, function(type) {
+                        return _c(
+                          "option",
+                          { key: type.id, domProps: { value: type.id } },
+                          [
+                            _vm._v(
+                              "\n                                            " +
+                                _vm._s(type.name) +
+                                "\n                                "
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass: "error invalid-feedback",
+                      attrs: { id: "supplier-error" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                        " +
+                          _vm._s(_vm.getError("operation_id")) +
+                          "\n                            "
+                      )
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [
+        _vm._v("Новый кассовый документ")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -22382,6 +22872,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/modules/cash_documents/New.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/modules/cash_documents/New.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _New_vue_vue_type_template_id_2d9927a3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./New.vue?vue&type=template&id=2d9927a3& */ "./resources/js/modules/cash_documents/New.vue?vue&type=template&id=2d9927a3&");
+/* harmony import */ var _New_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./New.vue?vue&type=script&lang=js& */ "./resources/js/modules/cash_documents/New.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _New_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _New_vue_vue_type_template_id_2d9927a3___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _New_vue_vue_type_template_id_2d9927a3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/modules/cash_documents/New.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/modules/cash_documents/New.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/modules/cash_documents/New.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_New_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./New.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/cash_documents/New.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_New_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/modules/cash_documents/New.vue?vue&type=template&id=2d9927a3&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/modules/cash_documents/New.vue?vue&type=template&id=2d9927a3& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_New_vue_vue_type_template_id_2d9927a3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./New.vue?vue&type=template&id=2d9927a3& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/modules/cash_documents/New.vue?vue&type=template&id=2d9927a3&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_New_vue_vue_type_template_id_2d9927a3___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_New_vue_vue_type_template_id_2d9927a3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/modules/cash_documents/Show.vue":
 /*!******************************************************!*\
   !*** ./resources/js/modules/cash_documents/Show.vue ***!
@@ -22467,14 +23026,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Breadcrumbs_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/Breadcrumbs.vue */ "./resources/js/components/Breadcrumbs.vue");
 /* harmony import */ var _Main_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Main.vue */ "./resources/js/modules/cash_documents/Main.vue");
 /* harmony import */ var _Show_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Show.vue */ "./resources/js/modules/cash_documents/Show.vue");
-/* harmony import */ var _stores_CashDocument__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../stores/CashDocument */ "./resources/js/stores/CashDocument.js");
+/* harmony import */ var _New_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./New.vue */ "./resources/js/modules/cash_documents/New.vue");
+/* harmony import */ var _stores_CashDocument__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../stores/CashDocument */ "./resources/js/stores/CashDocument.js");
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 
- // import IncomeDocumentsNew   from './New.vue';
+
 
 var routes = [{
   path: '/',
@@ -22485,6 +23045,10 @@ var routes = [{
   name: 'CashDocumentShow',
   component: _Show_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
   props: true
+}, {
+  path: '/new',
+  name: 'CashDocumentNew',
+  component: _New_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   // mode: 'history',
@@ -22495,7 +23059,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__
 
 var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
   modules: {
-    CashDocument: _stores_CashDocument__WEBPACK_IMPORTED_MODULE_6__["CashDocument"] // Dictionary
+    CashDocument: _stores_CashDocument__WEBPACK_IMPORTED_MODULE_7__["CashDocument"] // Dictionary
 
   }
 });
@@ -22511,6 +23075,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   components: {
     CashDocumentMain: _Main_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     CashDocumentShow: _Show_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    CashDocumentNew: _New_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
     Breadcrumbs: _components_Breadcrumbs_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   router: router,
@@ -22549,13 +23114,14 @@ var CashDocument = {
     documents: [],
     document: {},
     types: [],
-    // cashes: [],
+    cashes: [],
     // departments: [],
     url: '/api/cash-documents',
     filter: {
       dateBegin: null,
       dateEnd: null,
       operationId: 0,
+      cashId: 0,
       creditId: 0,
       debetId: 0,
       sumBegin: 0,
@@ -22576,8 +23142,10 @@ var CashDocument = {
     },
     types: function types(state) {
       return state.types;
-    } // cashes:         state   =>  state.cashes,
-    // departments:    state   =>  state.departments
+    },
+    cashes: function cashes(state) {
+      return state.cashes;
+    } // departments:    state   =>  state.departments
 
   },
   mutations: _objectSpread({}, _core_mutations__WEBPACK_IMPORTED_MODULE_2__["default"]),
@@ -22686,6 +23254,13 @@ var CashDocument = {
           state = _ref2.state;
       dispatch('getDictionary', 'CashOperation').then(function (res) {
         return state.types = res;
+      });
+    },
+    getCashesDictionary: function getCashesDictionary(_ref3) {
+      var dispatch = _ref3.dispatch,
+          state = _ref3.state;
+      dispatch('getDictionary', 'Cash').then(function (res) {
+        return state.cashes = res;
       });
     },
     // getDepartmentsDictionary({dispatch, state}, cashId) {
@@ -22823,6 +23398,11 @@ __webpack_require__.r(__webpack_exports__);
 
     if (state.filter.operationId > 0) {
       state.filter.queryStr = state.filter.queryStr + "&operation_id=".concat(payload.operationId);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.cashId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&cash_id=".concat(payload.cashId);
       state.filter.isFiltered = true;
     }
 

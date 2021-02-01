@@ -37,6 +37,7 @@
                         <div class="col-md-12">
                             <select-field caption="Отдел"
                                     hint="Все отделы"
+                                    :disabledHint=false
                                     :options="departments"
                                     v-model="filter.debetId"
                                     name="name">
@@ -109,7 +110,7 @@ export default {
         ...mapGetters(['filter', 'departments'])
     },
     created() {
-        this.getDepartmentsDictionary()
+        // this.getDepartmentsDictionary()
     },
     watch: {
         // 'filter.debetId'(newValue, oldValue) {     

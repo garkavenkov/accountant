@@ -51,7 +51,7 @@ class DocumentItemRequest extends FormRequest
         ];
     }
 
-     /**
+    /**
      * Custom messages for validation
      *
      * @return array

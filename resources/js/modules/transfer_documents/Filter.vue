@@ -48,6 +48,7 @@
                         <div class="col-md-12">
                              <select-field caption="Отдел принимает"
                                     hint="Все отделы"
+                                    :disabledHint=false
                                     :options="departmentsTake"
                                     v-model="filter.creditId"
                                     name="name">
@@ -99,7 +100,7 @@ export default {
     name: 'TransferDocumentFilterForm',
     data() {
         return {
-            departmentsTake: []
+            departmentsTake: this.departmentsGive
         }
     },
     methods: {
@@ -129,7 +130,9 @@ export default {
                 this.departmentsTake = this.departmentsGive.filter(department => 
                     department.id != this.filter.debetId
                 );                        
-            } 
+            } else {
+                this.departmentsTake = this.departmentsGive;
+            }
         }
     },
     components: {

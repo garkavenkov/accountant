@@ -86,6 +86,10 @@ Route::group(['middleware' => ['auth']], function () {
         return view('cash_expense_documents');
     });
 
+    Route::get('cash-profit-documents', function() {
+        return view('cash_profit_documents');
+    });
+
     Route::get('payments', function() {
         return view('payments');
     });
@@ -106,4 +110,11 @@ Route::group(['middleware' => ['auth']], function () {
         return view('accountabilities');
     });
 
+    Route::get('close-cash-day', function() {
+        return view('close_cash_day');
+    });
+
+    Route::get('link-payments', function() {
+        return view('link_payments');
+    });
 });

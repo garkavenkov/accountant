@@ -54,9 +54,12 @@
                     <input type="checkbox" name="selectAll" id="selectAll" @change="selectAll($event)">
                 </td>
                 <td v-else></td>
-                <td class="text-center">Дата</td>
-                <td class="text-center">№</td>
-                <td>Поставщик</td>
+                <td class="text-center" @click="sort('date')">Дата</td>
+                <td class="text-center" @click="sort('number')">№</td>
+                <td  @click="sort('supplier')">
+                    Поставщик
+                    <i class="fas fa-sort"></i>
+                </td>
                 <td>Отдел</td>
                 <td>Сотрудник</td>
                 <td class="text-right">Сумма закупки</td>
@@ -126,7 +129,7 @@
 <script>
 
 import Grid             from '../../components/Grid';
-import DocumentPaid     from '../../components/DocumentPaid';
+import DocumentPaid     from './DocumentPaid';
 import DocumentForm     from './Form';
 import DocumentFilter   from './Filter';
 import FlagForm         from './FlagForm'
@@ -189,6 +192,28 @@ export default {
             // } else {
             //     this.selectedRecords = this.selectedRecords.filter(item => item.id != record.id);
             // }
+        },
+        sort(field) {
+            // console.log(`Sort on field ${field}`);
+            // this.documents.sort((a,b) => (a[field] > b[field]) ? 1 : ((b[field] > a[field]) ? -1 : 0))
+            // this.documents.sort((a,b) => a[field] - b[field] || a['sum1'] - b['sum2'] )
+            // this.documents.sort('supplier');
+            this.documents.sort(function (a, b) {
+
+            	// Sort by votes
+            	// If the first item has a higher number, move it down
+            	// If the first item has a lower number, move it up
+            	if (a[field] > b[field]) return 1;
+            	if (a[field] < b[field]) return -1;
+
+            	// If the votes number is the same between both items, sort alphabetically
+            	// If the first item comes first in the alphabet, move it up
+            	// Otherwise move it down
+            	if (a['sum1'] > b['sum1']) return 1;
+            	if (a['sum1'] < b['sum1']) return -1;
+
+            });
+
         }
     },
     computed: {

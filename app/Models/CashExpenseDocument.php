@@ -14,20 +14,20 @@ class CashExpenseDocument extends CashDocument
     
     private $api_path="/api/cash-expense-documents";    
 
-    protected $table = 'cash_documents';
+    // protected $table = 'cash_documents';
 
-    protected $fillable = [
-        'date',
-        'operation_id',
-        'number',
-        'debet_id',        
-        'credit_id',
-        'debet',
-        'credit',
-        'purpose',
-        'status',
-        'user_id'
-    ]; 
+    // protected $fillable = [
+    //     'date',
+    //     'operation_id',
+    //     'number',
+    //     'debet_id',        
+    //     'credit_id',
+    //     'debet',
+    //     'credit',
+    //     'purpose',
+    //     'status',
+    //     'user_id'
+    // ]; 
 
     protected static function boot()
     {
@@ -37,7 +37,7 @@ class CashExpenseDocument extends CashDocument
         
         static::creating(function ($model) {            
            
-            $number = CashExpenseDocument::where('date', $model->date)->max('number');
+            $number = CashDocument::where('date', $model->date)->max('number');
             
             if (is_numeric($number)) {
                 $number++;
@@ -58,9 +58,5 @@ class CashExpenseDocument extends CashDocument
         });     
 
     }
-
-    // public function expense()
-    // {
-    //     return $this->belongsTo(ExpenseItem::class, 'credit_id', 'id');
-    // }
+    
 }

@@ -61,7 +61,7 @@
                                          v-bind:class="{'is-invalid' : hasError('debet_id')}"
                                         v-model="newDocument.departmentId">
                                     <option selected="selected" disabled value="0">
-                                        Выбирите отдел
+                                        Выберите отдел
                                     </option>
                                     <option v-for="department in departments" 
                                             :value="department.id" 
@@ -85,7 +85,8 @@
                                         id="amount" 
                                         class="form-control" 
                                         v-bind:class="{'is-invalid' : hasError('credit')}"
-                                        v-model="newDocument.amount">
+                                        v-model="newDocument.amount"
+                                        autocomplete="off">
                                 <span   id="supplier-error" 
                                         class="error invalid-feedback">
                                             {{getError('credit')}}
@@ -101,7 +102,7 @@
                         <input type="checkbox" id="useFilter" class="custom-control-input" v-model="useFilter">
                         <label for="useFilter" class="custom-control-label">Use filter</label>
                     </div>
-                    <button type="button" class="btn btn-primary" @click="saveDoc">Сохранить</button>
+                    <button type="button" class="btn btn-primary" @click="saveDoc($event)">Сохранить</button>
                 </div>
             </div>
         <!-- /.modal-content -->
@@ -131,7 +132,7 @@ export default {
     },
     methods: {
         ...mapActions(['getCashesDictionary',  'getDepartmentsDictionary', 'saveDocument']),
-        saveDoc() {
+        saveDoc(e) {            
             let doc = {
                     date                : this.newDocument.date,
                     debet_id            : this.newDocument.departmentId,
@@ -140,7 +141,7 @@ export default {
                 }
             this.saveDocument(doc)
                 .then(res => {
-                    this.clearForm();
+                    this.clearForm(e.ctrlKey);
                     Swal.fire({
                         toast: true,
                         position: 'top-end',
@@ -157,13 +158,16 @@ export default {
             this.clearForm();
             this.useFilter  = false;
         },
-        clearForm() {
+        clearForm(ctrlIsPressed) {
             this.errors = [];
             this.newDocument.amount         = 0;
             
-            this.newDocument.cashId         = this.filter.creditId ? this.filter.creditId :  0 ;
-            this.newDocument.date           = this.filter.dateBegin ? this.filter.dateBegin :null;
-            this.newDocument.departmentId   = this.filter.debetId ? this.filter.debetId : 0;
+            if (!ctrlIsPressed) {
+                this.newDocument.cashId         = this.filter.creditId ? this.filter.creditId :  0 ;
+                this.newDocument.date           = this.filter.dateBegin ? this.filter.dateBegin :null;
+                this.newDocument.departmentId   = this.filter.debetId ? this.filter.debetId : 0;
+            }
+            
             
         },
     },

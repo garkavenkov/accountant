@@ -301,6 +301,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'DepartmentTurnsMain',
@@ -309,7 +324,9 @@ __webpack_require__.r(__webpack_exports__);
       departments: [],
       turns: {
         departmentId: 0,
-        dateBegin: moment().format('YYYY-MM-DD')
+        dateBegin: moment().format('YYYY-MM-DD'),
+        dateEnd: moment().format('YYYY-MM-DD'),
+        autosetRest: true
       },
       data: {}
     };
@@ -318,7 +335,7 @@ __webpack_require__.r(__webpack_exports__);
     getDepartmentsDictionary: function getDepartmentsDictionary() {
       var _this = this;
 
-      axios.get("/api/select-dictionary/department?type='goods'", {
+      axios.get("/api/select-dictionary/department?type=goods", {
         'headers': {
           'Authorization': 'Bearer ' + window.api_token,
           'Accept': 'application/json'
@@ -330,7 +347,8 @@ __webpack_require__.r(__webpack_exports__);
     getTurns: function getTurns() {
       var _this2 = this;
 
-      axios.get("api/department-turns?id=".concat(this.turns.departmentId, "&date_begin=").concat(this.turns.dateBegin, "&date_end=").concat(this.turns.dateBegin, "&set_rest=1"), {
+      var setRest = this.turns.autosetRest ? '&set_rest=1' : '';
+      axios.get("api/department-turns?id=".concat(this.turns.departmentId, "&date_begin=").concat(this.turns.dateBegin, "&date_end=").concat(this.turns.dateEnd).concat(setRest), {
         'headers': {
           'Authorization': 'Bearer ' + window.api_token,
           'Accept': 'application/json'
@@ -22542,7 +22560,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
-                    _c("label", [_vm._v("Дата")]),
+                    _c("label", [_vm._v("Дата начала")]),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -22565,6 +22583,97 @@ var render = function() {
                         }
                       }
                     })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", [_vm._v("Дата окончания")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.turns.dateEnd,
+                          expression: "turns.dateEnd"
+                        }
+                      ],
+                      staticClass: "form-control datetimepicker-input",
+                      attrs: { type: "date", name: "date", id: "date" },
+                      domProps: { value: _vm.turns.dateEnd },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.turns, "dateEnd", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "div",
+                      { staticClass: "custom-control custom-checkbox" },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.turns.autosetRest,
+                              expression: "turns.autosetRest"
+                            }
+                          ],
+                          staticClass: "custom-control-input",
+                          attrs: { type: "checkbox", id: "autosetRest" },
+                          domProps: {
+                            checked: Array.isArray(_vm.turns.autosetRest)
+                              ? _vm._i(_vm.turns.autosetRest, null) > -1
+                              : _vm.turns.autosetRest
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.turns.autosetRest,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 &&
+                                    _vm.$set(
+                                      _vm.turns,
+                                      "autosetRest",
+                                      $$a.concat([$$v])
+                                    )
+                                } else {
+                                  $$i > -1 &&
+                                    _vm.$set(
+                                      _vm.turns,
+                                      "autosetRest",
+                                      $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1))
+                                    )
+                                }
+                              } else {
+                                _vm.$set(_vm.turns, "autosetRest", $$c)
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticClass: "custom-control-label",
+                            attrs: { for: "autosetRest" }
+                          },
+                          [_vm._v("Фиксировать остаток")]
+                        )
+                      ]
+                    )
                   ]),
                   _vm._v(" "),
                   _c(

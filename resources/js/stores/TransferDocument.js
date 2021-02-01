@@ -113,7 +113,7 @@ export const TransferDocuments = {
                 });
         },        
         getDepartmentsDictionary({dispatch, state}) {
-            dispatch('getDictionary', 'department')
+            dispatch('getDictionary', 'department?type=goods')
                 .then(res => state.departmentsGive = res);
         },      
         getDictionary: (context, dictionary) => {            

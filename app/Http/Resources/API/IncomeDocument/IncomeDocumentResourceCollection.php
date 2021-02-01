@@ -35,9 +35,9 @@ class IncomeDocumentResourceCollection extends ResourceCollection
                 'isPaid'                =>  (boolean) $doc->isPaid,
                 'status'                =>  $doc->status,
                 'firstForm'             =>  $doc->firstForm,
-                'bonus'                 =>  $doc->bonus
+                'bonus'                 =>  $doc->bonus,
                 // 'payments'              =>  PaymentResource::collection($doc->payments)
-                // 'payments'              =>  PaymentResource::collection($doc->whenLoaded('payments'))
+                'payments'              =>  PaymentResource::collection($doc->whenLoaded('payments'))
             ];
         })->all();
     }

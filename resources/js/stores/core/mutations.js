@@ -18,6 +18,11 @@ export default  {
             state.filter.isFiltered = true;
         }
 
+        if (state.filter.cashId > 0) {
+            state.filter.queryStr = state.filter.queryStr + `&cash_id=${payload.cashId}`;
+            state.filter.isFiltered = true;
+        }
+
         if (state.filter.creditId > 0) {
             state.filter.queryStr = state.filter.queryStr + `&credit_id=${payload.creditId}`;
             state.filter.isFiltered = true;

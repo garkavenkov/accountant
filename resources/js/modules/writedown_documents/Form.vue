@@ -125,12 +125,13 @@ export default {
                         position: 'top-end',
                         showConfirmButton: false,
                         timer: 2000,
-                        title:'Good job!',
                         text:'Документ успешно создан',
                         icon:'success',
                     });
                 })
-                .catch(err => this.errors = err.response.data.errors);            
+                .catch(err => {
+                    this.errors = err.response.data.errors
+                });
         },
         closeModal() {
             this.clearForm();
@@ -208,7 +209,7 @@ export default {
         },        
     },
     created() {
-        this.getDepartmentsDictionary();
+        // this.getDepartmentsDictionary();
     },
     components: {
         SelectField,

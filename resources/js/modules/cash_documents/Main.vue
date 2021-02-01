@@ -26,6 +26,9 @@
                         data-keyboard="true">
                     <i class="fas fa-filter"></i>
                 </button>
+                <router-link :to="{name: 'CashDocumentNew'}">
+                    <i class="fas fa-plus"></i>
+                </router-link>
             </h3>
         </template>           
         <template v-slot:header>

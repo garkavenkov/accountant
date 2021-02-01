@@ -92,7 +92,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['fetchData', 'applyFilter', 'saveDocument']),
+        ...mapActions(['fetchData', 'applyFilter', 'saveDocument', 'getDepartmentsDictionary']),
         makePagination(links, meta) {
             this.pagination = {...links, ...meta}
         },        
@@ -117,7 +117,7 @@ export default {
     },
     created() {
         this.fetchData();        
-        // this.getDepartmentsDictionary();
+        this.getDepartmentsDictionary();
     },
     components: {
         Grid,

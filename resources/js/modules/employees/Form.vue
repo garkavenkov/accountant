@@ -213,7 +213,7 @@ export default {
                         position: 'top-end',
                         showConfirmButton: false,
                         timer: 2000,
-                        text:'Отдел успешно добавлен',
+                        text:'Сотрудник успешно добавлен',
                         icon:'success',
                     });
                 })

@@ -14,6 +14,14 @@ class LinkedDocument extends Model
         'owner_id',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // static::saving(function($model) {
+        //     dd($model);
+        // });
+    }
     public function type()
     {
         return $this->hasOne(LinkedDocumentType::class, 'id', 'type_id');

@@ -8,7 +8,7 @@ use App\Scopes\ExpenseProfitItem\ExpenseItemScope;
 
 class ExpenseItem extends ExpenseProfitItem
 {   
-    protected $table = "expense_profit_items";
+    // protected $table = "expense_profit_items";
 
     protected static function boot()
     {

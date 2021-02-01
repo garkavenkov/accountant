@@ -11,13 +11,14 @@ export const CashDocument = {
         documents: [],
         document: {},
         types: [],
-        // cashes: [],
+        cashes: [],
         // departments: [],
         url: '/api/cash-documents',
         filter: {
             dateBegin       :   null,
             dateEnd         :   null,
             operationId     :   0,
+            cashId          :   0,
             creditId        :   0,
             debetId         :   0,
             sumBegin        :   0,
@@ -31,7 +32,7 @@ export const CashDocument = {
         document:       state   =>  state.document,
         filter:         state   =>  state.filter,
         types:          state   =>  state.types,
-        // cashes:         state   =>  state.cashes,
+        cashes:         state   =>  state.cashes,
         // departments:    state   =>  state.departments
     },
     mutations: {
@@ -140,6 +141,10 @@ export const CashDocument = {
         getOperationTypeDictionary: ({dispatch, state}) => {
             dispatch('getDictionary',  'CashOperation')
                 .then(res => state.types = res);
+        },
+        getCashesDictionary: ({dispatch, state}) => {
+            dispatch('getDictionary',  'Cash')
+                .then(res => state.cashes = res);
         },
         // getDepartmentsDictionary({dispatch, state}, cashId) {
         //     let dictionary = 'department';

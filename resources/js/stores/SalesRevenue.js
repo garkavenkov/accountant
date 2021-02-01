@@ -41,9 +41,9 @@ export const SalesRevenue = {
                 .then(res => state.cashes = res);
         },
         getDepartmentsDictionary({dispatch, state}, cashId) {
-            let dictionary = 'department';
+            let dictionary = 'department?type=goods';
             if (cashId != 0) {
-                dictionary = 'department?branch_id=' + cashId;
+                dictionary += '&branch_id=' + cashId;
             }
             dispatch('getDictionary', dictionary)
                 .then(res => state.departments = res);

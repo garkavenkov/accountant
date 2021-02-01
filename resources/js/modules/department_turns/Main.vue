@@ -41,15 +41,30 @@
                             </select-field>
 
                             <div class="form-group">
-                                <label>Дата</label>                                
+                                <label>Дата начала</label>                                
                                 <input  type="date" 
                                         name="date" 
                                         id="date" 
                                         class="form-control datetimepicker-input" 
                                         v-model="turns.dateBegin">                                
                             </div>
+                            <div class="form-group">
+                                <label>Дата окончания</label>                                
+                                <input  type="date" 
+                                        name="date" 
+                                        id="date" 
+                                        class="form-control datetimepicker-input" 
+                                        v-model="turns.dateEnd">                                
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="autosetRest" v-model="turns.autosetRest">
+                                    <label for="autosetRest" class="custom-control-label">Фиксировать остаток</label>
+                                </div>                        
+                            </div>
                             <button type="button" class="btn btn-primary" @click="getTurns">Расчитать</button>
                         </div>
+
                         <div class="col-md-9" v-if="data.incomeRest">
                             <div class="row">
                                 <h3>Входящий остаток на утро {{data.date | formatDate }} <span>{{data.incomeRest | formatNumber(2)}}</span></h3>
@@ -126,15 +141,17 @@ export default {
         return {
             departments: [],
             turns: {
-                departmentId: 0,
-                dateBegin:  moment().format('YYYY-MM-DD'),
+                departmentId    : 0,
+                dateBegin       : moment().format('YYYY-MM-DD'),
+                dateEnd         : moment().format('YYYY-MM-DD'),
+                autosetRest     : true
             },
             data: {}
         }
     },
     methods: {
         getDepartmentsDictionary() {
-            axios.get("/api/select-dictionary/department?type='goods'", 
+            axios.get("/api/select-dictionary/department?type=goods", 
                         {
                             'headers': {
                                 'Authorization': 'Bearer ' + window.api_token,
@@ -147,7 +164,8 @@ export default {
                     })               
         },
         getTurns() {
-            axios.get(`api/department-turns?id=${this.turns.departmentId}&date_begin=${this.turns.dateBegin}&date_end=${this.turns.dateBegin}&set_rest=1`, {
+            let setRest = this.turns.autosetRest ? '&set_rest=1' : '';
+            axios.get(`api/department-turns?id=${this.turns.departmentId}&date_begin=${this.turns.dateBegin}&date_end=${this.turns.dateEnd}${setRest}`, {
                     'headers': {
                         'Authorization': 'Bearer ' + window.api_token,
                         'Accept': 'application/json',

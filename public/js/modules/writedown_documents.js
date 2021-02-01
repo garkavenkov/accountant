@@ -2712,6 +2712,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2733,8 +2734,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['filter', 'departments'])),
-  created: function created() {
-    this.getDepartmentsDictionary();
+  created: function created() {// this.getDepartmentsDictionary()
   },
   watch: {// 'filter.debetId'(newValue, oldValue) {     
     // }
@@ -2889,12 +2889,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           position: 'top-end',
           showConfirmButton: false,
           timer: 2000,
-          title: 'Good job!',
           text: 'Документ успешно создан',
           icon: 'success'
         });
       })["catch"](function (err) {
-        return _this.errors = err.response.data.errors;
+        _this.errors = err.response.data.errors;
       });
     },
     closeModal: function closeModal() {
@@ -2968,8 +2967,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   },
-  created: function created() {
-    this.getDepartmentsDictionary();
+  created: function created() {// this.getDepartmentsDictionary();
   },
   components: {
     SelectField: _components_SelectField__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -3089,7 +3087,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       url: '/api/writedown-documents'
     };
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapActions"])(['fetchData', 'applyFilter', 'saveDocument'])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapActions"])(['fetchData', 'applyFilter', 'saveDocument', 'getDepartmentsDictionary'])), {}, {
     makePagination: function makePagination(links, meta) {
       this.pagination = _objectSpread(_objectSpread({}, links), meta);
     },
@@ -3112,7 +3110,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   created: function created() {
-    this.fetchData(); // this.getDepartmentsDictionary();
+    this.fetchData();
+    this.getDepartmentsDictionary();
   },
   components: {
     Grid: _components_Grid__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -5288,6 +5287,7 @@ var render = function() {
                     attrs: {
                       caption: "Отдел",
                       hint: "Все отделы",
+                      disabledHint: false,
                       options: _vm.departments,
                       name: "name"
                     },
@@ -23677,6 +23677,11 @@ __webpack_require__.r(__webpack_exports__);
 
     if (state.filter.operationId > 0) {
       state.filter.queryStr = state.filter.queryStr + "&operation_id=".concat(payload.operationId);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.cashId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&cash_id=".concat(payload.cashId);
       state.filter.isFiltered = true;
     }
 

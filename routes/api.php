@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth:api'], function() {
         'salaries'                  =>  'API\SalaryController',
         'expense-items'             =>  'API\ExpenseItemController',
         'cash-expense-documents'    =>  'API\CashExpenseDocumentController',
+        'cash-profit-documents'     =>  'API\CashProfitDocumentController',
         'return-documents'          =>  'API\ReturnDocumentController',
         'accountabilities'          =>  'API\AccountabilityController'
     ]);
@@ -71,5 +72,16 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::delete('remove-employee-from-shift/{shift_id}/{employee_id}',    'API\ShiftController@removeEmployee');
 
     Route::get('income-document-set-flag',      'API\IncomeDocumentController@setFlag');
-    
+
+    Route::get('cash-turns',                    'API\CashController@turns');
+    Route::patch('set-cash-rest',               'API\CashController@setRest');
+
+    Route::patch('update-rest',                 'API\RestController@update');
+
+    Route::get('get-unpaid-documents',          'API\IncomeDocumentController@getUnpaidDocuments');
+    Route::get('get-unlinked-payments',         'API\PaymentController@getUnlinkedPayments');
+
+    Route::post('link-documents',               'API\LinkedDocumentController@linkDocuments');
+
+    Route::post('clone-document-items',         'API\DocumentItemController@cloneItem');
 });

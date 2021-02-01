@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Models\PathTrait;
+use App\Models\CashOperationType;
 use Illuminate\Database\Eloquent\Model;
 
 class CashOperation extends Model
@@ -13,6 +14,12 @@ class CashOperation extends Model
 
     protected $fillable = [
         'code',
-        'name'
+        'name',
+        'type_id'
     ];
+
+    public function type()
+    {
+        return $this->belongsTo(CashOperationType::class, 'type_id', 'id');
+    }
 }

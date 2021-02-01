@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\CashDocument;
 use App\Models\IncomeDocument;
 use App\Models\LinkedDocument;
 use App\Traits\Models\PathTrait;
@@ -36,7 +37,7 @@ class Payment extends Model
         
         static::creating(function ($model) {            
             // dd($model);
-            $number = Payment::where('date', $model->date)->max('number');
+            $number = CashDocument::where('date', $model->date)->max('number');
             
             if (is_numeric($number)) {
                 $number++;

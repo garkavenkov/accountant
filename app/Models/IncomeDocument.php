@@ -82,9 +82,12 @@ class IncomeDocument extends Document
    
     public function getIsPaidAttribute()
     {
-        if ($this->payments->count() > 0) {
+        if ($this->status == 1) {
             return 1;
-        } 
+        }
+        // if ($this->payments->count() > 0) {
+        //     return 1;
+        // } 
         
         return 0;        
     }
@@ -96,11 +99,11 @@ class IncomeDocument extends Document
         return $this->belongsToMany(Payment::class, LinkedDocument::class,  'owner_id', 'cash_document_id')->wherePivot('type_id', $link_type->id);
     }
 
-    public function unpaid()
-    {
-        $this->status = 0;
-        $this->save();
-    }
+    // public function unpaid()
+    // {
+    //     $this->status = 0;
+    //     $this->save();
+    // }
 
     public function getFirstFormAttribute()
     {
@@ -144,6 +147,12 @@ class IncomeDocument extends Document
             return true;
         } 
         return false;
+    }
+
+    public function setStatusIsPaid()
+    {
+        $this->status = 1;
+        $this->save();
     }
 
 }

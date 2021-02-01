@@ -7,6 +7,7 @@ use App\Models\DocumentItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\DocumentItemRequest;
+use App\Http\Requests\API\DocumentItemCloneRequest;
 use App\Http\Resources\API\DocumentItem\DocumentItemResource;
 
 class DocumentItemController extends Controller
@@ -97,5 +98,36 @@ class DocumentItemController extends Controller
         DocumentItem::findOrFail($id)->delete();
 
         return response()->json([], 204);
+    }
+
+    public function cloneItem(DocumentItemCloneRequest $request)
+    {                
+        $request = $request->validated();
+
+        $document = Document::find($request['to']);
+        
+        $items = DocumentItem::find($request['ids']);
+        
+        $skip_sum1 = array(
+            'expense',
+            'writedown'
+        );
+
+        $number = $document->items()->count();
+
+        foreach ($items as $item) {
+            $number++;
+            $clone = new DocumentItem([
+                'measure_id'    =>  $item->measure_id,
+                'number'        =>  $number,
+                'name'          =>  $item->name,
+                'quantity'      =>  $item->quantity,
+                'price'         =>  in_array($document->type->code, $skip_sum1) ? 0 : $item->sum1,
+                'price2'        =>  $item->price2
+            ]);
+            $document->items()->save($clone);
+        }
+
+        return response()->json(['message' => "{$document->items()->count()} items has been successfully cloned"], 201);
     }
 }

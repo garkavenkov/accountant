@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use Carbon\Carbon;
+use App\Models\Branch;
 use App\Models\Document;
 use App\Models\DocumentType;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\IncomeDocumentRequest;
 use App\Http\Resources\API\IncomeDocument\IncomeDocumentResource;
 use App\Http\Resources\API\IncomeDocument\IncomeDocumentResourceCollection;
+use App\Http\Resources\API\IncomeDocument\UnpaidIncomeDocumentResourceCollection;
 
 class IncomeDocumentController extends Controller
 {
@@ -166,8 +168,56 @@ class IncomeDocumentController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
         }
-        
-        
+    }
 
+    public function getUnpaidDocuments()
+    {
+        $parameters = request()->input();
+        
+        if (isset($parameters['branch_id'])) {
+            $branch_id = $parameters['branch_id'];
+        } else {
+            $branch_id = 0;
+        }
+        
+        if (isset($parameters['date_begin'])) {
+            $date_begin = $parameters['date_begin'];
+        } else {
+            $date_begin = Carbon::now()->formatLocalized('%Y-%m-%d');
+        }
+
+        if (isset($parameters['date_end'])) {
+            $date_end = $parameters['date_end'];
+        } else {
+            $date_end = $date_begin;
+        }
+
+        if (isset($parameters['supplier_id'])) {
+            $supplier_id = $parameters['supplier_id'];
+        } else {
+            $supplier_id = 0;
+        }
+
+        if ($branch_id != 0) {
+            $branch = Branch::findOrFail($branch_id);
+        }
+        
+        
+        $documents = IncomeDocument::unpaid()
+                        ->with('department.branch', 'supplier')
+                        ->whereBetween('date', [$date_begin, $date_end])
+                        ->whereHas('department', function($query) use($branch_id) {
+                            $query->where('branch_id', $branch_id)
+                                    ->orWhereRaw("0 = $branch_id");
+                        })
+                        ->where(function($query) use($supplier_id) {
+                            $query->where('debet_id', $supplier_id)
+                                    ->orWhereRaw("0 = $supplier_id");
+                        })
+                        ->whereRaw('flag & 2 != 2')
+                        ->orderBy('date', 'asc')
+                        ->get();
+
+        return new UnpaidIncomeDocumentResourceCollection($documents);
     }
 }

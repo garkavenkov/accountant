@@ -26981,7 +26981,26 @@ if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
+} // window.axios.interceptors.response.use(
+//     response => response,
+//     error => {
+//         // Show the user a 500 error
+//         if (status >= 500) {
+//             console.log({500:error});
+//         }
+//         // Handle Session Timeouts
+//         if (status === 401) {
+//             console.log({401:error});
+//             app.refreshToken();
+//         }
+//         // Handle Forbidden
+//         if (status === 403) {
+//             console.log({403:error});
+//         }
+//         return Promise.reject(error)
+//     }
+// );
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

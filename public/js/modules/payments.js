@@ -2788,6 +2788,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2796,11 +2823,53 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: 'PaymentsMain',
   data: function data() {
     return {
-      pagination: {}
+      pagination: {},
+      inSelectMode: false,
+      selectedRecords: []
     };
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('Payment', ['fetchData'])),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('Payment', ['fetchData'])), {}, {
+    selectMode: function selectMode() {
+      if (this.inSelectMode) {
+        this.inSelectMode = false;
+        this.selectedRecords = [];
+        this.documents.forEach(function (document) {
+          return delete document.selected;
+        });
+      } else {
+        this.inSelectMode = true;
+      }
+    },
+    selectAll: function selectAll(e) {
+      if (e.target.checked) {
+        this.selectedRecords = this.documents;
+        this.documents.map(function (document) {
+          return document.selected = true;
+        });
+      } else {
+        this.selectedRecords = [];
+        this.documents.map(function (document) {
+          return delete document.selected;
+        });
+      }
+    },
+    handleClick: function handleClick(record) {
+      this.selectedRecords = this.documents.filter(function (document) {
+        return document.selected;
+      }); // if (record.selected) {
+      //     this.selectedRecords.push(record);
+      // } else {
+      //     this.selectedRecords = this.selectedRecords.filter(item => item.id != record.id);
+      // }
+    }
+  }),
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('Payment', ['documents'])), {}, {
+    totalSelectedAmount: function totalSelectedAmount() {
+      var total = this.selectedRecords.reduce(function (a, b) {
+        return a + b.amount * 1;
+      }, 0.00);
+      return total;
+    },
     totalAmount: function totalAmount() {
       var total = this.documents.reduce(function (a, b) {
         return a + b.amount * 1;
@@ -5370,7 +5439,45 @@ var render = function() {
                       }
                     },
                     [_c("i", { staticClass: "fas fa-filter" })]
-                  )
+                  ),
+                  _vm._v(" "),
+                  _vm.documents.length > 0
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-info",
+                          attrs: { type: "button", title: "Выбрать записи" },
+                          on: { click: _vm.selectMode }
+                        },
+                        [
+                          _c("i", { staticClass: "fas fa-tasks" }),
+                          _vm._v(" "),
+                          _vm.selectedRecords.length > 0
+                            ? _c(
+                                "span",
+                                { staticClass: "float-right badge bg-primary" },
+                                [_vm._v(_vm._s(_vm.selectedRecords.length))]
+                              )
+                            : _vm._e()
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.selectedRecords.length > 0
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-info ",
+                          attrs: {
+                            "data-toggle": "modal",
+                            "data-target": "#modal-tag-form",
+                            "data-backdrop": "static",
+                            "data-keyboard": "true"
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-tags" })]
+                      )
+                    : _vm._e()
                 ])
               ]
             },
@@ -5381,7 +5488,22 @@ var render = function() {
             fn: function() {
               return [
                 _c("tr", [
-                  _c("td"),
+                  _vm.inSelectMode
+                    ? _c("td", [
+                        _c("input", {
+                          attrs: {
+                            type: "checkbox",
+                            name: "selectAll",
+                            id: "selectAll"
+                          },
+                          on: {
+                            change: function($event) {
+                              return _vm.selectAll($event)
+                            }
+                          }
+                        })
+                      ])
+                    : _c("td"),
                   _vm._v(" "),
                   _c("td", { staticClass: "text-center" }, [_vm._v("Дата")]),
                   _vm._v(" "),
@@ -5405,51 +5527,109 @@ var render = function() {
             key: "default",
             fn: function(slotProps) {
               return _vm._l(slotProps.paginatedData, function(data) {
-                return _c("tr", { key: data.id }, [
-                  _c(
-                    "td",
-                    { staticClass: "text-center" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          attrs: {
-                            to: {
-                              name: "PaymentsShow",
-                              params: { id: data.id }
+                return _c(
+                  "tr",
+                  { key: data.id, class: { selected: data.selected } },
+                  [
+                    !_vm.inSelectMode
+                      ? _c(
+                          "td",
+                          { staticClass: "text-center" },
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                attrs: {
+                                  to: {
+                                    name: "PaymentsShow",
+                                    params: { id: data.id }
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "far fa-eye" })]
+                            )
+                          ],
+                          1
+                        )
+                      : _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: data.selected,
+                                expression: "data.selected"
+                              }
+                            ],
+                            attrs: { type: "checkbox" },
+                            domProps: {
+                              checked: Array.isArray(data.selected)
+                                ? _vm._i(data.selected, null) > -1
+                                : data.selected
+                            },
+                            on: {
+                              change: [
+                                function($event) {
+                                  var $$a = data.selected,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        _vm.$set(
+                                          data,
+                                          "selected",
+                                          $$a.concat([$$v])
+                                        )
+                                    } else {
+                                      $$i > -1 &&
+                                        _vm.$set(
+                                          data,
+                                          "selected",
+                                          $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1))
+                                        )
+                                    }
+                                  } else {
+                                    _vm.$set(data, "selected", $$c)
+                                  }
+                                },
+                                function($event) {
+                                  return _vm.handleClick(data)
+                                }
+                              ]
                             }
-                          }
-                        },
-                        [_c("i", { staticClass: "far fa-eye" })]
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-center" }, [
-                    _vm._v(_vm._s(data.date))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(data.number))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(data.cash))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(data.supplier))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(data.purpose))]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right" }, [
-                    _vm._v(_vm._s(_vm._f("formatNumber")(data.amount, 2)))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    data.status_code == 0
-                      ? _c("i", { staticClass: "far fa-file" })
-                      : data.status_code == 1
-                      ? _c("i", { staticClass: "fas fa-check" })
-                      : _vm._e()
-                  ])
-                ])
+                          })
+                        ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-center" }, [
+                      _vm._v(_vm._s(data.date))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(data.number))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(data.cash))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(data.supplier))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(data.purpose))]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _vm._v(_vm._s(_vm._f("formatNumber")(data.amount, 2)))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      data.status_code == 0
+                        ? _c("i", { staticClass: "far fa-file" })
+                        : data.status_code == 1
+                        ? _c("i", { staticClass: "fas fa-check" })
+                        : _vm._e()
+                    ])
+                  ]
+                )
               })
             }
           },
@@ -5457,6 +5637,38 @@ var render = function() {
             key: "footer",
             fn: function() {
               return [
+                _vm.selectedRecords.length > 0
+                  ? _c("tr", [
+                      _c(
+                        "td",
+                        {
+                          staticClass: "font-weight-italic",
+                          attrs: { colspan: "6" }
+                        },
+                        [
+                          _vm._v(
+                            "Выделено документов: " +
+                              _vm._s(_vm.selectedRecords.length)
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        { staticClass: "text-right font-weight-italic" },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("formatNumber")(_vm.totalSelectedAmount, 2)
+                            )
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("td")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
                 _c("tr", [
                   _c(
                     "td",
@@ -22777,6 +22989,11 @@ __webpack_require__.r(__webpack_exports__);
 
     if (state.filter.operationId > 0) {
       state.filter.queryStr = state.filter.queryStr + "&operation_id=".concat(payload.operationId);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.cashId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&cash_id=".concat(payload.cashId);
       state.filter.isFiltered = true;
     }
 

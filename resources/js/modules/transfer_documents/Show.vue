@@ -60,6 +60,11 @@
                     <button class="btn btn-primary"
                             @click="newDocumentItemForm">
                         <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="btn btn-secondary"
+                            v-if="document.items.length > 0"
+                            @click="makeExpenseDocument">
+                        <i class="fas fa-share-alt"></i>
                     </button>                        
                 </div>                    
                 <div class="row">
@@ -295,6 +300,47 @@ export default {
                 })
                 .catch(err => console.log(err));
         },
+        makeExpenseDocument() {
+            let doc = {
+                date                : this.document.date,
+                debet_id            : this.document.department_takes_id,
+                debet_person_id     : this.document.employee_takes_id,
+                sum2                : parseFloat(this.totalTakenSum)
+            }
+            axios.post('api/expense-documents', doc, 
+                    {
+                        'headers': {
+                            'Authorization': 'Bearer ' + window.api_token,
+                            'Accept': 'application/json',
+                        }    
+                    }
+                )
+                .then(res => {
+                    let data = {
+                        from  : this.id,
+                        to    : res.data.data.id,
+                        ids   : this.document.items.map(item => item.id)//.join(',')
+                    }
+                    axios.post('api/clone-document-items', data, 
+                        {
+                            'headers': {
+                                'Authorization': 'Bearer ' + window.api_token,
+                                'Accept': 'application/json',
+                            }                        
+                        }
+                    )
+                    .then(res => {
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            text:'Документ успешно создан',
+                            icon:'success',
+                         });
+                    })                    
+                })
+        }
     },
     computed: {
         ...mapGetters(['document']),

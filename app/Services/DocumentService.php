@@ -14,6 +14,10 @@ class DocumentService
         'operation_id'  =>  'in',
         'debet_id'      =>  'in',
         'credit_id'     =>  'in',
+        'cash_id'       =>  [
+            'fields'    =>  'debet_id,credit_id',
+            'logic'     =>  'or',            
+        ],
         'sum1'          =>  'between',
         'sum2'          =>  'between'
     ];

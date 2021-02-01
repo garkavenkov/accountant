@@ -4,41 +4,45 @@ namespace App\Traits\Filters;
 
 trait WhereTrait
 {
-    // protected $whereClauses = [
-    //     'date'      =>  'between',
-    //     'debit_id'  =>  'in',
-    //     'credit_id' =>  'in',
-    //     'sum1'      =>  'between',
-    //     'sum2'      =>  'between'
-    // ];
-
     protected function getWhereClause($parameters)
-    {
-        // dd($parameters);
+    {        
         $whereClause = "";
+        
+        foreach ($parameters as $field => $value) {
+            if (in_array($field, array_keys($this->whereClauses))) {
+                $method = $this->whereClauses[$field];
+                $keys = \explode(',', $value);
 
-        foreach ($this->whereClauses as $prop => $method) {
+                if (\is_array($method)) {
+                    // $fields = explode(',', $method['fields']);
+                    
+                    $fields = array_map(function ($field) use($value) {
+                        return "$field='$value'";
+                    }, explode(',', $method['fields']));
 
-            if (in_array($prop, array_keys($parameters))) {
-                // $clauses[$prop] = $parameters[$prop];
-                $keys = explode(',', $parameters[$prop]);
-                if (count($keys) > 1) {
-                    if ($method === 'between') {
-                        $where = "{$prop} between '$keys[0]' and '$keys[1]'";    
-                    }
+                    $where = '( ' . \implode(' or ', $fields) . ' )';
                 } else {
-                    $where = "{$prop}='$keys[0]'";
+
+                    if (\count($keys) > 1) {
+                        if ($method == 'between') {
+                            $where = "$field between '$keys[0]' and '$keys[1]'";
+                        }
+                    } else {
+                        $where = "$field = '$value'";
+                    }
                 }
-                
+
                 if ($whereClause) {
                     $whereClause = $whereClause . ' and ' . $where;
                 } else {
                     $whereClause = $whereClause . $where;
                 }
-                
+
             }
-        }
-        //  dd($whereClause);
+                        
+        }       
+       
+    //    dd($whereClause);
         return $whereClause;
     }
 

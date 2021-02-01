@@ -12,5 +12,5 @@ class ExpenseProfitItem extends Model
         'name'        
     ];
 
-    
+    protected $table = "expense_profit_items";    
 }

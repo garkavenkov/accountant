@@ -8,12 +8,14 @@ import Breadcrumbs      from    '../../components/Breadcrumbs.vue';
 
 import CashDocumentMain  from './Main.vue';
 import CashDocumentShow  from './Show.vue';
-// import IncomeDocumentsNew   from './New.vue';
+import CashDocumentNew   from './New.vue';
 
 
 const routes = [
     {path: '/',     name: 'CashDocumentMain',  component: CashDocumentMain},
     {path: '/:id',  name: 'CashDocumentShow',  component: CashDocumentShow, props: true},    
+    {path: '/new',  name: 'CashDocumentNew',   component: CashDocumentNew},
+
 ];
 
 const router = new VueRouter({
@@ -44,6 +46,7 @@ new Vue({
     components: {
         CashDocumentMain,
         CashDocumentShow,
+        CashDocumentNew,
         Breadcrumbs
     },
     router,

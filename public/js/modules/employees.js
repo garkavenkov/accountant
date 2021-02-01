@@ -580,7 +580,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           position: 'top-end',
           showConfirmButton: false,
           timer: 2000,
-          text: 'Отдел успешно добавлен',
+          text: 'Сотрудник успешно добавлен',
           icon: 'success'
         });
       })["catch"](function (err) {
@@ -42408,6 +42408,11 @@ __webpack_require__.r(__webpack_exports__);
 
     if (state.filter.operationId > 0) {
       state.filter.queryStr = state.filter.queryStr + "&operation_id=".concat(payload.operationId);
+      state.filter.isFiltered = true;
+    }
+
+    if (state.filter.cashId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&cash_id=".concat(payload.cashId);
       state.filter.isFiltered = true;
     }
 

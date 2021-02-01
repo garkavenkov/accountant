@@ -29,11 +29,30 @@
                         title="Фильтр документов">
                     <i class="fas fa-filter"></i>
                 </button>
+                <button type="button" 
+                        class="btn btn-info" 
+                        v-on:click="selectMode"
+                        title="Выбрать записи"
+                        v-if="documents.length > 0">
+                    <i class="fas fa-tasks"></i>
+                    <span class="float-right badge bg-primary" v-if="selectedRecords.length > 0">{{selectedRecords.length}}</span>
+                </button>
+                <button class="btn btn-info "
+                        data-toggle="modal" 
+                        data-target="#modal-tag-form"
+                        data-backdrop="static" 
+                        data-keyboard="true"
+                        v-if="selectedRecords.length > 0">
+                    <i class="fas fa-tags"></i>
+                </button>
             </h3>
         </template>           
         <template v-slot:header>
             <tr>
-                <td></td>
+                 <td v-if="inSelectMode">
+                    <input type="checkbox" name="selectAll" id="selectAll" @change="selectAll($event)">
+                </td>
+                <td v-else></td>
                 <td class="text-center">Дата</td>
                 <td class="text-center">№</td>
                 <!-- <td class="text-center">Тип</td> -->
@@ -45,12 +64,15 @@
             </tr>
         </template>
         <template v-slot:default="slotProps">
-            <tr v-for="data in slotProps.paginatedData" :key="data.id">
-                <td class="text-center">
+            <tr v-for="data in slotProps.paginatedData" :key="data.id" :class="{ selected: data.selected }">
+                <td class="text-center"  v-if="!inSelectMode">
                     <router-link :to="{name: 'PaymentsShow', params: {id: data.id}}">
                         <i class="far fa-eye"></i>
                     </router-link>
                     <!-- <i class="far fa-eye"></i> -->
+                </td>
+                 <td v-else>
+                    <input type="checkbox" v-model="data.selected" @change="handleClick(data)">
                 </td>
                 <td class="text-center">{{data.date}}</td>
                 <td>{{data.number}}</td>
@@ -66,6 +88,11 @@
             </tr>     
         </template>
         <template v-slot:footer>
+             <tr v-if="selectedRecords.length>0">
+                <td colspan="6" class="font-weight-italic">Выделено документов: {{selectedRecords.length}}</td>
+                <td class="text-right font-weight-italic">{{totalSelectedAmount | formatNumber(2)}}</td>                
+                <td></td>
+            </tr>
             <tr>
                 <td colspan="6" class="font-weight-bold">Итого документов: {{documents.length}}</td>                
                 <td class="text-right font-weight-bold">{{totalAmount | formatNumber(2) }}</td>
@@ -93,14 +120,45 @@ export default {
     data() {
         return {
             pagination: {},
-       
+            inSelectMode: false,
+            selectedRecords: [],
         }
     },
     methods: {
-        ...mapActions('Payment', ['fetchData'])
+        ...mapActions('Payment', ['fetchData']),
+        selectMode() {
+            if (this.inSelectMode) {
+                this.inSelectMode = false;
+                this.selectedRecords = [];
+                this.documents.forEach(document => delete document.selected);
+            } else {
+                this.inSelectMode = true;
+            }
+        },
+        selectAll(e) {
+            if (e.target.checked) {
+                this.selectedRecords = this.documents
+                this.documents.map(document => document.selected = true);
+            } else {
+                this.selectedRecords = [];
+                this.documents.map(document => delete document.selected);
+            }
+        },
+        handleClick(record) {
+            this.selectedRecords = this.documents.filter(document => document.selected);
+            // if (record.selected) {
+            //     this.selectedRecords.push(record);
+            // } else {
+            //     this.selectedRecords = this.selectedRecords.filter(item => item.id != record.id);
+            // }
+        }
     },
     computed: {
         ...mapGetters('Payment', ['documents']),
+        totalSelectedAmount() {
+            let total =  this.selectedRecords.reduce((a, b) => a + b.amount * 1, 0.00);
+            return total;
+        },        
         totalAmount() {
             let total =  this.documents.reduce((a, b) => a + b.amount * 1, 0.00);
             return total;

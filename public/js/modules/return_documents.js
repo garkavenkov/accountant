@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 19);
+/******/ 	return __webpack_require__(__webpack_require__.s = 20);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -22994,6 +22994,11 @@ __webpack_require__.r(__webpack_exports__);
       state.filter.isFiltered = true;
     }
 
+    if (state.filter.cashId > 0) {
+      state.filter.queryStr = state.filter.queryStr + "&cash_id=".concat(payload.cashId);
+      state.filter.isFiltered = true;
+    }
+
     if (state.filter.creditId > 0) {
       state.filter.queryStr = state.filter.queryStr + "&credit_id=".concat(payload.creditId);
       state.filter.isFiltered = true;
@@ -23012,7 +23017,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 19:
+/***/ 20:
 /*!*************************************************************************!*\
   !*** multi ./resources/js/modules/return_documents/return_documents.js ***!
   \*************************************************************************/

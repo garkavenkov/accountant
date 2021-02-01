@@ -116,7 +116,7 @@ export const IncomeDocuments = {
                 .then(res => state.suppliers = res);
         },
         getDepartmentsDictionary({dispatch, state}) {
-            dispatch('getDictionary', 'department')
+            dispatch('getDictionary', 'department?type=goods')
                 .then(res => state.departments = res);
         },      
         getDictionary: (context, dictionary) => {            
