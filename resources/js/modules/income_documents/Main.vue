@@ -35,17 +35,27 @@
                         v-on:click="selectMode"
                         title="Выбрать записи"
                         v-if="documents.length > 0">
-                    <i class="fas fa-tasks"></i>
-                    <span class="float-right badge bg-primary" v-if="selectedRecords.length > 0">{{selectedRecords.length}}</span>
-                </button>
-                <button class="btn btn-info "
-                        data-toggle="modal" 
-                        data-target="#modal-tag-form"
-                        data-backdrop="static" 
-                        data-keyboard="true"
-                        v-if="selectedRecords.length > 0">
-                    <i class="fas fa-tags"></i>
-                </button>
+                            <i class="fas fa-tasks"></i>
+                            <span class="float-right badge bg-primary" v-if="selectedRecords.length > 0">{{selectedRecords.length}}</span>
+                    </button>
+                <template v-if="selectedRecords.length > 0">                    
+                    <button class="btn btn-info "
+                            data-toggle="modal" 
+                            data-target="#modal-tag-form"
+                            data-backdrop="static" 
+                            data-keyboard="true"
+                            title="Установить признак на документ">
+                        <i class="fas fa-tags"></i>
+                    </button>
+                    <button class="btn btn-info "
+                            data-toggle="modal" 
+                            data-target="#modal-accountability-form"
+                            data-backdrop="static" 
+                            data-keyboard="true"
+                            title="Добавить документ в авансовый отчет">
+                        <i class="fas fa-receipt"></i>
+                    </button>
+                </template>               
             </h3>
         </template>           
         <template v-slot:header>
@@ -65,7 +75,7 @@
                 <td class="text-right">Сумма закупки</td>
                 <td class="text-right">Сумма продажи</td>
                 <td class="text-right">Торговая наценка</td>                    
-                <td></td>
+                <td colspan="2"></td>
             </tr>
         </template>
         <template v-slot:default="slotProps">
@@ -76,7 +86,10 @@
                     </router-link>
                 </td>
                 <td v-else>
-                    <input type="checkbox" v-model="data.selected" @change="handleClick(data)">
+                    <div class="icheck-primary d-inline">
+                        <input type="checkbox" v-model="data.selected" @change="handleClick(data)">
+                      </div>
+                    <!-- <input type="checkbox" v-model="data.selected" @change="handleClick(data)"> -->
                 </td>
                 <td class="text-center">{{data.date}}</td>
                 <td>{{data.number}}</td>
@@ -87,10 +100,14 @@
                 <td class="text-right">{{data.sum2 | formatNumber(2)}}</td>                    
                 <td class="text-right">{{data.gain | formatNumber(2)}}</td>
                 <td class="text-center">
-                    <document-paid v-if="data.isPaid" :payments="data.payments"></document-paid>
+                    <document-paid v-if="data.isPaid" :payments="data.payments"></document-paid>                    
+                    <in-accountability v-if="data.inAccountability" :accountability="data.accountability"></in-accountability>
+
+                </td>
+                <td>
                     <template v-if="data.firstForm">
                         <abbr title="Первая форма">
-                            <i class="fab fa-wpforms first-form"></i>
+                            <i class="fas fa-search-dollar first-form"></i>
                         </abbr>                        
                     </template>
                     <abbr title="Бонус" v-if="data.bonus == 1">
@@ -120,7 +137,9 @@
 
     <document-form></document-form>    
     <document-filter></document-filter>
+    
     <flag-form :documents="selectedRecords"></flag-form>
+    <accountability-form :documents="selectedRecords"></accountability-form>
 
 </div>
 
@@ -128,11 +147,13 @@
 
 <script>
 
-import Grid             from '../../components/Grid';
-import DocumentPaid     from './DocumentPaid';
-import DocumentForm     from './Form';
-import DocumentFilter   from './Filter';
-import FlagForm         from './FlagForm'
+import Grid                 from '../../components/Grid';
+import DocumentPaid         from './DocumentPaid';
+import InAccountability     from './Accountability';
+import DocumentForm         from './Form';
+import DocumentFilter       from './Filter';
+import FlagForm             from './FlagForm'
+import AccountabilityForm   from './AccountabilityForm';
 
 
 import { mapGetters, mapActions } from 'vuex';
@@ -289,18 +310,14 @@ export default {
         DocumentPaid,
         DocumentForm,
         DocumentFilter,
+        AccountabilityForm,
+        InAccountability,
         FlagForm
     }
 }    
 </script>
 
 <style scoped>
-    .fa-donate {
-        color: red;
-    }
-    .fa-file-invoice-dollar {
-        color:darkgreen;
-    }    
     abbr {
         text-decoration: none;
     }

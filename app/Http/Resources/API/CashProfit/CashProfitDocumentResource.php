@@ -24,7 +24,7 @@ class CashProfitDocumentResource extends JsonResource
             'cash_id'           =>  (int) $this->credit_id,
             'cash'              =>  $this->cash_credit->name,
             'profit_id'         =>  (int) $this->debet_id,
-            'expense'           =>  $this->profit->name,
+            'profit'            =>  $this->profit->name,
             'purpose'           =>  $this->purpose,
             'amount'            =>  (float) $this->credit,
             'status_code'       =>  (int) $this->status,

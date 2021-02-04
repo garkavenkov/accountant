@@ -4729,7 +4729,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control select2",
-                    class: { "is-invalid": _vm.hasError("credit_id") },
+                    class: { "is-invalid": _vm.hasError("debet_id") },
                     staticStyle: { width: "100%" },
                     on: {
                       change: function($event) {
@@ -22166,11 +22166,14 @@ var config = {
       });
     });
   },
-  deleteDocument: function deleteDocument(_ref5, id) {
+  deleteDocument: function deleteDocument(_ref5, _ref6) {
     var dispatch = _ref5.dispatch,
         state = _ref5.state;
+    var id = _ref6.id,
+        url = _ref6.url;
     return new Promise(function (resolve, reject) {
-      axios["delete"]("".concat(state.url, "/").concat(id), config).then(function (res) {
+      url = url == '' ? state.url : url;
+      axios["delete"]("".concat(url, "/").concat(id), config).then(function (res) {
         dispatch('fetchData');
         resolve(res);
       })["catch"](function (err) {
@@ -22178,9 +22181,9 @@ var config = {
       });
     });
   },
-  applyFilter: function applyFilter(_ref6, payload) {
-    var commit = _ref6.commit,
-        dispatch = _ref6.dispatch;
+  applyFilter: function applyFilter(_ref7, payload) {
+    var commit = _ref7.commit,
+        dispatch = _ref7.dispatch;
     commit('filterDocuments', payload);
     dispatch('fetchData');
   }

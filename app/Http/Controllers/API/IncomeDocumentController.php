@@ -7,9 +7,12 @@ use App\Models\Branch;
 use App\Models\Document;
 use App\Models\DocumentType;
 use Illuminate\Http\Request;
+use App\Models\Accountability;
 use App\Models\IncomeDocument;
 use App\Services\DocumentService;
+use App\Models\AccountabilityItem;
 use App\Http\Controllers\Controller;
+use App\Models\AccountabilityItemType;
 use App\Http\Requests\API\IncomeDocumentRequest;
 use App\Http\Resources\API\IncomeDocument\IncomeDocumentResource;
 use App\Http\Resources\API\IncomeDocument\IncomeDocumentResourceCollection;
@@ -34,7 +37,7 @@ class IncomeDocumentController extends Controller
     {   
 
         $parameters = request()->input();
-        $parameters['with']         = 'employee,supplier,department,payments';
+        $parameters['with']         = 'employee,supplier,department,payments,accountability';
         
         // if (request()->input('per_page')) {
         //     $per_page = request()->input('per_page');
@@ -219,5 +222,118 @@ class IncomeDocumentController extends Controller
                         ->get();
 
         return new UnpaidIncomeDocumentResourceCollection($documents);
+    }
+
+    public function addIntoAccountability(Request $request)
+    {
+        
+        if ($request['cash_document_id']) {
+            $accountability = Accountability::findOrFail($request['cash_document_id']);
+        } else {
+            throw new \Exception('Не указан подотчетный документ', 422);
+        }
+
+        if ($request['owner_id']) {
+            $id = \explode(',', $request['owner_id']);
+            $documents = IncomeDocument::findOrFail($id);
+        } else {
+            // throw new \Exception('Не указана товарная накладная', 422);
+            return response()->json(['error' => 'Не указана товарная накладная'], 422);
+        }
+              
+        $type = AccountabilityItemType::where('code', 'income')->first();
+        
+        if (!$type) {
+            return response()->json(['error' => 'AccountabilityItemType not found'], 422);
+            // throw new Exception('AccountabilityItemType not found', 10012);
+        }
+        $count = 0;
+        
+        foreach ($documents as $document) {
+
+            $item = AccountabilityItem::create([
+                'cash_document_id'  =>  $accountability->id,
+                'owner_id'          =>  $document->id,
+                'type_id'           =>  $type->id,
+                'amount'            =>  $document->sum1
+            ]);
+
+            if ($item) {
+                $document->setStatus('inAccountability');
+            }
+            $count++;
+        }
+
+        if ($count > 0) {
+            return response()->json(['message' => "$count documents successfulle added"], 201);
+        }
+    }
+
+    public function report()
+    {
+        $result = [];
+        
+        $data = IncomeDocument::with('supplier', 'department')                        
+                        ->whereRaw('flag & 1 = 1')
+                        ->whereBetween('date', ['2021-01-01', '2021-01-31'])
+                        ->get()
+                        ->groupBy([
+                            'debet_id' => function($s) {
+                                return $s->supplier->name;
+                            } 
+                            // 'credit_id' => function($d) {
+                            //     return $d->department->name;
+                            // }
+                        ])
+                        ->sortBy('suppliers.name')
+                        // ->sortBy('departments.name')
+                        ->sortBy('documents.date');
+                        // ->sortBy('documents.sum1');
+        
+        // dd($data);
+        // foreach ($data as $supplier => $deparments_documents) {
+        foreach ($data as $supplier => $documents) { 
+            // $result[$supplier]['departments'] = array();
+            $result[$supplier]['documents'] = array();
+            
+            $supplier_total = 0;
+            $supplier_total_documents = 0;
+
+            // foreach ($deparments_documents as $department => $documents) {
+
+            //     $result[$supplier]['departments'][$department] = array();
+
+            //     $department_total = 0;
+
+                foreach ($documents as $document) {
+
+                    // $department_total += $document->sum1;                    
+                    
+                    // $result[$supplier]['departments'][$department]['documents'][] = [
+                    //     'date'      => Carbon::parse($document->date)->formatLocalized('%d.%m.%Y'),
+                    //     'amount'    => $document->sum1,
+                    // ];
+                    $result[$supplier]['documents'][] = [
+                        'department'    => $document->department->name,
+                        'date'          => Carbon::parse($document->date)->formatLocalized('%d.%m.%Y'),
+                        'amount'        => $document->sum1,
+                    ];
+                }
+
+                // $supplier_total_documents += count($documents);
+                // $supplier_total = $documents->sum('sum1');
+
+                // $result[$supplier]['departments'][$department]['department_total_documents'] = count($documents);
+                // $result[$supplier]['departments'][$department]['department_total_amount'] = $department_total;
+                // $supplier_total += $department_total;
+            // }
+            $result[$supplier]['supplier_total_amount']     = $documents->count(); //$supplier_total;
+            $result[$supplier]['supplier_total_documents']  = $documents->sum('sum1'); //$supplier_total_documents;
+
+        }
+
+        ksort($result);
+        
+        return response()->json($result, 200);
     }
 }

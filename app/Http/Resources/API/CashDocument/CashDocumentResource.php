@@ -46,7 +46,7 @@ class CashDocumentResource extends JsonResource
 
             case 'profit':
                 $credit_name     = $this->cash_credit->name;
-                $debet_name      = $this->expense->name;
+                $debet_name      = $this->profit->name;
                 $this->links['original'] = "cash-profit-documents/{$this->id}";
                 break;
 

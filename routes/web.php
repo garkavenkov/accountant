@@ -117,4 +117,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('link-payments', function() {
         return view('link_payments');
     });
+
+    Route::get('reports', function() {
+        return view('reports');
+    });
 });

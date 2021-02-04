@@ -64,14 +64,14 @@
                         <i class="fas fa-user"></i> View Profile
                     </a> -->
                     <button 
-                        v-if="document.status_code == 0"
+                        v-if="document.status_code != 1"
                         class="btn btn-success btn-sm" 
                         title="Провести документ" 
                         @click="approveDoc(document.id)">
                             Провести
                     </button> 
                     <button 
-                        v-else-if="document.status_code == 1"
+                        v-if="document.status_code == 1"
                         class="btn btn-warning btn-sm" 
                         title="Распровести документ" 
                         @click="stornoDoc(document.id)">

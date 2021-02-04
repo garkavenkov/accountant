@@ -12,6 +12,11 @@ class CashDocument extends Model
 {
     use PathTrait;
     
+    // Statuses
+    // 0 - new
+    // 1 - approved
+    // 2 - closed (accountability)
+
     protected $table = 'cash_documents';
 
     private $api_path="/api/cash-documents";    

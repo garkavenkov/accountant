@@ -102,7 +102,7 @@
                                 <label>Статья доходов</label>
                                 <select class="form-control select2" 
                                         style="width: 100%;"
-                                        v-bind:class="{'is-invalid' : hasError('credit_id')}"
+                                        v-bind:class="{'is-invalid' : hasError('debet_id')}"
                                         v-model="newDocument.profitId">
                                     <option selected="selected" disabled value="0">
                                         Выберите статью доходов

@@ -7,7 +7,9 @@ export const Accountability = {
     namespaced: true,
     state: {
         documents: [],
-        document: {},        
+        document: {
+            items: []
+        },        
         cashes: [],
         employees: [],
         url: '/api/accountabilities',
@@ -66,5 +68,47 @@ export const Accountability = {
                     .catch(err => reject(err));
             })          
         },
+        open({dispatch}, id) {
+            return new Promise((resolve, reject) => {
+                axios.get(`api/accountability-open/${id}`,
+                        {
+                            'headers': {
+                                'Authorization': 'Bearer ' + window.api_token,
+                                'Accept': 'application/json',
+                            } 
+                        }
+                    )
+                    .then(res => {
+                        if (res.status === 201) {
+                            dispatch('fetchDocument', id)
+                            resolve(res.data)
+                        }
+                    })
+                    .catch(err => reject(err));
+                    
+            })
+        },
+        close({dispatch}, id) {
+            return new Promise((resolve, reject) => {
+                axios.get(`api/accountability-close/${id}`,
+                        {
+                            'headers': {
+                                'Authorization': 'Bearer ' + window.api_token,
+                                'Accept': 'application/json',
+                            } 
+                        }
+                    )
+                    .then(res => {
+                        // console.log(res);
+                        if (res.status === 201) {
+                            
+                            dispatch('fetchDocument', id)
+                            resolve(res.data)
+                        }
+                    })
+                    .catch(err => reject(err));
+                    
+            })
+        }
     }
 }

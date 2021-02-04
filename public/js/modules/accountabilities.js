@@ -2668,6 +2668,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -2778,18 +2779,71 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'AccountabilitiesShow',
   props: ['id'],
   data: function data() {
-    return {};
+    return {
+      url: 'api/accountability-items'
+    };
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['fetchDocument', 'deleteDocument'])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['fetchDocument', 'deleteDocument', 'close', 'open'])), {}, {
     deleteDoc: function deleteDoc(id) {
       var _this = this;
 
-      this.deleteDocument(id).then(function (res) {
+      this.deleteDocument({
+        id: id
+      }).then(function (res) {
         Swal.fire({
           toast: true,
           position: 'top-end',
@@ -2802,9 +2856,68 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this.$router.go(-1);
       });
+    },
+    removeItem: function removeItem(id) {
+      var _this2 = this;
+
+      this.deleteDocument({
+        id: id,
+        url: this.url
+      }).then(function (res) {
+        // console.log(res);
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          // title:'Good job!',
+          // text: res.data.message,
+          text: res.data.message,
+          icon: 'success'
+        });
+
+        _this2.fetchDocument(_this2.id);
+      });
+    },
+    closeAccountability: function closeAccountability() {
+      this.close(this.id).then(function (res) {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          // title:'Good job!',
+          // text: res.data.message,
+          text: res.data.message,
+          icon: 'success'
+        });
+      });
+    },
+    openAccountability: function openAccountability() {
+      this.open(this.id).then(function (res) {
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          // title:'Good job!',
+          // text: res.data.message,
+          text: res.data.message,
+          icon: 'success'
+        });
+      });
     }
   }),
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['document'])),
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['document'])), {}, {
+    totalAmount: function totalAmount() {
+      return this.document.items.reduce(function (a, b) {
+        return a + b.amount * 1.0;
+      }, 0.00);
+    },
+    readyToClose: function readyToClose() {
+      return this.document.amount == this.totalAmount && (this.document.status_code & 2) != 2 ? true : false;
+    }
+  }),
   created: function created() {
     this.fetchDocument(this.id);
   }
@@ -4387,7 +4500,7 @@ var render = function() {
                           [
                             _vm._v(
                               "\n                                            " +
-                                _vm._s(employee.name) +
+                                _vm._s(employee.fullName) +
                                 "\n                                "
                             )
                           ]
@@ -5080,7 +5193,7 @@ var render = function() {
                       ? _c("i", { staticClass: "far fa-file" })
                       : data.status_code == 1
                       ? _c("i", { staticClass: "fas fa-check" })
-                      : _vm._e()
+                      : _c("i", { staticClass: "fas fa-lock" })
                   ])
                 ])
               })
@@ -5147,9 +5260,62 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-6 offset-3" }, [
+    _c("div", { staticClass: "col-8 offset-2" }, [
       _c("div", { staticClass: "card" }, [
-        _vm._m(0),
+        _c("div", { staticClass: "card-header" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-tools" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-default dropdown-toggle dropdown-icon",
+                attrs: {
+                  type: "button",
+                  "data-toggle": "dropdown",
+                  "aria-expanded": "false"
+                }
+              },
+              [
+                _c("i", { staticClass: "fas fa-cog" }),
+                _vm._v(" "),
+                _c("span", { staticClass: "sr-only" }, [
+                  _vm._v("Toggle Dropdown")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "dropdown-menu", attrs: { role: "menu" } },
+                  [
+                    _vm.readyToClose
+                      ? _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: "#" },
+                            on: { click: _vm.closeAccountability }
+                          },
+                          [_vm._v("Закрыть очет")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    !_vm.readyToClose
+                      ? _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: "#" },
+                            on: { click: _vm.openAccountability }
+                          },
+                          [_vm._v("Открыть очет")]
+                        )
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ])
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("dl", { staticClass: "row" }, [
@@ -5182,12 +5348,97 @@ var render = function() {
             _c("dd", { staticClass: "col-sm-8" }, [
               _vm._v(_vm._s(_vm.document.status))
             ])
-          ])
+          ]),
+          _vm._v(" "),
+          _vm.document.items.length > 0
+            ? _c("div", { staticClass: "row" }, [
+                _c("table", { staticClass: "table table-striped" }, [
+                  _c("thead", [
+                    _c("tr", [
+                      _c("th", [_vm._v("№")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Тип")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Описание")]),
+                      _vm._v(" "),
+                      _c("th", [_vm._v("Сумма")]),
+                      _vm._v(" "),
+                      _vm.document.status_code != 2 ? _c("th") : _vm._e()
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.document.items, function(item, index) {
+                      return _c("tr", { key: item.id }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.typeName))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.owner))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(_vm._s(_vm._f("formatNumber")(item.amount, 2)))
+                        ]),
+                        _vm._v(" "),
+                        _vm.document.status_code != 2
+                          ? _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-sm btn-danger",
+                                  attrs: { title: "Удалить запись из отчета" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.removeItem(item.id)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fas fa-trash" })]
+                              ),
+                              _vm._v(" "),
+                              item.typeCode != "income"
+                                ? _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-sm btn-waring",
+                                      attrs: { title: "Редактировать запись" }
+                                    },
+                                    [_c("i", { staticClass: "fas fa-pencil" })]
+                                  )
+                                : _vm._e()
+                            ])
+                          : _vm._e()
+                      ])
+                    }),
+                    0
+                  ),
+                  _vm._v(" "),
+                  _c("tfoot", [
+                    _c("tr", [
+                      _c("td", { attrs: { colspan: "3" } }, [_vm._v("Итого")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(_vm._f("formatNumber")(_vm.totalAmount, 2))
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm.document.status_code != 2 ? _c("td") : _vm._e()
+                    ])
+                  ])
+                ])
+              ])
+            : _c("div", { staticClass: "row" }, [
+                _c("p", { staticClass: "text-ceter" }, [
+                  _vm._v("Записи отсутствуют")
+                ])
+              ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-footer" }, [
           _c("div", { staticClass: "text-right" }, [
-            _vm.document.status_code == 0
+            !(_vm.document.status_code && 1) != 1
               ? _c(
                   "button",
                   {
@@ -5217,11 +5468,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [
-        _c("i", { staticClass: "fas fa-coins" }),
-        _vm._v("\n                    Подотчетный документ\n                ")
-      ])
+    return _c("h3", { staticClass: "card-title" }, [
+      _c("i", { staticClass: "fas fa-coins" }),
+      _vm._v("\n                    Подотчетный документ\n                ")
     ])
   }
 ]
@@ -22133,7 +22382,9 @@ var Accountability = {
   namespaced: true,
   state: {
     documents: [],
-    document: {},
+    document: {
+      items: []
+    },
     cashes: [],
     employees: [],
     url: '/api/accountabilities',
@@ -22197,6 +22448,43 @@ var Accountability = {
           }
         }).then(function (res) {
           return resolve(res.data);
+        })["catch"](function (err) {
+          return reject(err);
+        });
+      });
+    },
+    open: function open(_ref3, id) {
+      var dispatch = _ref3.dispatch;
+      return new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/accountability-open/".concat(id), {
+          'headers': {
+            'Authorization': 'Bearer ' + window.api_token,
+            'Accept': 'application/json'
+          }
+        }).then(function (res) {
+          if (res.status === 201) {
+            dispatch('fetchDocument', id);
+            resolve(res.data);
+          }
+        })["catch"](function (err) {
+          return reject(err);
+        });
+      });
+    },
+    close: function close(_ref4, id) {
+      var dispatch = _ref4.dispatch;
+      return new Promise(function (resolve, reject) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/accountability-close/".concat(id), {
+          'headers': {
+            'Authorization': 'Bearer ' + window.api_token,
+            'Accept': 'application/json'
+          }
+        }).then(function (res) {
+          // console.log(res);
+          if (res.status === 201) {
+            dispatch('fetchDocument', id);
+            resolve(res.data);
+          }
         })["catch"](function (err) {
           return reject(err);
         });
@@ -22268,11 +22556,14 @@ var config = {
       });
     });
   },
-  deleteDocument: function deleteDocument(_ref5, id) {
+  deleteDocument: function deleteDocument(_ref5, _ref6) {
     var dispatch = _ref5.dispatch,
         state = _ref5.state;
+    var id = _ref6.id,
+        url = _ref6.url;
     return new Promise(function (resolve, reject) {
-      axios["delete"]("".concat(state.url, "/").concat(id), config).then(function (res) {
+      url = url == '' ? state.url : url;
+      axios["delete"]("".concat(url, "/").concat(id), config).then(function (res) {
         dispatch('fetchData');
         resolve(res);
       })["catch"](function (err) {
@@ -22280,9 +22571,9 @@ var config = {
       });
     });
   },
-  applyFilter: function applyFilter(_ref6, payload) {
-    var commit = _ref6.commit,
-        dispatch = _ref6.dispatch;
+  applyFilter: function applyFilter(_ref7, payload) {
+    var commit = _ref7.commit,
+        dispatch = _ref7.dispatch;
     commit('filterDocuments', payload);
     dispatch('fetchData');
   }

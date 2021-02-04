@@ -26,6 +26,8 @@ trait WhereTrait
                     if (\count($keys) > 1) {
                         if ($method == 'between') {
                             $where = "$field between '$keys[0]' and '$keys[1]'";
+                        } else if ($method == 'in') {
+                            $where = "$field in ($value)";
                         }
                     } else {
                         $where = "$field = '$value'";

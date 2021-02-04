@@ -60,6 +60,7 @@
                 <td>
                     <i class="far fa-file"  v-if="data.status_code == 0"></i>
                     <i class="fas fa-check" v-else-if="data.status_code == 1"></i> 
+                    <i class="fas fa-lock" v-else></i> 
                 </td>
             </tr>     
         </template>

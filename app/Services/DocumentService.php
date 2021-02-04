@@ -19,7 +19,8 @@ class DocumentService
             'logic'     =>  'or',            
         ],
         'sum1'          =>  'between',
-        'sum2'          =>  'between'
+        'sum2'          =>  'between',
+        'status'        =>  'in'
     ];
 
     public function get($model, $parameters = [])

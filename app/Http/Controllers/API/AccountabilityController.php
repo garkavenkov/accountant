@@ -27,7 +27,8 @@ class AccountabilityController extends Controller
     public function index()
     {
         $parameters = request()->input();
-        // $parameters['with']         = 'cash,supplier';
+        
+        // $parameters['with']         = 'items';
         
         // if (request()->input('per_page')) {
         //     $per_page = request()->input('per_page');
@@ -64,7 +65,7 @@ class AccountabilityController extends Controller
      */
     public function show($id)
     {
-        $doc = Accountability::findOrFail($id);
+        $doc = Accountability::with('items')->findOrFail($id);
 
         return new AccountabilityResource($doc);
     }
@@ -94,5 +95,24 @@ class AccountabilityController extends Controller
         if ($document->delete()) {
             return response()->json(['message' => 'Document has been successfully deleted!'], 200);
         }
+    }
+
+
+    public function close($id)
+    {
+        $accountability = Accountability::findOrFail($id);        
+        if ($accountability->close()) {            
+            return response()->json(['message' => 'Авансовый отчет успешно закрыт'], 201);
+        } 
+        
+    }  
+
+    public function open($id)
+    {
+        $accountability = Accountability::findOrFail($id);
+
+        if ($accountability->open()) {
+            return response()->json(['message' => 'Авансовый отчет успешно открыт'], 201);
+        };
     }
 }

@@ -6,9 +6,11 @@ use App\Models\Payment;
 use App\Models\Document;
 use App\Models\DocumentItem;
 use App\Models\DocumentType;
+use App\Models\Accountability;
 use App\Models\LinkedDocument;
-use App\Traits\Models\PathTrait;
 // use Illuminate\Database\Eloquent\Model;
+use App\Traits\Models\PathTrait;
+use App\Models\AccountabilityItem;
 use App\Scopes\Document\IncomeDocumentScope;
 
 class IncomeDocument extends Document
@@ -21,6 +23,13 @@ class IncomeDocument extends Document
         'firstForm' =>  1,
         'bonus'     =>  2
     ];
+
+    const STATUS = [
+        'new'               =>  0,
+        'isPaid'            =>  1,
+        'inAccountability'  =>  2,
+    ];
+
 
     // protected $table = 'documents';
 
@@ -92,11 +101,28 @@ class IncomeDocument extends Document
         return 0;        
     }
 
+    public function getInAccountabilityAttribute()
+    {
+        if ($this->status == 2) {
+            return 1;
+        }
+
+        return 0;        
+    }
+
+
     public function payments()
     {
         $link_type = LinkedDocumentType::where('code', 'payment')->first();
 
         return $this->belongsToMany(Payment::class, LinkedDocument::class,  'owner_id', 'cash_document_id')->wherePivot('type_id', $link_type->id);
+    }
+
+    public function accountability()
+    {
+        $type = AccountabilityItemType::where('code', 'income')->first();
+
+        return $this->hasOneThrough(Accountability::class, AccountabilityItem::class, 'owner_id', 'id', 'id', 'cash_document_id')->where('type_id', $type->id);
     }
 
     // public function unpaid()
@@ -154,5 +180,30 @@ class IncomeDocument extends Document
         $this->status = 1;
         $this->save();
     }
+
+    public function setStatus($status)
+    {
+        $status = self::STATUS[$status];
+        
+        if ( ($this->status & $status) != $status) {
+            $this->status += $status;
+            $this->save();
+            return true;
+        } 
+        return false;
+    }
+
+    public function unsetStatus($status)
+    {
+        $status = self::STATUS[$status];
+        
+        if ( ($this->status & $status) == $status) {
+            $this->status -= $status;
+            $this->save();
+            return true;
+        } 
+        return false;
+    }
+        
 
 }

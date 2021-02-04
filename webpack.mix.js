@@ -34,6 +34,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/modules/return_documents/return_documents.js',                'public/js/modules')
     .js('resources/js/modules/accountabilities/accountabilities.js',                'public/js/modules')
     .js('resources/js/modules/close_cash/close_cash.js',                            'public/js/modules')
-    .js('resources/js/modules/link_payments/link_payments.js',                      'public/js/modules');
+    .js('resources/js/modules/link_payments/link_payments.js',                      'public/js/modules')
+    .js('resources/js/modules/reports/reports.js',                                  'public/js/modules');
     
 mix.sass('resources/sass/app.scss', 'public/css');

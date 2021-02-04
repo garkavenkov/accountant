@@ -41,6 +41,7 @@ class IncomeDocumentResource extends JsonResource
             'status'                =>  (int) $this->status,
             'firstForm'             =>  (int) $this->firstForm,
             'bonus'                 =>  (int) $this->bonus,
+            'inAccountability'      =>  (boolean) $this->inAccountability,
             'payments'              =>  PaymentResource::collection($this->whenLoaded('payments'))
         ];
     }

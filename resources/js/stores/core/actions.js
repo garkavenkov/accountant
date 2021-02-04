@@ -57,10 +57,11 @@ export default {
         });
     },
 
-    deleteDocument: ({dispatch, state}, id) => {
+    deleteDocument: ({dispatch, state}, {id, url}) => {
         return new Promise((resolve, reject) => {
+            url = (url == '' ) ? state.url : url;
             axios
-                .delete(`${state.url}/${id}`, config)
+                .delete(`${url}/${id}`, config)
                 .then(res => {
                     dispatch('fetchData');
                     resolve(res)

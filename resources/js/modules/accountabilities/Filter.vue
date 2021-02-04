@@ -66,7 +66,7 @@
                                     <option v-for="employee in employees" 
                                             :value="employee.id" 
                                             :key="employee.id">
-                                                {{employee.name}}
+                                                {{employee.fullName}}
                                     </option>                          
                                 </select>
                             </div>

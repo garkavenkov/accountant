@@ -49,7 +49,8 @@ Route::group(['middleware' => 'auth:api'], function() {
         'cash-expense-documents'    =>  'API\CashExpenseDocumentController',
         'cash-profit-documents'     =>  'API\CashProfitDocumentController',
         'return-documents'          =>  'API\ReturnDocumentController',
-        'accountabilities'          =>  'API\AccountabilityController'
+        'accountabilities'          =>  'API\AccountabilityController',
+        'accountability-items'      =>  'API\AccountabilityItemController'
     ]);
 
     
@@ -84,4 +85,11 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('link-documents',               'API\LinkedDocumentController@linkDocuments');
 
     Route::post('clone-document-items',         'API\DocumentItemController@cloneItem');
+
+    Route::post('add-document-into-accountability', 'API\IncomeDocumentController@addIntoAccountability');
+
+    Route::get('report', 'API\IncomeDocumentController@report');
+
+    Route::get('accountability-open/{id}',      'API\AccountabilityController@open');
+    Route::get('accountability-close/{id}',     'API\AccountabilityController@close');
 });

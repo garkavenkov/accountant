@@ -15,6 +15,22 @@ class AccountabilityResource extends JsonResource
      */
     public function toArray($request)
     {
+        switch ($this->status) {
+            case 0:
+                $status = 'Новый';
+                break;
+            case 1:
+                $status = 'Проведен';
+                break;
+            case 2:
+                $status = 'Закрыт';
+                break;
+                
+            default:
+                $status = 'Не определен';
+                break;
+        }
+
         return [
             'id'                    =>  (int)   $this->id,
             'date'                  =>  Carbon::parse($this->date)->formatLocalized('%d.%m.%Y'),
@@ -27,8 +43,9 @@ class AccountabilityResource extends JsonResource
             'purpose'               =>  $this->purpose,
             'amount'                =>  (float) $this->debet,            
             'status_code'           =>  (int)   $this->status,
+            'status'                =>  $status,
             'user_id'               =>  (int)   $this->user_id,
-            // 'documents'             =>  new PaymentIncomeDocumentResourceCollection($this->whenLoaded('documents'))
+            'items'                 =>  AccountabilityItemResource::collection($this->whenLoaded('items'))
         ];
     }
 }

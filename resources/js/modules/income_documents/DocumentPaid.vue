@@ -13,7 +13,7 @@ export default {
         title: function() {
             let msg = '';
             if (this.payments.length == 1) {
-                msg = `Оплата произведена ${this.payments[0].date} \n ${this.payments[0].cash}`;
+                msg = `Оплата произведена ${this.payments[0].date} \n${this.payments[0].cash}`;
             }
 
             return msg;
@@ -21,3 +21,9 @@ export default {
     }
 }
 </script>
+
+<style>
+    .fa-donate {
+        color: red;
+    }
+</style>

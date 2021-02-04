@@ -4,6 +4,7 @@ namespace App\Http\Resources\API\IncomeDocument;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\API\IncomeDocument\AccountabilityResource;
 
 class IncomeDocumentResourceCollection extends ResourceCollection
 {
@@ -36,8 +37,10 @@ class IncomeDocumentResourceCollection extends ResourceCollection
                 'status'                =>  $doc->status,
                 'firstForm'             =>  $doc->firstForm,
                 'bonus'                 =>  $doc->bonus,
+                'inAccountability'      =>  (int) $doc->inAccountability,
                 // 'payments'              =>  PaymentResource::collection($doc->payments)
-                'payments'              =>  PaymentResource::collection($doc->whenLoaded('payments'))
+                'payments'              =>  PaymentResource::collection($doc->whenLoaded('payments')),
+                'accountability'        =>  new AccountabilityResource($doc->whenLoaded('accountability')),
             ];
         })->all();
     }

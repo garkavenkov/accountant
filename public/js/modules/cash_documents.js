@@ -5991,7 +5991,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "card-footer" }, [
             _c("div", { staticClass: "text-right" }, [
-              _vm.document.status_code == 0
+              _vm.document.status_code != 1
                 ? _c(
                     "button",
                     {
@@ -6009,7 +6009,9 @@ var render = function() {
                       )
                     ]
                   )
-                : _vm.document.status_code == 1
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.document.status_code == 1
                 ? _c(
                     "button",
                     {
@@ -23351,11 +23353,14 @@ var config = {
       });
     });
   },
-  deleteDocument: function deleteDocument(_ref5, id) {
+  deleteDocument: function deleteDocument(_ref5, _ref6) {
     var dispatch = _ref5.dispatch,
         state = _ref5.state;
+    var id = _ref6.id,
+        url = _ref6.url;
     return new Promise(function (resolve, reject) {
-      axios["delete"]("".concat(state.url, "/").concat(id), config).then(function (res) {
+      url = url == '' ? state.url : url;
+      axios["delete"]("".concat(url, "/").concat(id), config).then(function (res) {
         dispatch('fetchData');
         resolve(res);
       })["catch"](function (err) {
@@ -23363,9 +23368,9 @@ var config = {
       });
     });
   },
-  applyFilter: function applyFilter(_ref6, payload) {
-    var commit = _ref6.commit,
-        dispatch = _ref6.dispatch;
+  applyFilter: function applyFilter(_ref7, payload) {
+    var commit = _ref7.commit,
+        dispatch = _ref7.dispatch;
     commit('filterDocuments', payload);
     dispatch('fetchData');
   }

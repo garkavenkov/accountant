@@ -203,6 +203,25 @@
                 </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
+                        <i class="fas fa-brain nav-icon"></i>
+                        <!-- <i class="fas fa-toolbox nav-icon"></i> -->
+                        <p>
+                            Аналитика                            
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="reports" class="nav-link">                                
+                                <i class="fas fa-file-signature nav-icon"></i>
+                                <!-- <i class="fas fas fa-tools nav-icon"></i> -->
+                                <p>Отчеты</p>
+                            </a>
+                        </li>                       
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
                         <i class="fas fa-toolbox nav-icon"></i>
                         <p>
                             Настройки
