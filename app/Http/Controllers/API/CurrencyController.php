@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use App\Models\Currency;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\API\Currency\CurrencyResource;
+use App\Http\Resources\API\Currency\CurrencyResourceCollection;
+
+class CurrencyController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $currencies = Currency::all();
+
+        return new CurrencyResourceCollection($currencies);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $currency = Currency::findOrFail($id);
+
+        return new CurrencyResource($currency);
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}

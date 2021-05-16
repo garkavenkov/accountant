@@ -1936,6 +1936,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     caption: {
@@ -1970,6 +1971,15 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       required: false,
       "default": 'name'
+    },
+    id: {
+      type: String,
+      required: true
+    },
+    field: {
+      type: String,
+      required: false,
+      "default": 'id'
     }
   },
   data: function data() {
@@ -2003,6 +2013,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -3001,6 +3013,7 @@ var render = function() {
         staticClass: "form-control select2",
         class: { "is-invalid": _vm.error.length > 0 },
         staticStyle: { width: "100%" },
+        attrs: { id: _vm.id },
         on: {
           change: function($event) {
             _vm.changed(parseInt($event.target.value))
@@ -3023,8 +3036,11 @@ var render = function() {
           return _c(
             "option",
             {
-              key: option.id,
-              domProps: { selected: option.id == _vm.value, value: option.id }
+              key: option[_vm.field],
+              domProps: {
+                selected: option[_vm.field] == _vm.value,
+                value: option[_vm.field]
+              }
             },
             [
               _vm._v(
@@ -3193,6 +3209,7 @@ var render = function() {
                                 hint: "Все подразделения",
                                 options: _vm.branches,
                                 disabledHint: false,
+                                id: "branches",
                                 name: "name"
                               },
                               model: {
@@ -3217,6 +3234,7 @@ var render = function() {
                                 hint: "Все поставщики",
                                 options: _vm.suppliers,
                                 disabledHint: false,
+                                id: "suppliers",
                                 name: "name"
                               },
                               model: {
@@ -6893,8 +6911,8 @@ if (inBrowser && window.Vue) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.11
- * (c) 2014-2019 Evan You
+ * Vue.js v2.6.12
+ * (c) 2014-2020 Evan You
  * Released under the MIT License.
  */
 
@@ -12333,7 +12351,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.11';
+Vue.version = '2.6.12';
 
 /*  */
 
@@ -14539,7 +14557,7 @@ function updateDOMProps (oldVnode, vnode) {
       // skip the update if old and new VDOM state is the same.
       // `value` is handled separately because the DOM value may be temporarily
       // out of sync with VDOM state due to focus, composition and modifiers.
-      // This  #4521 by skipping the unnecesarry `checked` update.
+      // This  #4521 by skipping the unnecessary `checked` update.
       cur !== oldProps[key]
     ) {
       // some property updates can throw
@@ -16784,7 +16802,7 @@ function parse (
       }
     },
     comment: function comment (text, start, end) {
-      // adding anyting as a sibling to the root node is forbidden
+      // adding anything as a sibling to the root node is forbidden
       // comments should still be allowed, but ignored
       if (currentParent) {
         var child = {
@@ -20535,8 +20553,11 @@ var config = {
         state = _ref5.state;
     var id = _ref6.id,
         url = _ref6.url;
+    // if (!url) {
+    //     url = '';
+    // }
     return new Promise(function (resolve, reject) {
-      url = url == '' ? state.url : url;
+      url = !url ? state.url : url;
       axios["delete"]("".concat(url, "/").concat(id), config).then(function (res) {
         dispatch('fetchData');
         resolve(res);

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { reject } from 'lodash';
 
 import actions from './core/actions';
 import mutations from './core/mutations';
@@ -16,7 +17,7 @@ export const TransferDocuments = {
         url: '/api/transfer-documents',
         // documentItemsUrl: '/api/document-items',
         // suppliers: [],
-        departmentsGive: [],
+        departments: [],
         filter: {
             dateBegin       :   null,
             dateEnd         :   null,
@@ -32,8 +33,7 @@ export const TransferDocuments = {
         documents:          state   =>  state.documents,
         document:           state   =>  state.document,
         filter:             state   =>  state.filter,
-        // suppliers:      state   =>  state.suppliers,
-        departmentsGive:    state   =>  state.departmentsGive
+        departments:        state   =>  state.departments
     },
     mutations: {
         ...mutations,       
@@ -112,9 +112,17 @@ export const TransferDocuments = {
                     .catch(err => reject(err))
                 });
         },        
-        getDepartmentsDictionary({dispatch, state}) {
-            dispatch('getDictionary', 'department?type=goods')
-                .then(res => state.departmentsGive = res);
+        getDepartmentsDictionary({state, dispatch}) {
+            return new Promise((resolve, reject) => {
+                dispatch('getDictionary', 'department?type=goods')
+                    .then(res => {
+                        state.departments = res 
+                        resolve(res)
+                        
+                    })
+                    .catch(err => reject(err));
+            })
+            
         },      
         getDictionary: (context, dictionary) => {            
             return new Promise((resolve, reject) => {

@@ -8,7 +8,8 @@
                 :placeholder="placeholder"  
                 :value="value"
                 v-bind:class="{'is-invalid' : error.length > 0}"
-                @input="$emit('input', $event.target.value)">
+                @input="$emit('input', $event.target.value)"
+                @dblclick="$emit('dblclick')">
         <span   :id="error_field_id" 
                 class="error invalid-feedback">
                     {{error[0]}}

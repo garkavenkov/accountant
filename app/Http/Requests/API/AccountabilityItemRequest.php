@@ -19,11 +19,11 @@ class AccountabilityItemRequest extends FormRequest
             $request->request->add(['type_id' => $type->id]);
             $request->request->remove('type');
         }
-
-        if ($request['owner_id']) {
-            $owner_id = \explode(',', $request['owner_id']);
-            $request->request->add(['owner_id' => $owner_id]);
-        }
+        // dd($request->request);
+        // if ($request['owner_id']) {
+        //     $owner_id = \explode(',', $request['owner_id']);
+        //     $request->request->add(['owner_id' => $owner_id]);
+        // }
     }
     /**
      * Determine if the user is authorized to make this request.
@@ -46,6 +46,8 @@ class AccountabilityItemRequest extends FormRequest
             'cash_document_id'  =>  'required|exists:cash_documents,id',
             'type_id'           =>  'required|exists:accountability_item_types,id',
             'amount'            =>  'required|numeric|gt:0',
+            'purpose'           =>  'required|min:3',
+            'owner_id'          =>  'required|exists:expense_profit_items,id'
         ];
     }
 

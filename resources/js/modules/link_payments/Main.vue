@@ -53,6 +53,7 @@
                                                     hint="Все подразделения"
                                                     :options="branches"
                                                     :disabledHint="false"
+                                                    id="branches"
                                                     v-model="filterDocument.branchId"
                                                     name="name">
                                             </select-field>                           
@@ -62,6 +63,7 @@
                                                     hint="Все поставщики"
                                                     :options="suppliers"
                                                     :disabledHint="false"
+                                                    id="suppliers"
                                                     v-model="filterDocument.supplierId"
                                                     name="name">
                                             </select-field>                           

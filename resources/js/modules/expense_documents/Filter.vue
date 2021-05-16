@@ -38,6 +38,7 @@
                             <select-field caption="Отдел"
                                     hint="Все отделы"
                                     :options="departments"
+                                    :disabledHint="false"
                                     v-model="filter.debetId"
                                     name="name">
                             </select-field>                           

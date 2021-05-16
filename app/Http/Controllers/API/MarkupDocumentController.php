@@ -57,8 +57,8 @@ class MarkupDocumentController extends Controller
         $document = MarkupDocument::create([            
             'date'              =>  $validated['date'],
             'document_type_id'  =>  $document_type->id,
-            'debet_id'          =>  $validated['debet_id'],
-            'debet_person_id'   =>  $validated['debet_person_id'],
+            'credit_id'         =>  $validated['credit_id'],
+            'credit_person_id'  =>  $validated['credit_person_id'],
             'sum2'              =>  $validated['sum2'],            
         ]);
 

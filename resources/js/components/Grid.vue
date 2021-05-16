@@ -28,7 +28,19 @@
                     <div id="filter_data__wrapper" class="filterData">
                         <label for="filter_data">
                             Search&nbsp;
-                            <input type="search" name="filter_data" id="filter_data" class="form-control form-control-sm" v-model="searchData">
+                            <input  type="search" 
+                                    name="filter_data" 
+                                    id="filter_data" 
+                                    class="form-control 
+                                    form-control-sm" 
+                                    v-model="searchData"
+                                    @input="$emit('onSearch', $event.target.value)">
+                            <!-- <input  type="search" 
+                                    name="filter_data" 
+                                    id="filter_data" 
+                                    class="form-control 
+                                    form-control-sm" 
+                                    v-model="searchData"> -->
                         </label>
                     </div>                    
                 </div>
@@ -46,7 +58,7 @@
                         <tbody>
                             <slot v-bind:paginatedData="paginatedData"></slot>                           
                         </tbody>
-                        <tfoot>
+                        <tfoot>                            
                             <slot name="footer"></slot>
                         </tfoot>
                     </table>
@@ -58,7 +70,8 @@
             <div class="row">
                 <!-- Info -->
                 <div class="col-sm-6 col-md-6">
-                    <div class="dataTable_info">Showning {{paginateFrom}} to {{paginateTo}} from {{dataTableLength}}</div>
+                    
+                    <div class="dataTable_info">Showing {{paginateFrom}} to {{paginateTo}} from {{dataTableLength}}</div>
                 </div>
                 <!-- /Info -->
                 <!-- Buttons -->
@@ -99,6 +112,11 @@
 export default {
     name: 'Grid',
     props: {
+        // filterExp: {
+        //     type: String,
+        //     required: false,
+        //     default: null
+        // },
         title: {
             type: String,
             required: false,
@@ -225,16 +243,20 @@ export default {
             if (this.externalPagination) {                
                 return this.dataTable;
             } else {
-                if (this.searchData) {
-                    return this.dataTable.filter(data => {
-                        // console.log(`Search field - ${this.searchData.toLowerCase()}`);
-                        // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
+                // if (this.searchData) {
+                //     let searched =  this.dataTable.filter(data => {
+                //         // console.log(`Search field - ${this.searchData.toLowerCase()}`);
+                //         // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
 
-                        return data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase());
-                        // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
-                        //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
-                    });
-                }
+                //         return data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase());
+                //         // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
+                //         //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
+                //     });
+                //     // console.log(`Searched length: ${searched.length}`);
+                //     // console.log(searched);
+                //     this.$emit('searched', searched);
+                //     return searched;
+                // }
                 return  this.dataTable.slice(this.paginateFrom-1, this.paginateTo); // ??? Will it work after search
             }
         },
@@ -246,7 +268,11 @@ export default {
             }
         },
         // searchData(newValue, oldValue) {
-        //     console.log(`${newValue}`);
+        //     if (newValue === '') {
+        //         // console.log(`search text is empty`);
+        //         this.$emit('searched', []);
+        //     }
+            
         // }
     }
 }

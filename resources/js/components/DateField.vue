@@ -1,13 +1,13 @@
 <template>
     <div class="form-group">
-        <label>{{label}}</label>
+        <label>{{caption}}</label>
         <input  type="date" 
                 :name="name" 
                 :id="id" 
-                :value="value && value.toISOString().slice(0,10)"
+                :value="value"
                 class="form-control datetimepicker-input"
                 v-bind:class="{'is-invalid' : error.length > 0}"
-                @input="$emit('input', $event.targer.value)">
+                @input="$emit('input', $event.target.value)">
         <span   :id="error_field_id" 
                 class="error invalid-feedback">
                     {{error[0]}}
@@ -18,7 +18,7 @@
 <script>
 export default {
     props: {
-        label: {
+        caption: {
             type: String,
             required: true,
         },

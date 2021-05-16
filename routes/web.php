@@ -121,4 +121,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('reports', function() {
         return view('reports');
     });
+
+    Route::get('loans', function() {
+        return view('loans');
+    });
 });

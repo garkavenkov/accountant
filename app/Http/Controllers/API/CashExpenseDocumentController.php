@@ -27,7 +27,7 @@ class CashExpenseDocumentController extends Controller
     public function index()
     {
         $parameters = request()->input();
-        $parameters['with'] = 'cash_debet,expense,operation';
+        $parameters['with'] = 'cash_debet,operation,expense.category.group';
 
         $data = $this->documents->get(CashExpenseDocument::class, $parameters);
 

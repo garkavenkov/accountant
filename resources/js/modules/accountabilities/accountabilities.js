@@ -26,9 +26,10 @@ import {Accountability}    from '../../stores/Accountability';
 const store = new Vuex.Store(Accountability);
 
 
-Vue.filter('formatNumber', function(number, precision = 0) {
-    let formatedNumber = number.toLocaleString('ru-RU', { minimumFractionDigits: precision });
-    return formatedNumber;
+Vue.filter('formatNumber', function(value, precision = 0) {
+    // let formatedNumber = value.toLocaleString('ru-RU', { minimumFractionDigits: precision });
+    // return formatedNumber;
+    return value.toLocaleString('ru-RU', { minimumFractionDigits: precision });
 })
 
 new Vue({

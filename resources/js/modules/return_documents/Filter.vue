@@ -39,7 +39,7 @@
                                 <label>Отдел</label>                                
                                 <select class="form-control select2" 
                                         style="width: 100%;"
-                                        v-model="filter.creditId">
+                                        v-model="filter.debetId">
                                     <option selected="selected" value="0">
                                         Все отделы
                                     </option>
@@ -58,7 +58,7 @@
                                 <label>Поставщик</label>
                                 <select class="form-control select2" 
                                         style="width: 100%;"
-                                        v-model="filter.debetId">
+                                        v-model="filter.creditId">
                                     <option selected="selected"
                                             value="0">
                                         Все поставщики

@@ -69,7 +69,7 @@
                 <td colspan="6" class="font-weight-bold">Итого документов: {{documents.length}}</td>
                 <td class="text-right font-weight-bold">{{totalRetailSum | formatNumber(2)}}</td>                
                 <td class="text-right font-weight-bold">{{totalPurchaseSum | formatNumber(2)}}</td>
-                <td class="text-right font-weight-bold">{{totalPurchaseSum - totalRetailSum | formatNumber(2)}}</td>
+                <td class="text-right font-weight-bold">{{totalRetailSum - totalPurchaseSum | formatNumber(2)}}</td>
                 <td></td>
             </tr>
         </template>       

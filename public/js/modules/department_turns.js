@@ -123,6 +123,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     caption: {
@@ -157,6 +158,15 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       required: false,
       "default": 'name'
+    },
+    id: {
+      type: String,
+      required: true
+    },
+    field: {
+      type: String,
+      required: false,
+      "default": 'id'
     }
   },
   data: function data() {
@@ -183,33 +193,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_SelectField__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/SelectField */ "./resources/js/components/SelectField.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -354,7 +337,6 @@ __webpack_require__.r(__webpack_exports__);
           'Accept': 'application/json'
         }
       }).then(function (res) {
-        console.log(res);
         _this2.data = res.data;
       });
     },
@@ -22461,6 +22443,7 @@ var render = function() {
         staticClass: "form-control select2",
         class: { "is-invalid": _vm.error.length > 0 },
         staticStyle: { width: "100%" },
+        attrs: { id: _vm.id },
         on: {
           change: function($event) {
             _vm.changed(parseInt($event.target.value))
@@ -22483,8 +22466,11 @@ var render = function() {
           return _c(
             "option",
             {
-              key: option.id,
-              domProps: { selected: option.id == _vm.value, value: option.id }
+              key: option[_vm.field],
+              domProps: {
+                selected: option[_vm.field] == _vm.value,
+                value: option[_vm.field]
+              }
             },
             [
               _vm._v(
@@ -22547,6 +22533,7 @@ var render = function() {
                     attrs: {
                       caption: "Отдел",
                       hint: "Выберите отдел",
+                      id: "department",
                       options: _vm.departments,
                       name: "name"
                     },
@@ -22689,7 +22676,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm.data.incomeRest
+              _vm.data.department
                 ? _c("div", { staticClass: "col-md-9" }, [
                     _c("div", { staticClass: "row" }, [
                       _c("h3", [
@@ -25988,8 +25975,8 @@ if (inBrowser && window.Vue) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.11
- * (c) 2014-2019 Evan You
+ * Vue.js v2.6.12
+ * (c) 2014-2020 Evan You
  * Released under the MIT License.
  */
 
@@ -31428,7 +31415,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.11';
+Vue.version = '2.6.12';
 
 /*  */
 
@@ -33634,7 +33621,7 @@ function updateDOMProps (oldVnode, vnode) {
       // skip the update if old and new VDOM state is the same.
       // `value` is handled separately because the DOM value may be temporarily
       // out of sync with VDOM state due to focus, composition and modifiers.
-      // This  #4521 by skipping the unnecesarry `checked` update.
+      // This  #4521 by skipping the unnecessary `checked` update.
       cur !== oldProps[key]
     ) {
       // some property updates can throw
@@ -35879,7 +35866,7 @@ function parse (
       }
     },
     comment: function comment (text, start, end) {
-      // adding anyting as a sibling to the root node is forbidden
+      // adding anything as a sibling to the root node is forbidden
       // comments should still be allowed, but ignored
       if (currentParent) {
         var child = {

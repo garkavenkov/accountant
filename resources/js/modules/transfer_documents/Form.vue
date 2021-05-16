@@ -35,7 +35,8 @@
                         <div class="col-md-6">
                             <select-field caption="Отдел передает"
                                     hint="Виберите отдел"
-                                    :options="departmentsGive"                            
+                                    :options="departmentsGive"
+                                    id="departmentGivesId"
                                     v-model="document.departmentGivesId"
                                     :error="errors['debet_id']">
                             </select-field>
@@ -44,6 +45,7 @@
                             <select-field caption="Отдел принимает"
                                     hint="Виберите отдел"
                                     :options="departmentsTake"
+                                    id="departmentTakesId"
                                     v-model="document.departmentTakesId"
                                     :error="errors['credit_id']">
                             </select-field>
@@ -54,6 +56,7 @@
                             <select-field caption="Сотрудник"
                                     hint="Выберите сотрудника"
                                     :options="employeesGive"
+                                    id="employeeGivesId"
                                     v-model="document.employeeGivesId"
                                     name="full_name"
                                     :error="errors['debet_person_id']">
@@ -64,6 +67,7 @@
                             <select-field caption="Сотрудник"
                                     hint="Выберите сотрудника"
                                     :options="employeesTake"
+                                    id="employeeTakesId"
                                     v-model="document.employeeTakesId"
                                     name="full_name"
                                     :error="errors['credit_person_id']">
@@ -83,7 +87,8 @@
                               <input-field    
                                         label="Сумма"
                                         id="takenSum"
-                                        v-model="document.takenSum"                                        
+                                        v-model="document.takenSum"
+                                        @dblclick='document.takenSum = document.givenSum'
                                         :error="errors['sum2']">
                             </input-field>                           
                         </div>
@@ -95,7 +100,7 @@
                         <input type="checkbox" id="useFilter" class="custom-control-input" v-model="useFilter">
                         <label for="useFilter" class="custom-control-label">Use filter</label>
                     </div>
-                    <button type="button" class="btn btn-primary" @click="saveDoc">Сохранить</button>                    
+                    <button type="button" class="btn btn-primary" @click="saveDoc($event)">Сохранить</button>                    
                 </div>
             </div>
         <!-- /.modal-content -->
@@ -132,6 +137,8 @@ export default {
             departmentTakesShift    : '',
 
             departmentsTake:    [],
+            departmentsGive:    [],
+
             employeesGive:      [],
             employeesTake:      [],
             useFilter: false
@@ -139,7 +146,7 @@ export default {
     },
     methods: {        
         ...mapActions(['getDepartmentsDictionary', 'saveDocument']),
-        saveDoc() {
+        saveDoc(e) {
             let doc = {
                 date                : this.document.date,
                 debet_id            : this.document.departmentGivesId,
@@ -151,13 +158,13 @@ export default {
             }
             this.saveDocument(doc)
                 .then(res => {
-                    this.clearForm();
+                    this.clearForm(e.ctrlKey);
                     Swal.fire({
                         toast: true,
                         position: 'top-end',
                         showConfirmButton: false,
                         timer: 2000,
-                        title:'Good job!',
+                        // title:'Good job!',
                         text:'Документ успешно создан',
                         icon:'success',
                     });
@@ -166,19 +173,21 @@ export default {
         },
         closeModal() {
             this.clearForm();
+            this.useFilter = false;
         },
-        clearForm() {
+        clearForm(ctrlIsPressed) {
+
             this.document.date              = this.filter.dateBegin ? this.filter.dateBegin         : new Date().toISOString().slice(0,10) ;
-            this.document.departmentGivesId = this.filter.debetId   ? this.filter.debetId           : 0;
-            this.document.departmentTakesId = this.filter.creditId  ? this.filter.creditId          : 0;
-            this.document.employeeGivesId   = this.filter.debetId   ? this.document.employeeGivesId : 0;            
-            this.document.employeeTakesId   = this.filter.creditId  ? this.document.employeeTakesId : 0;
+            this.document.departmentGivesId = this.filter.debetId   ? this.filter.debetId           : ( ctrlIsPressed ? this.document.departmentGivesId : 0) ;
+            this.document.departmentTakesId = this.filter.creditId  ? this.filter.creditId          : ( ctrlIsPressed ? this.document.departmentTakesId : 0) ;
+            this.document.employeeGivesId   = (this.filter.debetId  || ctrlIsPressed) ? this.document.employeeGivesId : 0;
+            this.document.employeeTakesId   = (this.filter.creditId || ctrlIsPressed) ? this.document.employeeTakesId : 0;
             this.document.givenSum          = 0;
             this.document.takenSum          = 0;
             
-            this.employeesGive = [];
-            this.employeesTake = [];
-            this.departmentsTake = [];
+            this.employeesGive              = (this.filter.debetId || ctrlIsPressed)  ? this.employeesGive : [];
+            this.employeesTake              = (this.filter.creditId || ctrlIsPressed) ? this.employeesTake : [];
+            // this.departmentsTake = [];
 
             this.errors = [];
         },
@@ -204,7 +213,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['departmentsGive', 'filter']),
+        ...mapGetters(['departments', 'filter']),        
     },
     watch: {
         'document.date'(newValue, oldValue) {            
@@ -231,18 +240,14 @@ export default {
 
                         this.employeesGive =  employees
 
-                        this.departmentsTake = this.departmentsGive.filter(department => 
+                        this.departmentsTake = this.departments.filter(department => 
                             department.id != this.document.departmentGivesId
                         );
-
-                        if (newValue == this.document.departmentTakesId) {
-                            this.document.departmentTakesId = 0;
-                            this.document.employeeTakesId = 0;
-                            this.employeesTake = [];
-                        }
                     })
 
-            } 
+            }  else {
+                this.departmentsGive = this.departments   
+            }
 
             if (this.hasError('debet_id')) {
                 delete this.errors.debet_id;
@@ -266,9 +271,14 @@ export default {
                         
                         this.employeesTake =  employees
 
-
+                        this.departmentsGive = this.departments.filter(department => 
+                            department.id != this.document.departmentTakesId
+                        );
                     })
-            } 
+            } else {
+                this.departmentsTake = this.departments;
+            }
+
             if (this.hasError('credit_id')) {
                 delete this.errors.credit_id;
             }
@@ -293,9 +303,27 @@ export default {
                 delete this.errors.sum2;
             }
         },        
+        useFilter() {
+            if (this.useFilter) {
+                if (this.filter.dateBegin) {
+                    document.getElementById('date').setAttribute("min", this.filter.dateBegin)
+                    this.document.date = this.filter.dateBegin;
+                }
+                if (this.filter.dateEnd) {
+                    document.getElementById('date').setAttribute("max", this.filter.dateEnd)
+                    this.document.date = this.filter.dateBegin;
+                }
+                this.document.departmentGivesId = this.filter.debetId ? this.filter.debetId : 0;
+                this.document.departmentTakesId = this.filter.creditId ? this.filter.creditId : 0;
+            }
+        }
     },
-    created() {
-        this.getDepartmentsDictionary();
+    created() {        
+        this.getDepartmentsDictionary()
+            .then(res => {                
+                this.departmentsTake = res;
+                this.departmentsGive = res;
+            })
     },
     components: {
         SelectField,

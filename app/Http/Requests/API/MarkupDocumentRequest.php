@@ -25,8 +25,8 @@ class MarkupDocumentRequest extends FormRequest
     {
         return [
             'date'              =>  'required|date',
-            'debet_id'          =>  'exists:departments,id',
-            'debet_person_id'   =>  'exists:employees,id',
+            'credit_id'         =>  'exists:departments,id',
+            'credit_person_id'  =>  'exists:employees,id',
             'sum2'              =>  'required|numeric|min:0',
         ];
     }
@@ -40,8 +40,8 @@ class MarkupDocumentRequest extends FormRequest
     {
         return [            
             'date.required'                 =>  'Вы не указали дату',
-            'debet_id.exists'               =>  'Вы не выбрали отдел',            
-            'debet_person_id.exists'        =>  'Вы не выбрали сотрудника',
+            'credit_id.exists'              =>  'Вы не выбрали отдел',            
+            'credit_person_id.exists'       =>  'Вы не выбрали сотрудника',
             'sum2.min'                      =>  'Сумма должна быть больше или равна 0',
         ];
     }

@@ -58,8 +58,12 @@ export default {
     },
 
     deleteDocument: ({dispatch, state}, {id, url}) => {
+        // if (!url) {
+        //     url = '';
+        // }
+        
         return new Promise((resolve, reject) => {
-            url = (url == '' ) ? state.url : url;
+            url = !url ? state.url : url;
             axios
                 .delete(`${url}/${id}`, config)
                 .then(res => {

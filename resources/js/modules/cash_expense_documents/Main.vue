@@ -2,6 +2,7 @@
 <div>
      <grid  :dataTable="documents"
             :pagination="pagination"
+            filteredField="expense"
             @fetchData="fetchData"> 
 
         <template v-slot:title>

@@ -25,7 +25,7 @@ class RestTypeSeeder extends Seeder
                 'description'   =>  'Остаток денежных средств в кассе'
             ],
             [
-                'code'          =>  'credit',
+                'code'          =>  'loan',
                 'name'          =>  'Кредит',
                 'description'   =>  'Задолженность по кредиту'
             ]

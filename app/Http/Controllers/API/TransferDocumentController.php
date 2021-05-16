@@ -99,7 +99,11 @@ class TransferDocumentController extends Controller
         // dd($validated);
         $document = TransferDocument::findOrFail($id);
         $document->update($request->all());
-        $document->save();
+        if ($document->save()) {
+            return (new TransferDocumentResource($document))
+                ->response()
+                ->setStatusCode(201);
+        }
     }
 
     /**

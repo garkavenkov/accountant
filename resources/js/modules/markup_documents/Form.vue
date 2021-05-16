@@ -113,8 +113,8 @@ export default {
         saveDoc() {
             let doc = {
                 date                : this.document.date,
-                debet_id            : this.document.departmentId,
-                debet_person_id     : this.document.employeeId,
+                credit_id           : this.document.departmentId,
+                credit_person_id    : this.document.employeeId,
                 sum2                : parseFloat(this.document.markupSum.replace(",", "."))
             }
             this.saveDocument(doc)

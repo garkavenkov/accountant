@@ -28,8 +28,8 @@ class TransferDocumentRequest extends FormRequest
             'debet_id'          =>  'exists:departments,id',
             'credit_id'         =>  'exists:departments,id|different:debet_id',
             'debet_person_id'   =>  'exists:employees,id',
-            'credit_person_id'  =>  'exists:employees,id',
-            'credit_person_id'  =>  'different:debet_person_id',
+            'credit_person_id'  =>  'exists:employees,id|different:debet_person_id',
+            // 'credit_person_id'  =>  'different:debet_person_id',
             'sum1'              =>  'required|numeric|min:0',
             'sum2'              =>  'required|numeric|min:0',
             'sum2'              =>  'required|numeric|min:0|gte:sum1'

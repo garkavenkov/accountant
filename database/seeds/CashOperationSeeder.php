@@ -27,19 +27,19 @@ class CashOperationSeeder extends Seeder
                 'name'      =>  'Заработная плата'
             ],
             [
-                'code'      =>  'credit',
+                'code'      =>  'loan',
                 'name'      =>  'Получение кредита'
             ],
             [
-                'code'      =>  'loan',
+                'code'      =>  'lend',
                 'name'      =>  'Выдача в долг'
             ],
             [
-                'code'      =>  'credit_repayment',
+                'code'      =>  'loan_repayment',
                 'name'      =>  'Погашение кредита'
             ],
             [
-                'code'      =>  'loan_repayment',
+                'code'      =>  'lend_repayment',
                 'name'      =>  'Погашение долга'
             ],
             [

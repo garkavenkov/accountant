@@ -2005,9 +2005,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Grid',
   props: {
+    // filterExp: {
+    //     type: String,
+    //     required: false,
+    //     default: null
+    // },
     title: {
       type: String,
       required: false,
@@ -2131,20 +2149,22 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     paginatedData: function paginatedData() {
-      var _this = this;
-
       if (this.externalPagination) {
         return this.dataTable;
       } else {
-        if (this.searchData) {
-          return this.dataTable.filter(function (data) {
-            // console.log(`Search field - ${this.searchData.toLowerCase()}`);
-            // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
-            return data[_this.filteredField].toLowerCase().includes(_this.searchData.toLowerCase()); // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
-            //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
-          });
-        }
-
+        // if (this.searchData) {
+        //     let searched =  this.dataTable.filter(data => {
+        //         // console.log(`Search field - ${this.searchData.toLowerCase()}`);
+        //         // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
+        //         return data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase());
+        //         // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
+        //         //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
+        //     });
+        //     // console.log(`Searched length: ${searched.length}`);
+        //     // console.log(searched);
+        //     this.$emit('searched', searched);
+        //     return searched;
+        // }
         return this.dataTable.slice(this.paginateFrom - 1, this.paginateTo); // ??? Will it work after search
       }
     }
@@ -2155,7 +2175,10 @@ __webpack_require__.r(__webpack_exports__);
         this.currentPage = newValue;
       }
     } // searchData(newValue, oldValue) {
-    //     console.log(`${newValue}`);
+    //     if (newValue === '') {
+    //         // console.log(`search text is empty`);
+    //         this.$emit('searched', []);
+    //     }
     // }
 
   }
@@ -2647,6 +2670,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2656,14 +2691,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: [],
   data: function data() {
     return {
-      pagination: {} // departments: [],
-
+      pagination: {},
+      // departments: [],
+      searchedDocuments: []
     };
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['fetchData', 'getCashesDictionary', 'getDepartmentsDictionary'])),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['fetchData', 'getCashesDictionary', 'getDepartmentsDictionary', 'searchData'])), {}, {
+    // searchedData(data) {
+    //     this.searchedDocuments = data ? data : [];
+    // }
+    onSearchData: function onSearchData(value) {
+      this.searchData(value);
+    }
+  }),
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['documents', 'filter'])), {}, {
     totalSum: function totalSum() {
       var total = this.documents.reduce(function (a, b) {
+        return a + b.amount * 1;
+      }, 0.00);
+      return total;
+    },
+    totalSearchedSum: function totalSearchedSum() {
+      var total = this.searchedDocuments.reduce(function (a, b) {
         return a + b.amount * 1;
       }, 0.00);
       return total;
@@ -2769,7 +2818,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     deleteDoc: function deleteDoc(id) {
       var _this = this;
 
-      this.deleteDocument(id).then(function (res) {
+      this.deleteDocument({
+        id: id
+      }).then(function (res) {
         Swal.fire({
           toast: true,
           position: 'top-end',
@@ -3985,7 +4036,8 @@ var render = function() {
                           expression: "searchData"
                         }
                       ],
-                      staticClass: "form-control form-control-sm",
+                      staticClass:
+                        "form-control \n                                form-control-sm",
                       attrs: {
                         type: "search",
                         name: "filter_data",
@@ -3993,12 +4045,17 @@ var render = function() {
                       },
                       domProps: { value: _vm.searchData },
                       on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.searchData = $event.target.value
+                          },
+                          function($event) {
+                            return _vm.$emit("onSearch", $event.target.value)
                           }
-                          _vm.searchData = $event.target.value
-                        }
+                        ]
                       }
                     })
                   ])
@@ -4038,7 +4095,7 @@ var render = function() {
             _c("div", { staticClass: "col-sm-6 col-md-6" }, [
               _c("div", { staticClass: "dataTable_info" }, [
                 _vm._v(
-                  "Showning " +
+                  "Showing " +
                     _vm._s(_vm.paginateFrom) +
                     " to " +
                     _vm._s(_vm.paginateTo) +
@@ -4951,7 +5008,7 @@ var render = function() {
           pagination: _vm.pagination,
           filteredField: "department"
         },
-        on: { fetchData: _vm.fetchData },
+        on: { onSearch: _vm.onSearchData, fetchData: _vm.fetchData },
         scopedSlots: _vm._u([
           {
             key: "title",
@@ -5072,6 +5129,34 @@ var render = function() {
             key: "footer",
             fn: function() {
               return [
+                _vm.searchedDocuments.length > 0
+                  ? _c("tr", [
+                      _c(
+                        "td",
+                        {
+                          staticClass: "font-weight-bold",
+                          attrs: { colspan: "5" }
+                        },
+                        [
+                          _vm._v(
+                            "Найдено документов: " +
+                              _vm._s(_vm.searchedDocuments.length)
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right font-weight-bold" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("formatNumber")(_vm.totalSearchedSum, 2)
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
                 _c("tr", [
                   _c(
                     "td",
@@ -8363,8 +8448,8 @@ if (inBrowser && window.Vue) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.11
- * (c) 2014-2019 Evan You
+ * Vue.js v2.6.12
+ * (c) 2014-2020 Evan You
  * Released under the MIT License.
  */
 
@@ -13803,7 +13888,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.11';
+Vue.version = '2.6.12';
 
 /*  */
 
@@ -16009,7 +16094,7 @@ function updateDOMProps (oldVnode, vnode) {
       // skip the update if old and new VDOM state is the same.
       // `value` is handled separately because the DOM value may be temporarily
       // out of sync with VDOM state due to focus, composition and modifiers.
-      // This  #4521 by skipping the unnecesarry `checked` update.
+      // This  #4521 by skipping the unnecessary `checked` update.
       cur !== oldProps[key]
     ) {
       // some property updates can throw
@@ -18254,7 +18339,7 @@ function parse (
       }
     },
     comment: function comment (text, start, end) {
-      // adding anyting as a sibling to the root node is forbidden
+      // adding anything as a sibling to the root node is forbidden
       // comments should still be allowed, but ignored
       if (currentParent) {
         var child = {
@@ -22124,6 +22209,7 @@ var SalesRevenue = {
   namespaced: true,
   state: {
     documents: [],
+    temp: [],
     document: {},
     cashes: [],
     departments: [],
@@ -22158,16 +22244,37 @@ var SalesRevenue = {
   },
   mutations: _objectSpread({}, _core_mutations__WEBPACK_IMPORTED_MODULE_2__["default"]),
   actions: _objectSpread(_objectSpread({}, _core_actions__WEBPACK_IMPORTED_MODULE_1__["default"]), {}, {
-    getCashesDictionary: function getCashesDictionary(_ref) {
-      var dispatch = _ref.dispatch,
-          state = _ref.state;
+    searchData: function searchData(_ref, search) {
+      var state = _ref.state;
+      var searched = [];
+
+      if (search !== '') {
+        searched = state.documents.filter(function (data) {
+          if (data['department'].toLowerCase().includes(search)) {
+            return true;
+          } else {
+            state.temp.push(data);
+          }
+        });
+        state.documents = searched; // state.temp = state.documents.filter(data => {
+        // });
+      } else {
+        state.documents = state.documents.concat(state.temp);
+        state.temp = [];
+      }
+
+      console.log(searched, state.temp); // state.documents = searched;
+    },
+    getCashesDictionary: function getCashesDictionary(_ref2) {
+      var dispatch = _ref2.dispatch,
+          state = _ref2.state;
       dispatch('getDictionary', 'cash').then(function (res) {
         return state.cashes = res;
       });
     },
-    getDepartmentsDictionary: function getDepartmentsDictionary(_ref2, cashId) {
-      var dispatch = _ref2.dispatch,
-          state = _ref2.state;
+    getDepartmentsDictionary: function getDepartmentsDictionary(_ref3, cashId) {
+      var dispatch = _ref3.dispatch,
+          state = _ref3.state;
       var dictionary = 'department?type=goods';
 
       if (cashId != 0) {
@@ -22263,8 +22370,11 @@ var config = {
         state = _ref5.state;
     var id = _ref6.id,
         url = _ref6.url;
+    // if (!url) {
+    //     url = '';
+    // }
     return new Promise(function (resolve, reject) {
-      url = url == '' ? state.url : url;
+      url = !url ? state.url : url;
       axios["delete"]("".concat(url, "/").concat(id), config).then(function (res) {
         dispatch('fetchData');
         resolve(res);

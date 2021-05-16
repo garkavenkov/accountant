@@ -1927,7 +1927,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    label: {
+    caption: {
       type: String,
       required: true
     },
@@ -2068,9 +2068,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Grid',
   props: {
+    // filterExp: {
+    //     type: String,
+    //     required: false,
+    //     default: null
+    // },
     title: {
       type: String,
       required: false,
@@ -2194,20 +2212,22 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     paginatedData: function paginatedData() {
-      var _this = this;
-
       if (this.externalPagination) {
         return this.dataTable;
       } else {
-        if (this.searchData) {
-          return this.dataTable.filter(function (data) {
-            // console.log(`Search field - ${this.searchData.toLowerCase()}`);
-            // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
-            return data[_this.filteredField].toLowerCase().includes(_this.searchData.toLowerCase()); // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
-            //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
-          });
-        }
-
+        // if (this.searchData) {
+        //     let searched =  this.dataTable.filter(data => {
+        //         // console.log(`Search field - ${this.searchData.toLowerCase()}`);
+        //         // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
+        //         return data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase());
+        //         // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
+        //         //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
+        //     });
+        //     // console.log(`Searched length: ${searched.length}`);
+        //     // console.log(searched);
+        //     this.$emit('searched', searched);
+        //     return searched;
+        // }
         return this.dataTable.slice(this.paginateFrom - 1, this.paginateTo); // ??? Will it work after search
       }
     }
@@ -2218,7 +2238,10 @@ __webpack_require__.r(__webpack_exports__);
         this.currentPage = newValue;
       }
     } // searchData(newValue, oldValue) {
-    //     console.log(`${newValue}`);
+    //     if (newValue === '') {
+    //         // console.log(`search text is empty`);
+    //         this.$emit('searched', []);
+    //     }
     // }
 
   }
@@ -2235,6 +2258,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -2330,6 +2354,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     caption: {
@@ -2364,6 +2389,15 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       required: false,
       "default": 'name'
+    },
+    id: {
+      type: String,
+      required: true
+    },
+    field: {
+      type: String,
+      required: false,
+      "default": 'id'
     }
   },
   data: function data() {
@@ -2508,7 +2542,7 @@ __webpack_require__.r(__webpack_exports__);
     getAccountabilities: function getAccountabilities() {
       var _this = this;
 
-      var url = "api/accountabilities?date=".concat(this.filter.dateBegin, "&status=0,1");
+      var url = "api/accountabilities?date=".concat(this.filter.dateBegin, "&status=0");
 
       if (!this.filter.dateEnd) {
         url = url + ",".concat(this.filter.dateBegin);
@@ -2864,6 +2898,13 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.payments.length == 1) {
         msg = "\u041E\u043F\u043B\u0430\u0442\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0430 ".concat(this.payments[0].date, " \n").concat(this.payments[0].cash);
+      } else {
+        this.payments.forEach(function (payment) {
+          msg = msg + "\t".concat(payment.cash, ": ").concat(payment.date, " - ").concat(payment.amount.toLocaleString('ru-RU', {
+            minimumFractionDigits: 2
+          }), "\n");
+        });
+        msg = 'Оплата произведена частями:\n' + msg;
       }
 
       return msg;
@@ -3170,14 +3211,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3598,6 +3631,72 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3608,17 +3707,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   // mixins: [FormValidator],
-  name: 'IncomeDocumentsMain',
+  name: "IncomeDocumentsMain",
   data: function data() {
     return {
       pagination: {},
-      url: '/api/income-documents',
+      url: "/api/income-documents",
       useFilter: false,
       inSelectMode: false,
       selectedRecords: []
     };
   },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapActions"])(['fetchData', 'getDepartmentsDictionary', 'getSuppliersDictionary'])), {}, {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapActions"])(["fetchData", "getDepartmentsDictionary", "getSuppliersDictionary"])), {}, {
     makePagination: function makePagination(links, meta) {
       this.pagination = _objectSpread(_objectSpread({}, links), meta);
     },
@@ -3630,9 +3729,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.filter.sum1Begin = 0;
       this.filter.sum1End = 0;
       this.filter.isFiltered = false;
-      this.filter.queryStr = '';
-      document.getElementById('dateBegin').value = new Date().toISOString().slice(0, 10);
-      document.getElementById('dateEnd').value = "";
+      this.filter.queryStr = "";
+      document.getElementById("dateBegin").value = new Date().toISOString().slice(0, 10);
+      document.getElementById("dateEnd").value = "";
     },
     selectMode: function selectMode() {
       if (this.inSelectMode) {
@@ -3681,34 +3780,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         // If the first item comes first in the alphabet, move it up
         // Otherwise move it down
 
-        if (a['sum1'] > b['sum1']) return 1;
-        if (a['sum1'] < b['sum1']) return -1;
+        if (a["sum1"] > b["sum1"]) return 1;
+        if (a["sum1"] < b["sum1"]) return -1;
       });
     }
   }),
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapGetters"])(['documents', 'filter'])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_7__["mapGetters"])(["documents", "filter"])), {}, {
     totalPurchaseSum: function totalPurchaseSum() {
       var total = this.documents.reduce(function (a, b) {
         return a + b.sum1 * 1;
-      }, 0.00);
+      }, 0.0);
       return total;
     },
     totalRetailSum: function totalRetailSum() {
       var total = this.documents.reduce(function (a, b) {
         return a + b.sum2 * 1;
-      }, 0.00);
+      }, 0.0);
       return total;
     },
     totalSelectedPurchaseSum: function totalSelectedPurchaseSum() {
       var total = this.selectedRecords.reduce(function (a, b) {
         return a + b.sum1 * 1;
-      }, 0.00);
+      }, 0.0);
       return total;
     },
     totalSelectedRetailSum: function totalSelectedRetailSum() {
       var total = this.selectedRecords.reduce(function (a, b) {
         return a + b.sum2 * 1;
-      }, 0.00);
+      }, 0.0);
       return total;
     }
   }),
@@ -3717,7 +3816,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getSuppliersDictionary();
     this.getDepartmentsDictionary();
   },
-  watch: {// 'newDocument.date'(newValue, oldValue) {            
+  watch: {// 'newDocument.date'(newValue, oldValue) {
     //     this.getEmployeesInChargeOfDepartment();
     //     if (this.hasError('date')) {
     //         delete this.errors.date;
@@ -3729,7 +3828,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     //         delete this.errors.credit_id;
     //     }
     // },
-    // 'newDocument.supplierId'(newValue, oldValue) {            
+    // 'newDocument.supplierId'(newValue, oldValue) {
     //     if (this.hasError('debit_id')) {
     //         delete this.errors.debit_id;
     //     }
@@ -3755,7 +3854,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     //         el.value = ""
     //         this.filter.date_end = null;
     //     }
-    // },    
+    // },
   },
   components: {
     Grid: _components_Grid__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -3989,6 +4088,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -4015,14 +4118,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     deleteDoc: function deleteDoc(id) {
       var _this = this;
 
-      this.deleteDocument(id).then(function (res) {
+      this.deleteDocument({
+        id: id
+      }).then(function (res) {
         Swal.fire({
           toast: true,
           position: 'top-end',
           showConfirmButton: false,
-          timer: 3000,
+          timer: 2000,
           // title:'Good job!',
-          text: 'Документ успешно удален',
+          text: red.data.message,
           icon: 'success'
         });
 
@@ -5518,16 +5623,16 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "form-group" }, [
-    _c("label", [_vm._v(_vm._s(_vm.label))]),
+    _c("label", [_vm._v(_vm._s(_vm.caption))]),
     _vm._v(" "),
     _c("input", {
       staticClass: "form-control datetimepicker-input",
       class: { "is-invalid": _vm.error.length > 0 },
       attrs: { type: "date", name: _vm.name, id: _vm.id },
-      domProps: { value: _vm.value && _vm.value.toISOString().slice(0, 10) },
+      domProps: { value: _vm.value },
       on: {
         input: function($event) {
-          return _vm.$emit("input", $event.targer.value)
+          return _vm.$emit("input", $event.target.value)
         }
       }
     }),
@@ -5629,7 +5734,8 @@ var render = function() {
                           expression: "searchData"
                         }
                       ],
-                      staticClass: "form-control form-control-sm",
+                      staticClass:
+                        "form-control \n                                form-control-sm",
                       attrs: {
                         type: "search",
                         name: "filter_data",
@@ -5637,12 +5743,17 @@ var render = function() {
                       },
                       domProps: { value: _vm.searchData },
                       on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.searchData = $event.target.value
+                          },
+                          function($event) {
+                            return _vm.$emit("onSearch", $event.target.value)
                           }
-                          _vm.searchData = $event.target.value
-                        }
+                        ]
                       }
                     })
                   ])
@@ -5682,7 +5793,7 @@ var render = function() {
             _c("div", { staticClass: "col-sm-6 col-md-6" }, [
               _c("div", { staticClass: "dataTable_info" }, [
                 _vm._v(
-                  "Showning " +
+                  "Showing " +
                     _vm._s(_vm.paginateFrom) +
                     " to " +
                     _vm._s(_vm.paginateTo) +
@@ -5826,6 +5937,9 @@ var render = function() {
       on: {
         input: function($event) {
           return _vm.$emit("input", $event.target.value)
+        },
+        dblclick: function($event) {
+          return _vm.$emit("dblclick")
         }
       }
     }),
@@ -5871,6 +5985,7 @@ var render = function() {
         staticClass: "form-control select2",
         class: { "is-invalid": _vm.error.length > 0 },
         staticStyle: { width: "100%" },
+        attrs: { id: _vm.id },
         on: {
           change: function($event) {
             _vm.changed(parseInt($event.target.value))
@@ -5893,8 +6008,11 @@ var render = function() {
           return _c(
             "option",
             {
-              key: option.id,
-              domProps: { selected: option.id == _vm.value, value: option.id }
+              key: option[_vm.field],
+              domProps: {
+                selected: option[_vm.field] == _vm.value,
+                value: option[_vm.field]
+              }
             },
             [
               _vm._v(
@@ -7011,54 +7129,27 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "modal-body" }, [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Дата")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.document.date,
-                        expression: "document.date"
-                      }
-                    ],
-                    staticClass: "form-control datetimepicker-input",
-                    class: { "is-invalid": _vm.hasError("date") },
+              _c(
+                "div",
+                { staticClass: "col-md-6" },
+                [
+                  _c("date-field", {
                     attrs: {
-                      type: "date",
-                      name: "date",
+                      caption: "Дата",
                       id: "date",
-                      tabindex: "1"
+                      error: _vm.errors["date"]
                     },
-                    domProps: { value: _vm.document.date },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.document, "date", $event.target.value)
-                      }
+                    model: {
+                      value: _vm.document.date,
+                      callback: function($$v) {
+                        _vm.$set(_vm.document, "date", $$v)
+                      },
+                      expression: "document.date"
                     }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      staticClass: "error invalid-feedback",
-                      attrs: { id: "date-error" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                                        " +
-                          _vm._s(_vm.getError("date")) +
-                          "\n                            "
-                      )
-                    ]
-                  )
-                ])
-              ]),
+                  })
+                ],
+                1
+              ),
               _vm._v(" "),
               _c(
                 "div",
@@ -7313,7 +7404,9 @@ var render = function() {
                   "h3",
                   { staticClass: "card-title" },
                   [
-                    _vm._v("Товарные накладные\n                "),
+                    _vm._v(
+                      "\n                Товарные накладные\n                "
+                    ),
                     _c(
                       "button",
                       {
@@ -7604,54 +7697,69 @@ var render = function() {
                     _c("td", [_vm._v(_vm._s(data.employee_full_name))]),
                     _vm._v(" "),
                     _c("td", { staticClass: "text-right" }, [
-                      _vm._v(_vm._s(_vm._f("formatNumber")(data.sum1, 2)))
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm._f("formatNumber")(data.sum1, 2)) +
+                          "\n                "
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "text-right" }, [
-                      _vm._v(_vm._s(_vm._f("formatNumber")(data.sum2, 2)))
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm._f("formatNumber")(data.sum2, 2)) +
+                          "\n                "
+                      )
                     ]),
                     _vm._v(" "),
                     _c("td", { staticClass: "text-right" }, [
-                      _vm._v(_vm._s(_vm._f("formatNumber")(data.gain, 2)))
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm._f("formatNumber")(data.gain, 2)) +
+                          "\n                "
+                      )
                     ]),
                     _vm._v(" "),
                     _c(
                       "td",
                       { staticClass: "text-center" },
                       [
-                        data.isPaid
-                          ? _c("document-paid", {
-                              attrs: { payments: data.payments }
-                            })
-                          : _vm._e(),
-                        _vm._v(" "),
-                        data.inAccountability
-                          ? _c("in-accountability", {
-                              attrs: { accountability: data.accountability }
-                            })
-                          : _vm._e()
+                        [
+                          data.isPaid
+                            ? _c("document-paid", {
+                                attrs: { payments: data.payments }
+                              })
+                            : _vm._e(),
+                          _vm._v(" "),
+                          data.inAccountability
+                            ? _c("in-accountability", {
+                                attrs: { accountability: data.accountability }
+                              })
+                            : _vm._e()
+                        ]
                       ],
-                      1
+                      2
                     ),
                     _vm._v(" "),
                     _c(
                       "td",
+                      { staticClass: "text-center" },
                       [
-                        data.firstForm
-                          ? [
-                              _c("abbr", { attrs: { title: "Первая форма" } }, [
+                        [
+                          data.firstForm
+                            ? _c("abbr", { attrs: { title: "Первая форма" } }, [
                                 _c("i", {
                                   staticClass: "fas fa-search-dollar first-form"
                                 })
                               ])
-                            ]
-                          : _vm._e(),
-                        _vm._v(" "),
-                        data.bonus == 1
-                          ? _c("abbr", { attrs: { title: "Бонус" } }, [
-                              _c("i", { staticClass: "fas fa-gift gift" })
-                            ])
-                          : _vm._e()
+                            : _vm._e(),
+                          _vm._v(" "),
+                          data.bonus == 1
+                            ? _c("abbr", { attrs: { title: "Бонус" } }, [
+                                _c("i", { staticClass: "fas fa-gift gift" })
+                              ])
+                            : _vm._e()
+                        ]
                       ],
                       2
                     )
@@ -7674,8 +7782,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "Выделено документов: " +
-                              _vm._s(_vm.selectedRecords.length)
+                            "\n                    Выделено документов: " +
+                              _vm._s(_vm.selectedRecords.length) +
+                              "\n                "
                           )
                         ]
                       ),
@@ -7685,48 +7794,54 @@ var render = function() {
                         { staticClass: "text-right font-weight-italic" },
                         [
                           _vm._v(
-                            _vm._s(
-                              _vm._f("formatNumber")(
-                                _vm.totalSelectedPurchaseSum,
-                                2
-                              )
-                            )
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        { staticClass: "text-right font-weight-italic" },
-                        [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("formatNumber")(
-                                _vm.totalSelectedRetailSum,
-                                2
-                              )
-                            )
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        { staticClass: "text-right font-weight-italic" },
-                        [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("formatNumber")(
-                                _vm.totalSelectedRetailSum -
+                            "\n                    " +
+                              _vm._s(
+                                _vm._f("formatNumber")(
                                   _vm.totalSelectedPurchaseSum,
-                                2
-                              )
-                            )
+                                  2
+                                )
+                              ) +
+                              "\n                "
                           )
                         ]
                       ),
                       _vm._v(" "),
-                      _c("td")
+                      _c(
+                        "td",
+                        { staticClass: "text-right font-weight-italic" },
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(
+                                _vm._f("formatNumber")(
+                                  _vm.totalSelectedRetailSum,
+                                  2
+                                )
+                              ) +
+                              "\n                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        { staticClass: "text-right font-weight-italic" },
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(
+                                _vm._f("formatNumber")(
+                                  _vm.totalSelectedRetailSum -
+                                    _vm.totalSelectedPurchaseSum,
+                                  2
+                                )
+                              ) +
+                              "\n                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { attrs: { colspan: "2" } })
                     ])
                   : _vm._e(),
                 _vm._v(" "),
@@ -7739,35 +7854,45 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "Итого документов: " + _vm._s(_vm.documents.length)
+                        "\n                    Итого документов: " +
+                          _vm._s(_vm.documents.length) +
+                          "\n                "
                       )
                     ]
                   ),
                   _vm._v(" "),
                   _c("td", { staticClass: "text-right font-weight-bold" }, [
                     _vm._v(
-                      _vm._s(_vm._f("formatNumber")(_vm.totalPurchaseSum, 2))
+                      "\n                    " +
+                        _vm._s(
+                          _vm._f("formatNumber")(_vm.totalPurchaseSum, 2)
+                        ) +
+                        "\n                "
                     )
                   ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "text-right font-weight-bold" }, [
                     _vm._v(
-                      _vm._s(_vm._f("formatNumber")(_vm.totalRetailSum, 2))
+                      "\n                    " +
+                        _vm._s(_vm._f("formatNumber")(_vm.totalRetailSum, 2)) +
+                        "\n                "
                     )
                   ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "text-right font-weight-bold" }, [
                     _vm._v(
-                      _vm._s(
-                        _vm._f("formatNumber")(
-                          _vm.totalRetailSum - _vm.totalPurchaseSum,
-                          2
-                        )
-                      )
+                      "\n                    " +
+                        _vm._s(
+                          _vm._f("formatNumber")(
+                            _vm.totalRetailSum - _vm.totalPurchaseSum,
+                            2
+                          )
+                        ) +
+                        "\n                "
                     )
                   ]),
                   _vm._v(" "),
-                  _c("td")
+                  _c("td", { attrs: { colspan: "2" } })
                 ])
               ]
             },
@@ -8134,26 +8259,26 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "row no-print" }, [
               _c("div", { staticClass: "col-12" }, [
-                _vm.document.status == 0
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger float-right",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.deleteDoc(_vm.document.id)
-                          }
-                        }
-                      },
-                      [
-                        _c("i", { staticClass: "far fa-credit-card" }),
-                        _vm._v(
-                          " \n                            Delete\n                        "
-                        )
-                      ]
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger float-right",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.deleteDoc(_vm.document.id)
+                      }
+                    }
+                  },
+                  [
+                    _c("i", { staticClass: "far fa-credit-card" }),
+                    _vm._v(
+                      " \n                             " +
+                        _vm._s(_vm.document.statusCode) +
+                        "\n                        "
                     )
-                  : _vm._e()
+                  ]
+                )
               ])
             ])
           ])
@@ -11506,8 +11631,8 @@ if (inBrowser && window.Vue) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.11
- * (c) 2014-2019 Evan You
+ * Vue.js v2.6.12
+ * (c) 2014-2020 Evan You
  * Released under the MIT License.
  */
 
@@ -16946,7 +17071,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.11';
+Vue.version = '2.6.12';
 
 /*  */
 
@@ -19152,7 +19277,7 @@ function updateDOMProps (oldVnode, vnode) {
       // skip the update if old and new VDOM state is the same.
       // `value` is handled separately because the DOM value may be temporarily
       // out of sync with VDOM state due to focus, composition and modifiers.
-      // This  #4521 by skipping the unnecesarry `checked` update.
+      // This  #4521 by skipping the unnecessary `checked` update.
       cur !== oldProps[key]
     ) {
       // some property updates can throw
@@ -21397,7 +21522,7 @@ function parse (
       }
     },
     comment: function comment (text, start, end) {
-      // adding anyting as a sibling to the root node is forbidden
+      // adding anything as a sibling to the root node is forbidden
       // comments should still be allowed, but ignored
       if (currentParent) {
         var child = {
@@ -26104,8 +26229,11 @@ var config = {
         state = _ref5.state;
     var id = _ref6.id,
         url = _ref6.url;
+    // if (!url) {
+    //     url = '';
+    // }
     return new Promise(function (resolve, reject) {
-      url = url == '' ? state.url : url;
+      url = !url ? state.url : url;
       axios["delete"]("".concat(url, "/").concat(id), config).then(function (res) {
         dispatch('fetchData');
         resolve(res);

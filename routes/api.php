@@ -50,7 +50,10 @@ Route::group(['middleware' => 'auth:api'], function() {
         'cash-profit-documents'     =>  'API\CashProfitDocumentController',
         'return-documents'          =>  'API\ReturnDocumentController',
         'accountabilities'          =>  'API\AccountabilityController',
-        'accountability-items'      =>  'API\AccountabilityItemController'
+        'accountability-items'      =>  'API\AccountabilityItemController',
+        'loans'                     =>  'API\LoanContractController',
+        'counterparties'            =>  'API\CounterpartyController',
+        'currencies'                =>  'API\CurrencyController'
     ]);
 
     
@@ -77,7 +80,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('cash-turns',                    'API\CashController@turns');
     Route::patch('set-cash-rest',               'API\CashController@setRest');
 
-    Route::patch('update-rest',                 'API\RestController@update');
+    // Route::patch('update-rest',                 'API\RestController@update');
 
     Route::get('get-unpaid-documents',          'API\IncomeDocumentController@getUnpaidDocuments');
     Route::get('get-unlinked-payments',         'API\PaymentController@getUnlinkedPayments');
@@ -92,4 +95,6 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::get('accountability-open/{id}',      'API\AccountabilityController@open');
     Route::get('accountability-close/{id}',     'API\AccountabilityController@close');
+
+    Route::post('repayment-loan',               'API\LoanContractController@repayment');
 });

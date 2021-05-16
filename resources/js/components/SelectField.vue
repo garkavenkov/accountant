@@ -3,6 +3,7 @@
         <label>{{caption}}</label>
         <select class="form-control select2" 
                 style="width: 100%;" 
+                :id="id"
                 @change="changed(parseInt($event.target.value))"
                 v-bind:class="{'is-invalid' : error.length > 0}">
             <option 
@@ -13,9 +14,9 @@
                 {{hint}}
             </option>
             <option v-for="option in options" 
-                    :selected="option.id == value"
-                    :value="option.id" 
-                    :key="option.id">
+                    :selected="option[field] == value"
+                    :value="option[field]" 
+                    :key="option[field]">
                         {{option[name]}}
             </option>                          
         </select>
@@ -59,7 +60,16 @@
                 type: String,
                 required: false,
                 default: 'name'
-            }
+            },
+            id: {
+              type: String,
+              required: true,
+            },
+            field: {
+                type: String,
+                required: false,
+                default: 'id'
+            },            
         },
         data() {
             return {

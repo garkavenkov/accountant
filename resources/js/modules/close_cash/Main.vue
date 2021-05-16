@@ -33,6 +33,7 @@
                             <select-field 
                                 caption="Касса"
                                 hint="Выберите кассу"
+                                id="cash"
                                 :options="cashes"
                                 v-model="turns.cashId"
                                 name="name">

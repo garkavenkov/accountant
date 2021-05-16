@@ -2,9 +2,16 @@
 
 <div>
 
+    <!-- <grid   :dataTable="documents"
+            :pagination="pagination"
+            filteredField="department"
+            @searched="searchedData"
+            @fetchData="fetchData">  -->
+
     <grid   :dataTable="documents"
             :pagination="pagination"
             filteredField="department"
+            @onSearch="onSearchData"
             @fetchData="fetchData"> 
 
         <template v-slot:title>
@@ -59,6 +66,11 @@
             </tr>     
         </template>
         <template v-slot:footer>
+            <tr v-if="searchedDocuments.length > 0">
+                <td colspan="5" class="font-weight-bold">Найдено документов: {{searchedDocuments.length}}</td>
+                <td class="text-right font-weight-bold">{{totalSearchedSum | formatNumber(2) }}</td>
+                <td></td>
+            </tr>
             <tr>
                 <td colspan="5" class="font-weight-bold">Итого документов: {{documents.length}}</td>
                 <td class="text-right font-weight-bold">{{totalSum | formatNumber(2) }}</td>
@@ -90,10 +102,17 @@ export default {
         return {
             pagination: {},
             // departments: [],
+            searchedDocuments: []
         }
     },    
     methods: {
-        ...mapActions(['fetchData', 'getCashesDictionary', 'getDepartmentsDictionary']),   
+        ...mapActions(['fetchData', 'getCashesDictionary', 'getDepartmentsDictionary', 'searchData']),
+        // searchedData(data) {
+        //     this.searchedDocuments = data ? data : [];
+        // }
+        onSearchData(value) {
+            this.searchData(value)
+        }
     },
     computed: {
         ...mapGetters(['documents', 'filter']),
@@ -101,7 +120,11 @@ export default {
             let total =  this.documents.reduce((a, b) => a + b.amount * 1, 0.00);
             return total;
         },
-    },
+        totalSearchedSum() {
+            let total =  this.searchedDocuments.reduce((a, b) => a + b.amount * 1, 0.00);
+            return total;
+        }
+    },    
     created() {
         this.fetchData();
         this.getCashesDictionary();

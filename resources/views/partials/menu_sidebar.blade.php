@@ -68,10 +68,8 @@
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <!-- <i class="fas fa-wallet nav-icon"></i> -->
+                    <a href="#" class="nav-link">                        
                         <i class="fas fa-ruble-sign nav-icon"></i>
-                        <!-- <i class="fas fa-cubes nav-icon"></i> -->
                         <p>
                             Касса
                             <i class="fas fa-angle-left right"></i>
@@ -100,6 +98,12 @@
                             <a href="salaries" class="nav-link">
                                 <i class="fas fa-hand-holding-usd"></i>
                                 <p>Зарплата</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="loans" class="nav-link">
+                                <i class="fas fa-money-check-alt"></i>
+                                <p>Кредиты</p>
                             </a>
                         </li>
                         <li class="nav-item">

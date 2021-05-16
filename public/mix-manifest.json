@@ -13,6 +13,7 @@
     "/js/modules/expense_documents.js": "/js/modules/expense_documents.js",
     "/js/modules/income_documents.js": "/js/modules/income_documents.js",
     "/js/modules/link_payments.js": "/js/modules/link_payments.js",
+    "/js/modules/loans.js": "/js/modules/loans.js",
     "/js/modules/markdown_documents.js": "/js/modules/markdown_documents.js",
     "/js/modules/markup_documents.js": "/js/modules/markup_documents.js",
     "/js/modules/payments.js": "/js/modules/payments.js",

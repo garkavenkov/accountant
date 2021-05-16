@@ -27,6 +27,7 @@
                         <select-field   caption="Ед. изм."
                                         hint="Выберите ед. измерения"
                                         :options="measures"
+                                        id="measureId"
                                         v-model="data.measureId"
                                         :error="errors['measure_id']">
                         </select-field>

@@ -18,7 +18,15 @@ class LinkedDocumentTypeSeeder extends Seeder
             [            
                 'code'  =>  'payment',
                 'name'  =>  'Оплата за товар'
-            ]
+            ],
+            [            
+                'code'  =>  'loan',
+                'name'  =>  'Получение кредита'
+            ],
+            [            
+                'code'  =>  'loan_repayment',
+                'name'  =>  'Погашение кредита'
+            ],
         );        
     }
 }

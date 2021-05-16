@@ -192,9 +192,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Grid',
   props: {
+    // filterExp: {
+    //     type: String,
+    //     required: false,
+    //     default: null
+    // },
     title: {
       type: String,
       required: false,
@@ -318,20 +336,22 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     paginatedData: function paginatedData() {
-      var _this = this;
-
       if (this.externalPagination) {
         return this.dataTable;
       } else {
-        if (this.searchData) {
-          return this.dataTable.filter(function (data) {
-            // console.log(`Search field - ${this.searchData.toLowerCase()}`);
-            // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
-            return data[_this.filteredField].toLowerCase().includes(_this.searchData.toLowerCase()); // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
-            //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
-          });
-        }
-
+        // if (this.searchData) {
+        //     let searched =  this.dataTable.filter(data => {
+        //         // console.log(`Search field - ${this.searchData.toLowerCase()}`);
+        //         // console.log(data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase()));
+        //         return data[this.filteredField].toLowerCase().includes(this.searchData.toLowerCase());
+        //         // return  data.department.toLowerCase().includes(this.searchData.toLowerCase() )  ||
+        //         //         data.supplier.toLowerCase().includes(this.searchData.toLowerCase()  )
+        //     });
+        //     // console.log(`Searched length: ${searched.length}`);
+        //     // console.log(searched);
+        //     this.$emit('searched', searched);
+        //     return searched;
+        // }
         return this.dataTable.slice(this.paginateFrom - 1, this.paginateTo); // ??? Will it work after search
       }
     }
@@ -342,7 +362,10 @@ __webpack_require__.r(__webpack_exports__);
         this.currentPage = newValue;
       }
     } // searchData(newValue, oldValue) {
-    //     console.log(`${newValue}`);
+    //     if (newValue === '') {
+    //         // console.log(`search text is empty`);
+    //         this.$emit('searched', []);
+    //     }
     // }
 
   }
@@ -2232,7 +2255,8 @@ var render = function() {
                           expression: "searchData"
                         }
                       ],
-                      staticClass: "form-control form-control-sm",
+                      staticClass:
+                        "form-control \n                                form-control-sm",
                       attrs: {
                         type: "search",
                         name: "filter_data",
@@ -2240,12 +2264,17 @@ var render = function() {
                       },
                       domProps: { value: _vm.searchData },
                       on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                        input: [
+                          function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.searchData = $event.target.value
+                          },
+                          function($event) {
+                            return _vm.$emit("onSearch", $event.target.value)
                           }
-                          _vm.searchData = $event.target.value
-                        }
+                        ]
                       }
                     })
                   ])
@@ -2285,7 +2314,7 @@ var render = function() {
             _c("div", { staticClass: "col-sm-6 col-md-6" }, [
               _c("div", { staticClass: "dataTable_info" }, [
                 _vm._v(
-                  "Showning " +
+                  "Showing " +
                     _vm._s(_vm.paginateFrom) +
                     " to " +
                     _vm._s(_vm.paginateTo) +
@@ -6397,8 +6426,8 @@ if (inBrowser && window.Vue) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.11
- * (c) 2014-2019 Evan You
+ * Vue.js v2.6.12
+ * (c) 2014-2020 Evan You
  * Released under the MIT License.
  */
 
@@ -11837,7 +11866,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.11';
+Vue.version = '2.6.12';
 
 /*  */
 
@@ -14043,7 +14072,7 @@ function updateDOMProps (oldVnode, vnode) {
       // skip the update if old and new VDOM state is the same.
       // `value` is handled separately because the DOM value may be temporarily
       // out of sync with VDOM state due to focus, composition and modifiers.
-      // This  #4521 by skipping the unnecesarry `checked` update.
+      // This  #4521 by skipping the unnecessary `checked` update.
       cur !== oldProps[key]
     ) {
       // some property updates can throw
@@ -16288,7 +16317,7 @@ function parse (
       }
     },
     comment: function comment (text, start, end) {
-      // adding anyting as a sibling to the root node is forbidden
+      // adding anything as a sibling to the root node is forbidden
       // comments should still be allowed, but ignored
       if (currentParent) {
         var child = {
@@ -20160,8 +20189,11 @@ var config = {
         state = _ref5.state;
     var id = _ref6.id,
         url = _ref6.url;
+    // if (!url) {
+    //     url = '';
+    // }
     return new Promise(function (resolve, reject) {
-      url = url == '' ? state.url : url;
+      url = !url ? state.url : url;
       axios["delete"]("".concat(url, "/").concat(id), config).then(function (res) {
         dispatch('fetchData');
         resolve(res);

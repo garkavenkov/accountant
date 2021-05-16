@@ -67,6 +67,20 @@ class CashDocumentResource extends JsonResource
                 $credit_name    = $this->cash_credit->name;
                 $this->links['original'] = "encashments/{$this->id}";
                 break;
+            
+            case 'loan':
+                $debet_name     = $this->loan_debet->creditor->full_name;
+                $credit_name    = $this->cash_credit->name;
+                // $this->links['original'] = "encashments/{$this->id}";
+                break;
+                    
+
+            case 'loan_repayment':
+                $debet_name     = $this->cash_debet->name;
+                $credit_name    = $this->loan_credit->creditor->full_name;
+                // $this->links['original'] = "encashments/{$this->id}";
+                break;
+
 
             default:
                 $debet_name     = 'undefined';

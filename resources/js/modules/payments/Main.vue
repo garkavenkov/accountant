@@ -82,8 +82,8 @@
                 <td>{{data.purpose}}</td>
                 <td class="text-right">{{data.amount | formatNumber(2) }}</td>   
                 <td>
-                    <i class="far fa-file"  v-if="data.status_code == 0"></i>
-                    <i class="fas fa-check" v-else-if="data.status_code == 1"></i> 
+                    <i class="far fa-file"  v-if="data.statusCode == 0"></i>
+                    <i class="fas fa-check" v-else-if="data.statusCode == 1"></i> 
                 </td>
             </tr>     
         </template>

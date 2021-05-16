@@ -250,12 +250,15 @@ class IncomeDocumentController extends Controller
         $count = 0;
         
         foreach ($documents as $document) {
+            $purpose = "Товарная накладная на '{$document->department->name}' от " . Carbon::parse($document->date)->formatLocalized('%d.%m.%Y');
 
+            
             $item = AccountabilityItem::create([
                 'cash_document_id'  =>  $accountability->id,
                 'owner_id'          =>  $document->id,
                 'type_id'           =>  $type->id,
-                'amount'            =>  $document->sum1
+                'amount'            =>  $document->sum1,
+                'purpose'           =>  $purpose
             ]);
 
             if ($item) {

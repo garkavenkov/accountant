@@ -71,7 +71,7 @@ export default {
     methods: {
         ...mapActions(['fetchDocument', 'deleteDocument']),
         deleteDoc(id) {
-            this.deleteDocument(id)            
+            this.deleteDocument({id})
                 .then(res => {
                     Swal.fire({
                         toast: true,

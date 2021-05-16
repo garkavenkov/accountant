@@ -9,6 +9,7 @@ export const SalesRevenue = {
     namespaced: true,
     state: {
         documents: [],
+        temp: [],
         document: {},
         cashes: [],
         departments: [],
@@ -36,11 +37,35 @@ export const SalesRevenue = {
     },
     actions: {
         ...actions,       
+        searchData: ({state}, search)  => {
+            let searched = [];
+            if (search !== '') {
+                searched =  state.documents.filter(data => {
+                    if (data['department'].toLowerCase().includes(search) ) {
+                        return true
+                    } else {
+                        state.temp.push(data);
+                    }
+
+                });                
+                state.documents = searched;
+                // state.temp = state.documents.filter(data => {
+
+                // });
+
+            } else {
+                state.documents = state.documents.concat(state.temp);
+                state.temp = [];
+            }
+            
+            console.log(searched, state.temp);
+            // state.documents = searched;
+        },
         getCashesDictionary: ({dispatch, state}) => {
             dispatch('getDictionary',  'cash')
                 .then(res => state.cashes = res);
         },
-        getDepartmentsDictionary({dispatch, state}, cashId) {
+        getDepartmentsDictionary: ({dispatch, state}, cashId) => {
             let dictionary = 'department?type=goods';
             if (cashId != 0) {
                 dictionary += '&branch_id=' + cashId;

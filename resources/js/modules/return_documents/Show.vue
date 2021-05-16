@@ -41,7 +41,7 @@
             <div class="card-footer">
                 <div class="text-right">                    
                     <button 
-                        v-if="document.status_code == 0 "
+                        v-if="deletable"
                         class="btn btn-danger btn-sm" 
                         title="Удалить документ" 
                         @click="deleteDoc(document.id)">
@@ -71,7 +71,7 @@ export default {
     methods: {
         ...mapActions(['fetchDocument', 'deleteDocument']),
         deleteDoc(id) {
-            this.deleteDocument(id)            
+            this.deleteDocument({id})            
                 .then(res => {
                     Swal.fire({
                         toast: true,
@@ -87,7 +87,10 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['document'])
+        ...mapGetters(['document']),
+        deletable() {
+            return this.document.statusCode == 0 ? true : false
+        }
     },
     created() {
         this.fetchDocument(this.id)

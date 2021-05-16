@@ -3,10 +3,111 @@
     <router-link to="/">Back</router-link>
     <div class="row">
         <div class="col-10 offset-1">
-            <div class="invoice p-3 mb-3">                
-                <div class="row">
+            <!-- <div class="invoice p-3 mb-3">                 -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Monthly Recap Report</h5>
+                    <div class="card-tools">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" role="menu" style="">
+                                <a href="#" class="dropdown-item">Action</a>
+                                <a href="#" class="dropdown-item">Another action</a>
+                                <a href="#" class="dropdown-item">Something else here</a>
+                                <a class="dropdown-divider"></a>
+                                <a href="#" class="dropdown-item">Separated link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- <div class="card">                             -->
+                                <!-- <div class="card-body"> -->
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Отдел передает</dt>
+                                        <dd class="col-sm-8">{{document.department_gives}}</dd>
+                                        <dt class="col-sm-4">Сотрудник</dt>
+                                        <dd class="col-sm-8">{{document.employee_gives}}</dd>
+                                        <dt class="col-sm-4">Сумма</dt>
+                                        <dd class="col-sm-8">{{ document.given_sum | formatNumber(2) }}</dd>
+                                        <template v-if="correctGivenSum">
+                                            <dt class="col-sm-4">Расчетная сумма</dt>
+                                            <dd class="col-sm-8">
+                                                {{ totalGivenSum | formatNumber(2) }}&nbsp;
+                                                <button class="btn btn-info btn-sm" 
+                                                        title="Скорректировать сумму закупки " 
+                                                        @click="updateDoc({given_sum: totalGivenSum})">
+                                                    Изменить
+                                                </button>                                            
+                                            </dd>
+                                        </template>
+                                    </dl>
+                                <!-- </div> -->
+                            <!-- </div> -->
+                        </div>
+                        <div class="col-md-6">
+                            <!-- <div class="card"> -->
+                                <!-- <div class="card-body"> -->
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Отдел принимает</dt>
+                                        <dd class="col-sm-8">{{document.department_takes}}</dd>
+                                        <dt class="col-sm-4">Сотрудник</dt>
+                                        <dd class="col-sm-8">{{document.employee_takes}}</dd>
+                                        <dt class="col-sm-4">Сумма</dt>
+                                        <dd class="col-sm-8">
+                                            <template v-if="!isEditable">
+                                                {{ document.taken_sum | formatNumber(2) }}                                            
+                                                <button class="btn btn-info btn-xs" 
+                                                        title="Редактировать сумму" 
+                                                        @click="editTakenSum">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>   
+                                            </template>
+                                            <template v-else>
+                                            
+                                                    <input  type="text"
+                                                        v-model="newTakenSum"
+                                                    />
+                                                    
+                                            
+                                                
+                                                <button class="btn btn-info btn-xs" 
+                                                        title="Сохранить" 
+                                                        @click="updateTakenSum">
+                                                    <i class="fas fa-save"></i>
+                                                </button>
+                                                <button class="btn btn-danger btn-xs" 
+                                                        title="Отмена" 
+                                                        @click="isEditable=false">
+                                                    <i class="fas fa-times"></i>
+                                                </button>   
+                                            </template>
+                                            
+                                        </dd>
+                                        <template v-if="correctTakenSum">
+                                            <dt class="col-sm-4">Расчетная сумма</dt>
+                                            <dd class="col-sm-8">
+                                                {{ totalTakenSum | formatNumber(2) }}&nbsp;
+                                                <button class="btn btn-info btn-sm" 
+                                                        title="Скорректировать розничную сумму " 
+                                                        @click="updateDoc({taken_sum: totalTakenSum})">
+                                                    Изменить
+                                                </button>                                            
+                                            </dd>
+                                        </template>
+                                    </dl>
+                                <!-- </div> -->
+                            <!-- </div> -->
+                        </div>                            
+                    </div>
+                
+                <!-- <div class="row">
                     <div class="col-md-6">
-                        <div class="card">
+                        <div class="card">                            
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col-sm-4">Отдел передает</dt>
@@ -55,74 +156,76 @@
                             </div>
                         </div>
                     </div>                            
-                </div>
-                <div class="row">
-                    <button class="btn btn-primary"
-                            @click="newDocumentItemForm">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                    <button class="btn btn-secondary"
-                            v-if="document.items.length > 0"
-                            @click="makeExpenseDocument">
-                        <i class="fas fa-share-alt"></i>
-                    </button>                        
-                </div>                    
-                <div class="row">
-                    <div class="col-12 table-responsive" v-if="document.items.length > 0">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th rowspan="2">№</th>
-                                    <th rowspan="2">Наименование</th>
-                                    <th rowspan="2" class="text-center">Ед. изм.</th>
-                                    <th rowspan="2" class="text-center">Количество</th>
-                                    <th colspan="2" class="text-center">Стоимость</th>                    
-                                    <th colspan="2" class="text-center">Сумма</th>                                                                            
-                                    <th rawspan="2" class="text-center">Торговая наценка</th>
-                                    <th colspan="2"></th>
-                                </tr>
-                                <tr>
-                                    <th class="text-center">закупки</th>
-                                    <th class="text-center">розницы</th>
-                                    <th class="text-center">закупки</th>
-                                    <th class="text-center">розницы</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="item in document.items" :key="item.id">
-                                    <td>{{item.number}}</td>
-                                    <td>{{item.name}}</td>
-                                    <td>{{item.measure}}</td>
-                                    <td class="text-right">{{ item.quantity | formatNumber(2) }}</td>
-                                    <td class="text-right">{{ item.purchasePrice | formatNumber(2) }}</td>
-                                    <td class="text-right">{{ item.retailPrice | formatNumber(2) }}</td>
-                                    <td class="text-right">{{ item.purchaseSum | formatNumber(2)  }}</td>
-                                    <td class="text-right">{{ item.retailSum | formatNumber(2) }}</td>
-                                    <td class="text-right">{{ item.gain | formatNumber(2) }}</td>
-                                    <td class="actions-btn-group">
-                                        <button class="btn btn-info btn-xs"                                                
-                                                @click="openEditItemForm(item.id)"
-                                                title="Редактирование спецификации">
-                                            <i class="fas fa-edit"></i>
-                                        </button>                                        
-                                        <button class="btn btn-danger btn-xs" 
-                                                @click="openDeleteItemModal(item.id)"
-                                                title="Удалить спецификацию"> 
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="6">Итого</td>
-                                    <td class="text-right">{{totalGivenSum | formatNumber(2)}}</td>
-                                    <td class="text-right">{{totalTakenSum | formatNumber(2)}}</td>                                                                        
-                                    <td class="text-right"></td>
-                                    <td></td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                </div> -->
+                    <div class="row">
+                        <button class="btn btn-primary"
+                                @click="newDocumentItemForm">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="btn btn-secondary"
+                                v-if="document.items.length > 0"
+                                @click="makeExpenseDocument">
+                            <i class="fas fa-share-alt"></i>
+                        </button>                        
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-12 table-responsive" v-if="document.items.length > 0">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">№</th>
+                                        <th rowspan="2">Наименование</th>
+                                        <th rowspan="2" class="text-center">Ед. изм.</th>
+                                        <th rowspan="2" class="text-center">Количество</th>
+                                        <th colspan="2" class="text-center">Стоимость</th>                    
+                                        <th colspan="2" class="text-center">Сумма</th>                                                                            
+                                        <th rawspan="2" class="text-center">Торговая наценка</th>
+                                        <th colspan="2"></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">закупки</th>
+                                        <th class="text-center">розницы</th>
+                                        <th class="text-center">закупки</th>
+                                        <th class="text-center">розницы</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in document.items" :key="item.id">
+                                        <td>{{item.number}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.measure}}</td>
+                                        <td class="text-right">{{ item.quantity | formatNumber(2) }}</td>
+                                        <td class="text-right">{{ item.purchasePrice | formatNumber(2) }}</td>
+                                        <td class="text-right">{{ item.retailPrice | formatNumber(2) }}</td>
+                                        <td class="text-right">{{ item.purchaseSum | formatNumber(2)  }}</td>
+                                        <td class="text-right">{{ item.retailSum | formatNumber(2) }}</td>
+                                        <td class="text-right">{{ item.gain | formatNumber(2) }}</td>
+                                        <td class="actions-btn-group">
+                                            <button class="btn btn-info btn-xs"                                                
+                                                    @click="openEditItemForm(item.id)"
+                                                    title="Редактирование спецификации">
+                                                <i class="fas fa-edit"></i>
+                                            </button>                                        
+                                            <button class="btn btn-danger btn-xs" 
+                                                    @click="openDeleteItemModal(item.id)"
+                                                    title="Удалить спецификацию"> 
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6">Итого</td>
+                                        <td class="text-right">{{totalGivenSum | formatNumber(2)}}</td>
+                                        <td class="text-right">{{totalTakenSum | formatNumber(2)}}</td>                                                                        
+                                        <td class="text-right"></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
                  <div class="row no-print">
@@ -189,13 +292,15 @@ export default {
             },
             title: '',
             action: '',
-            submitText: ''
+            submitText: '',
+            isEditable: false,
+            newTakenSum: 0,
         }
     },
     methods: {
         ...mapActions(['deleteDocument', 'fetchDocument', 'fetchDocumentItem', 'deleteDocumentItem', 'updateDocument']),
         deleteDoc(id) {
-            this.deleteDocument(id)            
+            this.deleteDocument({id})            
                 .then(res => {
                     Swal.fire({
                         toast: true,
@@ -212,7 +317,35 @@ export default {
                     if (err.response) console.log(err);
                 })
         },
-      
+        editTakenSum() {
+            this.newTakenSum = this.document.taken_sum;
+            this.isEditable = true;
+        },
+        updateTakenSum() {
+            if (!isNaN(this.newTakenSum) && (this.newTakenSum >= this.document.given_sum)) {
+                // this.updateDoc({taken_sum: parseFloat(this.newTakenSum)})
+                this.updateDocument({sum2: this.newTakenSum})
+                    .then(res => {
+                        console.log(res);
+                        if (res.status == 201) {                            
+                            Swal.fire({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                // title:'Good job!',
+                                text:'Документ был успешно изменен ',
+                                icon:'success',
+                            });
+                            this.isEditable = false;
+                        }
+                    })
+                    .catch(err => console.log(err));
+            } else {
+
+            }
+            
+        },        
         newDocumentItemForm() {
             this.title="Новая спецификация";
             this.action='create',

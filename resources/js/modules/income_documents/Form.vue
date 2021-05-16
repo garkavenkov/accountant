@@ -11,20 +11,12 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">                 
-                            <div class="form-group">
-                                <label>Дата</label>                                
-                                <input  type="date" 
-                                        name="date" 
-                                        id="date" 
-                                        class="form-control datetimepicker-input" 
-                                        v-bind:class="{'is-invalid' : hasError('date')}"
-                                        v-model="document.date" 
-                                        tabindex="1">
-                                <span   id="date-error" 
-                                        class="error invalid-feedback">
-                                            {{getError('date')}}
-                                </span>
-                            </div>
+                            <date-field 
+                                    caption="Дата"
+                                    id="date"
+                                    v-model="document.date"
+                                    :error="errors['date']">
+                            </date-field>                           
                         </div>
                         <div class="col-md-6">
                              <select-field 

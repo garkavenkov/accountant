@@ -39,6 +39,7 @@
                                     hint="Все отделы"
                                     :disabledHint=false
                                     :options="departmentsGive"
+                                    id="departmentsGive"
                                     v-model="filter.debetId"
                                     name="name">
                             </select-field>                           
@@ -50,6 +51,7 @@
                                     hint="Все отделы"
                                     :disabledHint=false
                                     :options="departmentsTake"
+                                    id="departmentsTake"
                                     v-model="filter.creditId"
                                     name="name">
                             </select-field>                            
@@ -100,7 +102,11 @@ export default {
     name: 'TransferDocumentFilterForm',
     data() {
         return {
-            departmentsTake: this.departmentsGive
+            // departmentsTake: this.departments,
+            // departmentsGive: this.departments
+            departmentsTake: [],
+            departmentsGive: [],
+            departments:     []
         }
     },
     methods: {
@@ -119,19 +125,29 @@ export default {
         },      
     },
     computed: {
-        ...mapGetters(['filter', 'departmentsGive'])
+        ...mapGetters(['filter']),
     },
     created() {
         this.getDepartmentsDictionary()
+            .then(res => {                
+                this.departmentsTake = res;
+                this.departmentsGive = res;
+                this.departments     = res;
+            })
     },
     watch: {
         'filter.debetId'(newValue, oldValue) {     
             if (newValue != 0 ) {                
-                this.departmentsTake = this.departmentsGive.filter(department => 
-                    department.id != this.filter.debetId
-                );                        
+                this.departmentsTake = this.departments.filter(department => department.id != this.filter.debetId);                        
             } else {
-                this.departmentsTake = this.departmentsGive;
+                this.departmentsTake = this.departments;
+            }
+        },
+        'filter.creditId'(newValue, oldValue) {
+            if (newValue !=0) {
+                this.departmentsGive = this.departments.filter(department => department.id !== this.filter.creditId);
+            } else {
+                this.departmentsGive = this.departments;
             }
         }
     },

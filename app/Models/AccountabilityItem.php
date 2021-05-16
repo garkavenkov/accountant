@@ -10,6 +10,7 @@ class AccountabilityItem extends Model
         'cash_document_id',
         'type_id',
         'owner_id',
+        'purpose',
         'amount'
     ];
 

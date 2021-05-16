@@ -34,17 +34,17 @@ class AccountabilityResource extends JsonResource
         return [
             'id'                    =>  (int)   $this->id,
             'date'                  =>  Carbon::parse($this->date)->formatLocalized('%d.%m.%Y'),
-            'operation_id'          =>  (int)   $this->operation_id,
+            'operationId'           =>  (int)   $this->operation_id,
             'number'                =>  $this->number,
-            'cash_id'               =>  (int)   $this->debet_id,
+            'cashId'                =>  (int)   $this->debet_id,
             'cash'                  =>  $this->cash_debet->name,
-            'employee_id'           =>  (int)   $this->credit_id,
-            'employee_full_name'    =>  $this->employee->full_name,
+            'employeeId'            =>  (int)   $this->credit_id,
+            'employeeFullName'      =>  $this->employee->full_name,
             'purpose'               =>  $this->purpose,
             'amount'                =>  (float) $this->debet,            
-            'status_code'           =>  (int)   $this->status,
+            'statusCode'            =>  (int)   $this->status,
             'status'                =>  $status,
-            'user_id'               =>  (int)   $this->user_id,
+            'userId'                =>  (int)   $this->user_id,
             'items'                 =>  AccountabilityItemResource::collection($this->whenLoaded('items'))
         ];
     }

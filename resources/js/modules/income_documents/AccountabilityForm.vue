@@ -85,7 +85,7 @@ export default {
             this.flags = [];
         },
         getAccountabilities() {
-            let url = `api/accountabilities?date=${this.filter.dateBegin}&status=0,1`
+            let url = `api/accountabilities?date=${this.filter.dateBegin}&status=0`
             if (!this.filter.dateEnd) {
                 url = url + `,${this.filter.dateBegin}`
             } else {

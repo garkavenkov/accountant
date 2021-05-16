@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\API\Accountability;
 
+use App\Models\ExpenseItem;
 use App\Models\IncomeDocument;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,6 +24,11 @@ class AccountabilityItemResource extends JsonResource
                 $owner = $document->department->name;
                 break;
             
+            case 'expense':
+                $expense = ExpenseItem::findOrFail($this->owner_id);
+                $owner = $expense->name;
+                break;
+
             default:
                 # code...
                 break;
@@ -35,6 +41,7 @@ class AccountabilityItemResource extends JsonResource
             'typeName'          =>  $this->type->name,            
             'ownerId'           =>  (int)   $this->owner_id,
             'owner'             =>  $owner,
+            'purpose'           =>  $this->purpose,
             'amount'            =>  (float) $this->amount
         ];
     }

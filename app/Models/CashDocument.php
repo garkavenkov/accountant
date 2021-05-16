@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Employee;
 use App\Models\Supplier;
+use App\Models\LoanContract;
 use App\Models\CashOperation;
 use App\Traits\Models\PathTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -72,6 +73,16 @@ class CashDocument extends Model
     public function profit()
     {
         return $this->belongsTo(ProfitItem::class, 'debet_id', 'id');
+    }
+
+    public function loan_credit()
+    {
+        return $this->belongsTo(LoanContract::class, 'credit_id', 'id');
+    }
+
+    public function loan_debet()
+    {
+        return $this->belongsTo(LoanContract::class, 'debet_id', 'id');
     }
    
     public function approve()

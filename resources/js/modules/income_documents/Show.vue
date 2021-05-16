@@ -159,9 +159,13 @@
                 </div>                    
                 <div class="row no-print">
                     <div class="col-12">
-                        <button type="button" class="btn btn-danger float-right" @click="deleteDoc(document.id)" v-if="document.status == 0">
+                        <!-- <button type="button" class="btn btn-danger float-right" @click="deleteDoc(document.id)" v-if="document.statusCode == 0">
                             <i class="far fa-credit-card"></i> 
                             Delete
+                        </button> -->
+                        <button type="button" class="btn btn-danger float-right" @click="deleteDoc(document.id)">
+                            <i class="far fa-credit-card"></i> 
+                             {{document.statusCode}}
                         </button>
                     </div>
                 </div>
@@ -227,15 +231,15 @@ export default {
     methods: {
         ...mapActions(['deleteDocument', 'fetchDocument', 'saveDocumentItem', 'deleteDocumentItem', 'updateDocument', 'fetchDocumentItem', 'updateDocumentItem']),
         deleteDoc(id) {
-            this.deleteDocument(id)            
+            this.deleteDocument({id})            
                 .then(res => {
                     Swal.fire({
                         toast: true,
                         position: 'top-end',
                         showConfirmButton: false,
-                        timer: 3000,
+                        timer: 2000,
                         // title:'Good job!',
-                        text:'Документ успешно удален',
+                        text:red.data.message,
                         icon:'success',
                     });                    
                     this.$router.go(-1);

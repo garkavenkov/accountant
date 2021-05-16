@@ -39,6 +39,6 @@ class UniquePerShift implements Rule
      */
     public function message()
     {
-        return 'Данный сотрудник уже присутсвует в смене';
+        return 'Данный сотрудник уже присутствует в смене';
     }
 }

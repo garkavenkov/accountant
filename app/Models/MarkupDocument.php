@@ -32,11 +32,11 @@ class MarkupDocument extends Document
     
     public function department()
     {
-        return $this->hasOne(Department::class, 'id', 'debet_id');
+        return $this->hasOne(Department::class, 'id', 'credit_id');
     }
 
     public function employee()
     {
-        return $this->hasOne(Employee::class, 'id', 'debet_person_id');
+        return $this->hasOne(Employee::class, 'id', 'credit_person_id');
     }
 }

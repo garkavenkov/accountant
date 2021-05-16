@@ -53,7 +53,7 @@ class Cash extends Model
                         ->orderBy('date', 'asc')
                         ->orderBy('number', 'asc')
                         ->get();
-
+        
         return $documents;
     }
 

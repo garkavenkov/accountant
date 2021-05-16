@@ -36,7 +36,7 @@ class ReturnDocumentResource extends JsonResource
             // 'items'                 =>  DocumentItemResource::collection($this->whenLoaded('items')),
             // 'items'                 =>  DocumentItemResource::collection($this->items),
             // 'isPaid'                =>  (boolean) $this->isPaid,
-            'status'                =>  (int) $this->status,
+            'statusCode'            =>  (int) $this->status,
             // 'payments'              =>  PaymentResource::collection($this->whenLoaded('payments'))
         ];
     }

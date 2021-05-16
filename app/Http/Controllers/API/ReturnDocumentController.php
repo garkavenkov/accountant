@@ -95,6 +95,10 @@ class ReturnDocumentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $document = ReturnDocument::findOrFail($id);
+
+        if ($document->delete()) {
+            return response()->json(['message' => 'Документ был успешно удален'], 200);
+        }
     }
 }

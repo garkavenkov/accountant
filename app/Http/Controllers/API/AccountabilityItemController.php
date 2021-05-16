@@ -28,16 +28,17 @@ class AccountabilityItemController extends Controller
      */
     public function store(AccountabilityItemRequest $request)
     {      
-        $validate = $request->validate()  ;
-        dd($validated);
-        // $item = AccountabilityItem::create(
-        //     [
-        //         'cash_document_id'  =>  $request['cash_document_id'],
-        //         'type_id'           =>  $request['type_id'],
-        //         'owner_id'          =>  $request['owner_id'],
-        //         'amount'            =>  $request['amount']
-        //     ]        
-        // );
+        $validated = $request->validated();
+        // dd($validated);
+        $item = AccountabilityItem::create(
+            [
+                'cash_document_id'  =>  $request['cash_document_id'],
+                'type_id'           =>  $request['type_id'],
+                'owner_id'          =>  $request['owner_id'],
+                'purpose'           =>  $request['purpose'],
+                'amount'            =>  $request['amount']
+            ]        
+        );
         
         return \response()->json(['message' => 'OK!!!'], 201);
         

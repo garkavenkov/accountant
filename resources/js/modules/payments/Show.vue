@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-6 offset-3">
 
-        <div class="card">
+        <div class="card" v-cloak>
             
             <div class="card-header">
                 <h3 class="card-title">
@@ -41,12 +41,19 @@
                         <i class="fas fa-user"></i> View Profile
                     </a> -->
                     <button 
-                        v-if="document.status_code == 0 "
+                        v-if="deletable"
                         class="btn btn-danger btn-sm" 
                         title="Удалить документ" 
                         @click="deleteDoc(document.id)">
                             Удалить
                     </button> 
+                    <!-- <button 
+                        class="btn btn-danger btn-sm" 
+                        title="Удалить документ" 
+                        @click="deleteDoc(document.id)">
+                            Удалить
+                            {{document.statusСode}}
+                    </button>  -->
                     
                 </div>
             </div>
@@ -71,7 +78,7 @@ export default {
     methods: {
         ...mapActions('Payment', ['fetchDocument', 'deleteDocument']),
         deleteDoc(id) {
-            this.deleteDocument(id)            
+            this.deleteDocument({id})            
                 .then(res => {
                     Swal.fire({
                         toast: true,
@@ -87,10 +94,19 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('Payment', ['document'])
+        ...mapGetters('Payment', ['document']),
+        deletable() {
+            return (this.document.statusCode) == 0 ? true : false;
+        }
     },
     created() {
         this.fetchDocument(this.id)
     }
 }
 </script>
+
+<style scoped>
+    [v-cloak] {
+        display: none;
+    }
+</style>
